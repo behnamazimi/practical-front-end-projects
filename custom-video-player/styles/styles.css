@@ -4,6 +4,10 @@
 
 .m-video {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
     --progress-color: red;
 }
@@ -25,24 +29,38 @@
     background: transparent;
     overflow: hidden;
     cursor: pointer;
+    border-radius: 4px;
 }
 
 .m-video .v-controls {
     background: rgba(0, 0, 0, .6);
-    border-radius: 5px;
     padding: .5rem;
     color: #fff;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
+    width: 100%;
 }
 
+.m-video .v-controls.--fs-abs,
 .m-video .v-controls.--absolute {
     position: absolute;
-    width: calc(100% - .5rem);
-    left: .25rem;
-    bottom: .5rem;
+    width: 100%;
+    left: 0;
+    bottom: 0;
 }
+
+.m-video.playing .v-controls.--absolute.--auto-hide,
+.m-video .v-controls:not(.--absolute).--fs-abs {
+    opacity: 0;
+    transition: .3s;
+}
+
+.m-video .v-controls:hover.--absolute.--auto-hide,
+.m-video .v-controls:hover.--fs-abs {
+    opacity: 1;
+}
+
 
 .m-video .v-controls svg {
     width: 24px;
@@ -66,6 +84,13 @@
     display: inline-flex;
     justify-content: center;
     align-items: center;
+    box-shadow: none;
+}
+
+.m-video button:focus,
+.m-video button::-moz-focus-inner {
+    border: 0;
+    outline: none;
 }
 
 /* Slider in Chrome, Firefox, and Opera */
@@ -149,6 +174,10 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+}
+
+.m-video .v-controls__btns .v-controls__btns__sound input[type="range"] {
+    max-width: 90px;
 }
 
 .m-video .v-controls__btns .v-controls__btns_play {

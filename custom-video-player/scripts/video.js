@@ -1,19 +1,34 @@
 const defaultOptions = {
-    absolute: false
+    wrapperID: "video-wrapper",
+    videoSrc: null,
+    posterSrc: null,
+    absolute: false,
+    hideControlsOnPlay: true,
+    progressColor: "red"
 };
 
-function Video(wrapper, options = defaultOptions) {
+function Video(options = defaultOptions) {
 
+    // check options and its validity
+    if (!options || typeof options !== "object" || !options.wrapperID)
+        throw new Error("Options not passed to the Video functions.");
+    this.options = Object.assign(defaultOptions, options);
+
+    // check the existence of video wrapper
+    let wrapper = document.getElementById(this.options.wrapperID);
     if (!wrapper && (!wrapper instanceof Element || !wrapper instanceof HTMLDocument))
         throw new Error("Wrapper must be a valid node.");
-
     this.wrapper = wrapper;
-    this.options = options;
-    this.video = null;
-    this.controls = null;
-    this.videoProgress = null;
-    this.soundRange = null;
 
+    // initialize the video
+    this.init();
+}
+
+Video.prototype.init = function () {
+    if (this.video)
+        return;
+
+    // init the icons
     this.icons = {
         stop: '<svg><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>',
         play: '<svg><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>',
@@ -26,22 +41,38 @@ function Video(wrapper, options = defaultOptions) {
         exitFullscreen: '<svg><polyline points="4 14 10 14 10 20"></polyline><polyline points="20 10 14 10 14 4"></polyline><line x1="14" y1="10" x2="21" y2="3"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>',
     };
 
-    this.init();
-}
+    // add special class to the wrapper to active all styles
+    this.wrapper.classList.add("m-video");
 
-Video.prototype.init = function () {
+    // check the existence of video tag in wrapper.
+    this.video = this.wrapper.querySelector("video");
+    if (!this.video) {
+        if (!this.options.videoSrc)
+            throw new Error("Can not find video tag in the wrapper or videoSrc in options");
+
+        // generate video with source and append it to wrapper
+        this.generateVideoTag();
+    }
+
+    // se default controls to false;
+    this.video.controls = false;
+
+    // create custom controls and append it to wrapper
+    this.drawControls();
+
+    // initialize the listeners.
+    this.initListeners();
+};
+
+Video.prototype.generateVideoTag = function () {
     if (this.video)
         return;
 
-    this.wrapper.classList.add("m-video");
+    this.video = document.createElement("video");
+    this.video.src = this.options.videoSrc;
+    this.video.poster = this.options.posterSrc;
 
-    this.video = this.wrapper.querySelector("video");
-    if (!this.video)
-        throw new Error("Can not find video in the wrapper");
-
-    this.video.controls = false;
-    this.drawControls();
-    this.initListeners();
+    this.wrapper.append(this.video);
 };
 
 Video.prototype.drawControls = function () {
@@ -52,6 +83,9 @@ Video.prototype.drawControls = function () {
     this.controls.classList.add("v-controls");
     if (this.options.absolute)
         this.controls.classList.add("--absolute");
+
+    if (this.options.hideControlsOnPlay)
+        this.controls.classList.add("--auto-hide");
 
     this.controls.innerHTML = `
             <div class="v-controls__btns">
@@ -73,9 +107,20 @@ Video.prototype.drawControls = function () {
                 <span class="remaining-time">00:00</span>
             </div>`;
 
+
     this.elapsedTimeSpan = this.controls.querySelector(".v-controls__timing .elapsed-time");
     this.remainingTimeSpan = this.controls.querySelector(".v-controls__timing .remaining-time");
+
+    this.wrapper.style.setProperty('--progress-color', this.options.progressColor);
     this.wrapper.append(this.controls);
+
+    this.videoPlayBtn = this.wrapper.querySelector(".v-controls__btns #video-play");
+    this.videoStopBtn = this.wrapper.querySelector(".v-controls__btns #video-stop");
+    this.soundToggleBtn = this.wrapper.querySelector(".v-controls__btns #sound-toggle");
+    this.videoFullscreenBtn = this.wrapper.querySelector(".v-controls__btns #video-fs");
+    this.videoProgress = this.wrapper.querySelector(".v-controls__timing input[type=range]");
+    this.soundRange = this.wrapper.querySelector(".v-controls__btns__sound input[type=range]");
+
 };
 
 Video.prototype.initListeners = function () {
@@ -83,26 +128,27 @@ Video.prototype.initListeners = function () {
         return;
 
     this.video.addEventListener("loadeddata", this.calcProgress.bind(this));
+    this.video.addEventListener("play", this.onPlay.bind(this));
+    this.video.addEventListener("pause", this.onPause.bind(this));
     this.video.addEventListener("timeupdate", this.calcProgress.bind(this));
 
-    this.videoPlayBtn = this.wrapper.querySelector(".v-controls__btns #video-play");
     this.videoPlayBtn.addEventListener("click", this.togglePlay.bind(this));
-
-    this.videoStopBtn = this.wrapper.querySelector(".v-controls__btns #video-stop");
     this.videoStopBtn.addEventListener("click", this.stop.bind(this));
-
-    this.soundToggleBtn = this.wrapper.querySelector(".v-controls__btns #sound-toggle");
     this.soundToggleBtn.addEventListener("click", this.soundToggle.bind(this));
-
-    this.videoFullscreenBtn = this.wrapper.querySelector(".v-controls__btns #video-fs");
     this.videoFullscreenBtn.addEventListener("click", this.toggleFullscreen.bind(this));
-
-    this.videoProgress = this.wrapper.querySelector(".v-controls__timing input[type=range]");
     this.videoProgress.addEventListener("change", this.setCurrentTime.bind(this));
-
-    this.soundRange = this.wrapper.querySelector(".v-controls__btns__sound input[type=range]");
     this.soundRange.addEventListener("change", this.updateVolume.bind(this));
 
+};
+
+Video.prototype.onPlay = function () {
+    this.wrapper.classList.add("playing");
+    this.videoPlayBtn.innerHTML = this.icons.pause;
+};
+
+Video.prototype.onPause = function () {
+    this.wrapper.classList.remove("playing");
+    this.videoPlayBtn.innerHTML = this.icons.play;
 };
 
 Video.prototype.togglePlay = function () {
@@ -111,10 +157,8 @@ Video.prototype.togglePlay = function () {
 
     if (this.video.paused) {
         this.video.play();
-        this.videoPlayBtn.innerHTML = this.icons.pause;
     } else {
         this.video.pause();
-        this.videoPlayBtn.innerHTML = this.icons.play;
     }
 };
 
@@ -124,7 +168,6 @@ Video.prototype.stop = function () {
 
     this.video.currentTime = 0;
     this.video.pause();
-    this.videoPlayBtn.innerHTML = this.icons.play;
 };
 
 Video.prototype.soundToggle = function () {
@@ -147,18 +190,21 @@ Video.prototype.toggleFullscreen = function () {
     if (!this.fullscreen) {
         this.fullscreen = true;
         this.videoFullscreenBtn.innerHTML = this.icons.exitFullscreen;
-        if (this.video.requestFullscreen) {
-            this.video.requestFullscreen();
-        } else if (this.video.mozRequestFullScreen) { /* Firefox */
-            this.video.mozRequestFullScreen();
-        } else if (this.video.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-            this.video.webkitRequestFullscreen();
-        } else if (this.video.msRequestFullscreen) { /* IE/Edge */
-            this.video.msRequestFullscreen();
+        this.controls.classList.add("--fs-abs");
+
+        if (this.wrapper.requestFullscreen) {
+            this.wrapper.requestFullscreen();
+        } else if (this.wrapper.mozRequestFullScreen) { /* Firefox */
+            this.wrapper.mozRequestFullScreen();
+        } else if (this.wrapper.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+            this.wrapper.webkitRequestFullscreen();
+        } else if (this.wrapper.msRequestFullscreen) { /* IE/Edge */
+            this.wrapper.msRequestFullscreen();
         }
     } else {
         this.fullscreen = false;
         this.videoFullscreenBtn.innerHTML = this.icons.fullscreen;
+        this.controls.classList.remove("--fs-abs");
         if (document.exitFullscreen) {
             document.exitFullscreen();
         } else if (document.mozCancelFullScreen) { /* Firefox */
@@ -226,4 +272,3 @@ Video.prototype.updateVolume = function (e) {
     }
 };
 
-window.Video = Video;

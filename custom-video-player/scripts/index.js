@@ -1,5 +1,10 @@
 "use strict";
 
-let videoWrapper = document.getElementById("video-wrapper");
-
-const video = new Video(videoWrapper, {absolute: true});
+const video = new Video({
+    wrapperID: "video-wrapper",
+    videoSrc: "static/video.mp4",
+    posterSrc: "static/poster.jpg",
+    absolute: true,
+    hideControlsOnPlay: true,
+    progressColor: "white"
+});
