@@ -135,6 +135,12 @@ function showMovieInDetails(movieObj, targetItem) {
         detailsElm = document.createElement("div");
 
     detailsElm.classList.add("movie-details__inner");
+
+    if (!movieObj.Poster || movieObj.Poster === "N/A")
+        detailsElm.classList.add("--no-poster");
+    else
+        detailsElm.classList.remove("--no-poster");
+
     detailsElm.innerHTML = `
                     <figure class="movie-details__poster"
                         style="background-image: url('${movieObj.Poster}')"></figure>

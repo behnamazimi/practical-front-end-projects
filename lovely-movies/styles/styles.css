@@ -156,6 +156,10 @@ main.content {
 
 }
 
+.movie-details__inner.--no-poster figure {
+    display: none;
+}
+
 .movie-details__poster {
     overflow: hidden;
     width: calc(100% + 2rem);
@@ -170,6 +174,10 @@ main.content {
 
 .movie-details__title {
     margin: 1rem 0;
+}
+
+.movie-details__inner.--no-poster .movie-details__title{
+    margin-top: 2rem;
 }
 
 .movie-details__title h2 {
@@ -230,10 +238,23 @@ main.content {
     width: 100%;
     height: var(--poster-height, 200px);
     margin: 0;
-    background-color: transparent;
+    background-color: #313030;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+    position: relative;
+}
+
+.movie-item__poster:before {
+    content: "Poster Not Found!";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #999999;
+    height: 100%;
+    font-size: 14px;
+    opacity: .5;
+    font-weight: normal;
 }
 
 .movie-item__title {
