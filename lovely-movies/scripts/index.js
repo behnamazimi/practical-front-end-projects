@@ -2,9 +2,15 @@
 
 const resultWrapper = document.getElementById("result-wrapper");
 const detailsWrapper = document.getElementById("id-details-wrapper");
+const searchInput = document.getElementById("search");
+let SEARCH_DEBOUNCE_FLAG = null;
 
 window.onload = function onLoadDone() {
     document.body.classList.add("loaded");
+
+};
+
+document.addEventListener("DOMContentLoaded", () => {
 
     if (!resultWrapper)
         throw new Error("Result wrapper is not exist");
@@ -16,7 +22,7 @@ window.onload = function onLoadDone() {
     initialMovieList();
 
     initListeners();
-};
+});
 
 window.onresize = function () {
     calcItemsSize();
@@ -32,8 +38,27 @@ function initialMovieList() {
 
 function initListeners() {
     detailsWrapper.querySelector(".movie-details__close")
-        .addEventListener("click", closeDetailsSection)
+        .addEventListener("click", closeDetailsSection);
 
+    searchInput.addEventListener("input", (e) => {
+        if (SEARCH_DEBOUNCE_FLAG)
+            clearTimeout(SEARCH_DEBOUNCE_FLAG);
+        SEARCH_DEBOUNCE_FLAG = setTimeout(() => {
+
+            // search with a trend less than 3 chars cause an error on omdbapi
+            if (e.target.value.length < 3)
+                return;
+
+            resultWrapper.innerHTML = '';
+
+            // handle search
+            getMovies(e.target.value)
+                .then(({movies = [], totalResult = 0}) => {
+                    movies.map(generateMovieItem)
+                });
+
+        }, 300)
+    })
 }
 
 function generateMovieItem(item) {
@@ -56,7 +81,6 @@ function generateMovieItem(item) {
 
     resultWrapper.append(movieElm)
 }
-
 
 function handleMovieItemClick(e) {
     const movieItem = e.target.closest(".movie-item");
