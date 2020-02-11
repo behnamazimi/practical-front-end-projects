@@ -50,15 +50,15 @@ Video.prototype.init = function () {
         if (!this.options.videoSrc)
             throw new Error("Can not find video tag in the wrapper or videoSrc in options");
 
-        // generate video with source and append it to wrapper
+        // create video tag with source and append it to wrapper
         this.generateVideoTag();
     }
 
     // se default controls to false;
     this.video.controls = false;
 
-    // create custom controls and append it to wrapper
-    this.drawControls();
+    // create custom controls element and append it to wrapper
+    this.generateControls();
 
     // initialize the listeners.
     this.initListeners();
@@ -75,7 +75,7 @@ Video.prototype.generateVideoTag = function () {
     this.wrapper.append(this.video);
 };
 
-Video.prototype.drawControls = function () {
+Video.prototype.generateControls = function () {
     if (!this.video || this.controls)
         return;
 
@@ -176,8 +176,41 @@ Video.prototype.soundToggle = function () {
 
     this.video.muted = !this.video.muted;
 
+    // handle sound range animation when mute clicked
+    const animateVolumeRange = () => {
+        if (this.video.muted) {
+            if (+this.soundRange.value > 0) {
+                this.soundRange.value = +this.soundRange.value - .1;
+                requestAnimationFrame(animateVolumeRange)
+            }
+        } else {
+            if (+this.soundRange.value < this.volumeMemorize) {
+                this.soundRange.value = +this.soundRange.value + .1;
+                requestAnimationFrame(animateVolumeRange)
+            }
+        }
+    };
+
     if (this.video.muted) {
         this.soundToggleBtn.innerHTML = this.icons.muted;
+        this.volumeMemorize = this.soundRange.value;
+    } else {
+        this.soundToggleBtn.innerHTML = this.icons.volume_2;
+    }
+
+    animateVolumeRange();
+
+};
+
+Video.prototype.updateVolume = function (e) {
+    if (!this.video || !e)
+        return;
+
+    this.video.volume = e.target.value;
+    if (+e.target.value === 0) {
+        this.soundToggleBtn.innerHTML = this.icons.volume_0;
+    } else if (+e.target.value < .5) {
+        this.soundToggleBtn.innerHTML = this.icons.volume_1;
     } else {
         this.soundToggleBtn.innerHTML = this.icons.volume_2;
     }
@@ -218,7 +251,7 @@ Video.prototype.toggleFullscreen = function () {
 };
 
 Video.prototype.setCurrentTime = function (e) {
-    if (!this.video)
+    if (!this.video || !e)
         return;
 
     const rangeValue = e.target.value || 0;
@@ -226,21 +259,29 @@ Video.prototype.setCurrentTime = function (e) {
     this.video.currentTime = (rangeValue * this.video.duration) / 100;
 };
 
-Video.prototype.calcProgress = function (e) {
+// calculate the real time progress for the video and
+// set the value of times spans
+Video.prototype.calcProgress = function () {
     if (!this.video)
         return;
 
     this.videoProgress.value = (this.video.currentTime / this.video.duration) * 100;
 
-    this.elapsedTimeSpan.innerHTML = this.secToTimeStr(this.video.currentTime);
-    this.remainingTimeSpan.innerHTML = this.secToTimeStr(this.video.duration - this.video.currentTime);
+    this.elapsedTimeSpan.innerHTML = secToTimeStr(this.video.currentTime);
+    this.remainingTimeSpan.innerHTML = secToTimeStr(this.video.duration - this.video.currentTime);
 };
 
-Video.prototype.secToTimeStr = function (time) {
+/**
+ * Convert numbers in second to time string like 00:00
+ *
+ * @param seconds
+ * @returns {string}
+ */
+function secToTimeStr(seconds) {
 
-    let timeInHour = Math.floor(time / 3600);
-    let timeInMin = Math.floor((time % 3600) / 60);
-    let timeInSec = Math.floor(time % 60);
+    let timeInHour = Math.floor(seconds / 3600);
+    let timeInMin = Math.floor((seconds % 3600) / 60);
+    let timeInSec = Math.floor(seconds % 60);
 
     if (timeInHour < 10)
         timeInHour = `0${timeInHour}`;
@@ -256,19 +297,4 @@ Video.prototype.secToTimeStr = function (time) {
         timeStr = `${timeInHour}:${timeStr}`;
 
     return timeStr;
-};
-
-Video.prototype.updateVolume = function (e) {
-    if (!this.video)
-        return;
-
-    this.video.volume = e.target.value;
-    if (+e.target.value === 0) {
-        this.soundToggleBtn.innerHTML = this.icons.volume_0;
-    } else if (+e.target.value < .5) {
-        this.soundToggleBtn.innerHTML = this.icons.volume_1;
-    } else {
-        this.soundToggleBtn.innerHTML = this.icons.volume_2;
-    }
-};
-
+}

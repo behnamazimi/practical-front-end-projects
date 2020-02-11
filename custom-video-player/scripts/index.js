@@ -8,3 +8,5 @@ const video = new Video({
     hideControlsOnPlay: true,
     progressColor: "white"
 });
+
+console.log(video);
