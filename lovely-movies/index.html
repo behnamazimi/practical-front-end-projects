@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/styles.css">
+    <title>Test</title>
+    <!--    http://www.omdbapi.com/?s=irishman&apiKey=3ef4ab9e -->
+</head>
+<body>
+<header class="main-header">
+    <h1 class="main-header__branding">Test</h1>
+    <form class="main-header__search">
+        <input type="search" placeholder="Search in movies..."
+               autocomplete="off" id="search">
+    </form>
+</header>
+<main class="content">
+    <section class="content__result">
+        <h3><strong id="search-trend">Search Trend</strong> Result</h3>
+        <div class="content__result__list" id="result-wrapper"></div>
+    </section>
+    <section class="movie-details" id="id-details-wrapper">
+        <span class="movie-details__close">×</span>
+    </section>
+</main>
+<footer class="main-footer"></footer>
+<script src="scripts/services.js"></script>
+<script src="scripts/index.js"></script>
+</body>
+</html>
