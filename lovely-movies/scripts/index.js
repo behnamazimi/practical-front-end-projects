@@ -3,11 +3,15 @@
 const resultWrapper = document.getElementById("result-wrapper");
 const detailsWrapper = document.getElementById("id-details-wrapper");
 const searchInput = document.getElementById("search");
+const searchTrendSpan = document.getElementById("search-trend");
+const pageNumberSpan = document.getElementById("page-number");
+const nextBtn = document.getElementById("next-btn");
+
 let SEARCH_DEBOUNCE_FLAG = null;
+let CURRENT_PAGE = 1;
 
 window.onload = function onLoadDone() {
     document.body.classList.add("loaded");
-
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -40,25 +44,72 @@ function initListeners() {
     detailsWrapper.querySelector(".movie-details__close")
         .addEventListener("click", closeDetailsSection);
 
-    searchInput.addEventListener("input", (e) => {
-        if (SEARCH_DEBOUNCE_FLAG)
-            clearTimeout(SEARCH_DEBOUNCE_FLAG);
-        SEARCH_DEBOUNCE_FLAG = setTimeout(() => {
+    searchInput.addEventListener("input", searchInMovies);
 
-            // search with a trend less than 3 chars cause an error on omdbapi
-            if (e.target.value.length < 3)
-                return;
+    nextBtn.addEventListener("click", nextBtnClickHandler)
+}
 
-            resultWrapper.innerHTML = '';
+function searchInMovies(e) {
+    if (SEARCH_DEBOUNCE_FLAG)
+        clearTimeout(SEARCH_DEBOUNCE_FLAG);
+    SEARCH_DEBOUNCE_FLAG = setTimeout(() => {
 
-            // handle search
-            getMovies(e.target.value)
-                .then(({movies = [], totalResult = 0}) => {
-                    movies.map(generateMovieItem)
-                });
+        let trend = e.target.value;
+        if (!trend) trend = "Lovely";
 
-        }, 300)
-    })
+        // search with a trend less than 3 chars cause an error on omdbapi
+        if (trend.length < 3)
+            return;
+
+        // reset page number on each search
+        CURRENT_PAGE = 1;
+
+        getMoviesAndParse(trend, CURRENT_PAGE)
+
+    }, 300)
+}
+
+function nextBtnClickHandler() {
+
+    let trend = searchInput.value;
+    if (!trend) trend = "Lovely";
+
+    // search with a trend less than 3 chars cause an error on omdbapi
+    if (trend.length < 3)
+        return;
+
+    getMoviesAndParse(trend, ++CURRENT_PAGE)
+}
+
+function getMoviesAndParse(trend, page) {
+
+    resultWrapper.innerHTML = '';
+
+    // update search-trend span
+    searchTrendSpan.innerText = trend.length < 10 ? trend : trend.substr(0, 8) + '...';
+    nextBtn.style.display = "none";
+    pageNumberSpan.innerText = '';
+
+    // handle search
+    getMovies(trend, page)
+        .then(({movies = [], totalResults = 0}) => {
+
+            if ((page * 10) < +totalResults) {
+                pageNumberSpan.innerText = `| Page: ${page}`;
+                nextBtn.style.display = "inline-block";
+            }
+
+            if (movies.length)
+                movies.map(generateMovieItem);
+            else
+                generateNoContentPlaceholder();
+
+            // scroll to top after fetch
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            })
+        });
 }
 
 function generateMovieItem(item) {
@@ -80,6 +131,15 @@ function generateMovieItem(item) {
             </div>`;
 
     resultWrapper.append(movieElm)
+}
+
+function generateNoContentPlaceholder() {
+    let placeholderElm = document.createElement("p");
+    placeholderElm.classList.add("no-content-placeholder");
+
+    placeholderElm.innerText = `Movies not found.`;
+
+    resultWrapper.append(placeholderElm)
 }
 
 function handleMovieItemClick(e) {
@@ -142,6 +202,7 @@ function showMovieInDetails(movieObj, targetItem) {
         detailsElm.classList.remove("--no-poster");
 
     detailsElm.innerHTML = `
+                    <span class="loader"></span>
                     <figure class="movie-details__poster"
                         style="background-image: url('${movieObj.Poster}')"></figure>
                     <div class="movie-details__title">

@@ -2,7 +2,6 @@
 
 const API_URL = "http://www.omdbapi.com/";
 const API_KEY = "3ef4ab9e";
-let LOADING = true;
 
 /**
  * Fetch movies from omdbapi
@@ -62,10 +61,9 @@ function getSingleMovie(id) {
 }
 
 function startLoading() {
-    LOADING = true;
+    document.body.classList.add("loading")
 }
 
 function stopLoading() {
-    LOADING = false;
-    console.log("stop loading");
+    document.body.classList.remove("loading")
 }

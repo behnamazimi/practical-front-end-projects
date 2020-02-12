@@ -12,14 +12,17 @@
 <header class="main-header">
     <h1 class="main-header__branding">Test</h1>
     <div class="main-header__search">
+        <span class="loader"></span>
         <input type="search" placeholder="Search in movies..."
                autocomplete="off" id="search">
     </div>
 </header>
 <main class="content">
     <section class="content__result">
-        <h3><strong id="search-trend">Search Trend</strong> Result</h3>
+        <h3>Result for "<strong id="search-trend">Lovely</strong>"&nbsp;<span id="page-number"></span></h3>
+        <span class="loader"></span>
         <div class="content__result__list" id="result-wrapper"></div>
+        <button class="content__result__next-btn" id="next-btn">Next Page</button>
     </section>
     <section class="movie-details" id="id-details-wrapper">
         <span class="movie-details__close">×</span>

@@ -47,6 +47,22 @@ body.loaded {
     opacity: 1;
 }
 
+body .loader {
+    opacity: 0;
+    visibility: hidden;
+}
+
+body.loading .loader {
+    opacity: 1;
+    visibility: visible;
+}
+
+/** Animations - START **/
+@keyframes loader-anim {
+    to {
+        transform: rotate(360deg);
+    }
+}
 
 /** Header - START **/
 .main-header {
@@ -69,13 +85,25 @@ body.loaded {
     width: calc(100% - 240px);
     flex: 0 0 calc(100% - 240px);
     text-align: center;
+    position: relative;
+}
 
+.main-header__search .loader {
+    position: absolute;
+    top: calc(50% - 6px);
+    margin-left: 4px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #888;
+    border-left-color: transparent;
+    animation: loader-anim 1s linear infinite;
 }
 
 .main-header__search input[type="search"] {
     background: #262626;
     min-width: 240px;
-    padding: .5rem 1rem;
+    padding: .5rem 1.3rem;
     border-radius: 5px;
     border: none;
     outline: none;
@@ -99,8 +127,32 @@ main.content {
 .content__result {
     width: 100%;
     display: inline-block;
+    position: relative;
 }
 
+.content__result .loader {
+    position: absolute;
+    display: inline-block;
+    margin: 2rem 1rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid #888;
+    border-left-color: transparent;
+    animation: loader-anim 1s linear infinite;
+}
+
+.content__result__next-btn {
+    background: #d5475d;
+    border: none;
+    color: #f4f4f4;
+    outline: none;
+    padding: .3rem .85rem;
+    border-radius: 3px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
 
 .content__result__list {
     display: flex;
@@ -160,6 +212,27 @@ main.content {
     display: none;
 }
 
+.movie-details__inner .loader {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #000000b3;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.movie-details__inner .loader:after {
+    content: "Loading...";
+    display: block;
+    text-align: center;
+    position: absolute;
+    top: 10%;
+}
+
 .movie-details__poster {
     overflow: hidden;
     width: calc(100% + 2rem);
@@ -176,7 +249,7 @@ main.content {
     margin: 1rem 0;
 }
 
-.movie-details__inner.--no-poster .movie-details__title{
+.movie-details__inner.--no-poster .movie-details__title {
     margin-top: 2rem;
 }
 
@@ -206,6 +279,13 @@ main.content {
     font-weight: bold;
     color: #aaa;
     margin-right: .2rem;
+}
+
+.no-content-placeholder {
+    display: block;
+    width: 100%;
+    color: #999;
+    font-size: 18px;
 }
 
 /** Movie Item - START **/
