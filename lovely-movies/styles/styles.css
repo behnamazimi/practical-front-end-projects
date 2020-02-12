@@ -77,13 +77,13 @@ body.loading .loader {
 }
 
 .main-header__branding {
-    width: 120px;
-    flex: 0 0 120px;
+    flex: 0 0 160px;
+    font-size: 24px;
 }
 
 .main-header__search {
-    width: calc(100% - 240px);
-    flex: 0 0 calc(100% - 240px);
+    width: calc(100% - 320px);
+    flex: 0 0 calc(100% - 320px);
     text-align: center;
     position: relative;
 }
