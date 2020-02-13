@@ -187,11 +187,7 @@ class Quiz {
                 console.log("You already answered this question");
                 return;
             }
-            currentQ.answer = option;
-            const answerResult = this.checkAnswerValidity(currentQ.id, option);
-            currentQ.result = answerResult;
-
-            response.answerResult = answerResult;
+            currentQ.skip = true;
             response.nextQ = nextQ;
         }
 
