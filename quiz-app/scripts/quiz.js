@@ -6,12 +6,16 @@ class Quiz {
     /**
      *
      * @param title - quiz main title
+     * @param description
      * @param time - in second
      */
-    constructor(title, time) {
+    constructor(title, description, time) {
 
         if (!title)
             throw new Error("Title of quiz is required.");
+
+        if (!description)
+            throw new Error("Description of quiz is required.");
 
         if (!time || time < 10)
             throw new Error("Time is required and must be more than 10 sec.");
