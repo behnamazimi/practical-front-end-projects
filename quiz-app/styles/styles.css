@@ -57,6 +57,22 @@ body {
 
 
 /** Question Card - START */
+.quiz-details {
+    /*display: none;*/
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-150px);
+    position: absolute;
+    transition: transform .5s, opacity .7s .2s;
+}
+
+.quiz-details.show {
+    position: relative;
+    transform: translateY(0px);
+    opacity: 1;
+    visibility: visible;
+}
+
 .quiz-details__question-icon {
     display: block;
     margin: 2rem 1rem;

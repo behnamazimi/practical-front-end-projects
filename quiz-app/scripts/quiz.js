@@ -21,6 +21,7 @@ class Quiz {
             throw new Error("Time is required and must be more than 10 sec.");
 
         this.title = title;
+        this.description = description;
         this._time = time;
         this[TIME_OVER_SYM] = null;
         this[TIMER_INTERVAL_SYM] = null;
