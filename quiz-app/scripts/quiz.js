@@ -1,5 +1,5 @@
-let TIME_OVER_SYM = Symbol();
-let TIMER_INTERVAL_SYM = Symbol();
+let TIME_OVER_SYM = Symbol("TO");
+let TIMER_INTERVAL_SYM = Symbol("TI");
 
 class Quiz {
 
@@ -65,6 +65,7 @@ class Quiz {
         }
 
         this._stopped = true;
+        this._started = false;
         this._endTime = new Date().getTime();
         clearInterval(this[TIMER_INTERVAL_SYM]);
     }
@@ -126,13 +127,9 @@ class Quiz {
             return;
         }
 
-        const nextQ = askNextQuestion.call(this);
-        if (!nextQ || this[TIME_OVER_SYM])
-            this.stop();
-
         let response = {
             timeOver: this[TIME_OVER_SYM],
-            finished: !nextQ || this._stopped
+            finished: this._stopped || this[TIME_OVER_SYM]
         };
 
         if (response.finished) {
@@ -155,6 +152,11 @@ class Quiz {
             currentQ.result = answerResult;
 
             response.answerResult = answerResult;
+
+            const nextQ = askNextQuestion.call(this);
+            if (!nextQ)
+                this.stop();
+
             response.nextQ = nextQ;
         }
 
@@ -162,14 +164,14 @@ class Quiz {
     }
 
     skipCurrentQuestion() {
-
-        const nextQ = askNextQuestion.call(this);
-        if (!nextQ || this[TIME_OVER_SYM])
-            this.stop();
+        if (!this._started) {
+            console.log("Start the quiz first");
+            return;
+        }
 
         let response = {
             timeOver: this[TIME_OVER_SYM],
-            finished: !nextQ || this._stopped
+            finished: this._stopped || this[TIME_OVER_SYM]
         };
 
         if (response.finished) {
@@ -188,6 +190,11 @@ class Quiz {
                 return;
             }
             currentQ.skip = true;
+
+            const nextQ = askNextQuestion.call(this);
+            if (!nextQ)
+                this.stop();
+
             response.nextQ = nextQ;
         }
 
@@ -251,7 +258,7 @@ function askNextQuestion() {
 
     const currentQ = this.currentQuestion();
     if (currentQ.answer === void (0) && currentQ.skip === void (0)) {
-        console.log("Current question not answered or skipped.");
+        console.log("Current question answered or skipped.");
         return;
     }
 
