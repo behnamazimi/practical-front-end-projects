@@ -45,6 +45,10 @@ class Quiz {
         this._questions.push({id, title, options})
     }
 
+    /**
+     * handle quiz starting
+     * @returns {*}
+     */
     start() {
         if (!this._questions.length) {
             console.log("There is not any question");
@@ -61,16 +65,23 @@ class Quiz {
 
         this._setTicker();
 
-        return this.currentQuestion();
+        return this.currentQuestion;
     }
 
+    /**
+     * stop the running quiz
+     */
     stop() {
         this._endTime = new Date().getTime();
         clearInterval(this[TIMER_INTERVAL_SYM]);
         this[TIMER_INTERVAL_SYM] = null;
     }
 
-    currentQuestion() {
+    /**
+     * this will return the head question of running quiz
+     * @returns {*}
+     */
+    get currentQuestion() {
         if (!this._startTime) {
             console.log("Quiz not started");
             return;
@@ -79,6 +90,10 @@ class Quiz {
         return this._questions[this._currentQuestionIndex];
     }
 
+    /**
+     * get the result of running quiz
+     * @returns {{score: *, correct: *, questionsCount: number, timeOver: *, finished: (*|null), skipped: *}}
+     */
     result() {
         if (!this._startTime) {
             console.log("Quiz not started.");
@@ -106,6 +121,9 @@ class Quiz {
         };
     }
 
+    /**
+     * Reset the running quiz status and make it ready to start again
+     */
     reset() {
         if (this._startTime && !this._endTime) {
             console.log("Can not reset the running quiz.");
@@ -122,6 +140,12 @@ class Quiz {
         this._questions = this._questions.map(q => ({id: q.id, title: q.title, options: q.options}))
     }
 
+    /**
+     * answer the head question of the running quiz with a selected option
+     *
+     * @param option - selected option, one of these (0, 1, 2, 3)
+     * @returns {{timeOver: *, finished: (*|null)}}
+     */
     answerCurrentQuestion(option) {
         if (!this._startTime) {
             console.log("Start the quiz first");
@@ -135,7 +159,7 @@ class Quiz {
 
         if (!this[TIME_OVER_SYM]) {
 
-            const currentQ = this.currentQuestion();
+            const currentQ = this.currentQuestion;
             if (currentQ.skip !== void (0)) {
                 console.log("You already skipped this question");
                 return;
@@ -145,7 +169,7 @@ class Quiz {
                 return;
             }
             currentQ.answer = option;
-            const answerResult = this.checkAnswerValidity(currentQ.id, option);
+            const answerResult = checkAnswerValidity(currentQ.id, option);
             currentQ.result = answerResult;
 
             response.answerResult = answerResult;
@@ -166,6 +190,11 @@ class Quiz {
         return response;
     }
 
+    /**
+     * Skip the head question and pick next question if exist.
+     *
+     * @returns {{timeOver: *, finished: (*|null)}}
+     */
     skipCurrentQuestion() {
         if (!this._startTime) {
             console.log("Start the quiz first");
@@ -179,7 +208,7 @@ class Quiz {
 
         if (!this[TIME_OVER_SYM]) {
 
-            const currentQ = this.currentQuestion();
+            const currentQ = this.currentQuestion;
             if (currentQ.skip !== void (0)) {
                 console.log("You already skipped this question");
                 return;
@@ -207,19 +236,19 @@ class Quiz {
     }
 
     /**
-     * fake answer checking with 20 percent of wrong answering
+     * Check if the head question is the last question of running quiz.
      *
-     * @param questionID
-     * @param option
+     * @returns {boolean}
      */
-    checkAnswerValidity(questionID, option) {
-        return Math.random() > .2;
-    }
-
     isOnLastQuestion() {
         return this._currentQuestionIndex + 1 >= this._questions.length
     }
 
+    /**
+     * Get the details of the timing of the quiz
+     *
+     * @returns {{start: null, end: null, timeOver: *, quizTime: *, elapsedTime: number, remainingTime: *}}
+     */
     get timeDetails() {
         let now = new Date().getTime();
         return {
@@ -232,6 +261,11 @@ class Quiz {
         }
     }
 
+    /**
+     * Control the ticker of the time of the running quiz.
+     *
+     * @private
+     */
     _setTicker() {
         if (!this._startTime) {
             console.log("Quiz not started yet.");
@@ -256,13 +290,17 @@ class Quiz {
     }
 }
 
+/**
+ * Private function to ask next question.
+ * @returns {*}
+ */
 function askNextQuestion() {
     if (!this._startTime) {
         console.log("Quiz not started");
         return;
     }
 
-    const currentQ = this.currentQuestion();
+    const currentQ = this.currentQuestion;
     if (currentQ.answer === void (0) && currentQ.skip === void (0)) {
         console.log("Current question answered or skipped.");
         return;
@@ -276,6 +314,26 @@ function askNextQuestion() {
     return this._questions[++this._currentQuestionIndex];
 }
 
+/**
+ * check the validity of the selected option
+ *
+ * @param questionID
+ * @param option
+ */
+function checkAnswerValidity(questionID, option) {
+
+    // Every checking could be apply here but
+    // the correct answer is the second option in
+    // my questions because of its simplicity
+    return +option === 1;
+}
+
+/**
+ * Convert number (in second) to time-string
+ *
+ * @param seconds
+ * @returns {string}
+ */
 function secToTimeStr(seconds) {
 
     let timeInHour = Math.floor(seconds / 3600);

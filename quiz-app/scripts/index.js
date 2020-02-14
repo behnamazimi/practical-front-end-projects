@@ -10,32 +10,63 @@ let quiz;
 function initApp() {
     const questions = [
         {
-            title: "Question 1?",
-            options: ["O1", "O2", "O3", "O4"]
+            title: "Which one is the type of a javascript file?",
+            options: [".ts", ".js", ".jsx", ".j"]
         }, {
-            title: "Question 2?",
-            options: ["O 11", "O2", "O3", "O4"]
+            title: "Inside which HTML element do we put the JavaScript?",
+            options: ["<scripting>", "<script>", "<js>", "<javascript>"]
         }, {
-            title: "Question 3?",
-            options: ["O1", "O 22", "O3", "O4"]
+            title: "Where is the correct place to insert a JavaScript?",
+            options: [
+                "The <head> section",
+                "Both the <head> section and the <body> section are correct",
+                "The <body> section",
+                "Anywhere in the HTML document"]
         }, {
-            title: "Question 4?",
-            options: ["O1", "O2", "O 33", "O4"]
+            title: "What is the correct syntax for referring to an external script called \"xxx.js\"?",
+            options: [
+                '<script name="xxx.js">',
+                '<script src="xxx.js">',
+                '<script link="xxx.js">',
+                '<script href="xxx.js">'
+            ]
+        }, {
+            title: 'How do you write "Hello World" in an alert box?',
+            options: [
+                'msg("Hello World");',
+                'alert("Hello World");',
+                'msgBox("Hello World");',
+                'console.log("Hello World");',
+            ]
+        }, {
+            title: 'How do you create a normal function in JavaScript?',
+            options: [
+                'function:myFunction()',
+                'function myFunction()',
+                'function* myFunction()',
+                'function = myFunction()',
+            ]
+        }, {
+            title: 'How do you call a function named "myFunction"?',
+            options: [
+                'call myFunction()',
+                'myFunction()',
+                'call:myFunction()',
+                'alo myFunction()',
+            ]
         },
     ];
 
     quiz = new Quiz(
-        "The second round of JavaScript contest in quiz concept",
+        "Simple JavaScript Quiz",
         `Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.`,
-        10);
+        70);
 
     questions.map(q => quiz.addQuestion(q.title, q.options));
+
+    new ElementsHelper(app, quizCard, questionsCard, resultCard, quiz);
 }
 
 initApp();
-console.log(quiz);
 
 
-const elementHelper = new ElementHelper(app, quizCard, questionsCard, resultCard, quiz);
-
-elementHelper.showQuizCard();
