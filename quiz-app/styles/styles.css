@@ -40,6 +40,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .center-card {
@@ -293,6 +294,15 @@ body {
     background-color: #ec880c;
 }
 
+.questions-card.time-over .question-card-buttons__stop {
+    display: none;
+}
+
+.questions-card.time-over .question-card-buttons {
+    justify-content: flex-end;
+}
+
 .question-card-buttons__next {
 
 }
+

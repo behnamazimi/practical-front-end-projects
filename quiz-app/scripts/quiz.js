@@ -106,7 +106,7 @@ class Quiz {
             correct,
             score,
             timeOver: this[TIME_OVER_SYM],
-            finished: this[TIME_OVER_SYM] || this._stopped
+            finished: this.isOnLastQuestion() || this[TIME_OVER_SYM] || this._stopped
         };
     }
 
@@ -120,7 +120,7 @@ class Quiz {
         this._stopped = false;
         this._startTime = null;
         this._endTime = null;
-        this._remainingTime = 0;
+        this._remainingTime = this._time;
         this._currentQuestionIndex = 0;
         this[TIME_OVER_SYM] = false;
         clearInterval(this[TIMER_INTERVAL_SYM]);
@@ -229,7 +229,8 @@ class Quiz {
             start: this._startTime,
             end: this._endTime,
             elapsedTime: ((this._endTime || now) - this._startTime) / 1000, // ms to sec
-            remainingTime: this.remainingTime
+            remainingTime: secToTimeStr(this.remainingTime),
+            timeOver: this[TIME_OVER_SYM]
         }
     }
 
@@ -279,4 +280,26 @@ function askNextQuestion() {
     }
 
     return this._questions[++this._currentQuestionIndex];
+}
+
+function secToTimeStr(seconds) {
+
+    let timeInHour = Math.floor(seconds / 3600);
+    let timeInMin = Math.floor((seconds % 3600) / 60);
+    let timeInSec = Math.floor(seconds % 60);
+
+    if (timeInHour < 10)
+        timeInHour = `0${timeInHour}`;
+
+    if (timeInMin < 10)
+        timeInMin = `0${timeInMin}`;
+
+    if (timeInSec < 10)
+        timeInSec = `0${timeInSec}`;
+
+    let timeStr = `${timeInMin}:${timeInSec}`;
+    if (parseInt(timeInHour))
+        timeStr = `${timeInHour}:${timeStr}`;
+
+    return timeStr;
 }

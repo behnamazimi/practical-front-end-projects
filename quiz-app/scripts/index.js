@@ -3,6 +3,7 @@
 const app = document.getElementById("quiz-app");
 const quizCard = document.getElementById("quiz-details");
 const questionsCard = document.getElementById("questions-card");
+const resultCard = document.getElementById("result-card");
 
 let quiz;
 
@@ -13,13 +14,13 @@ function initApp() {
             options: ["O1", "O2", "O3", "O4"]
         }, {
             title: "Question 2?",
-            options: ["O1", "O2", "O3", "O4"]
+            options: ["O 11", "O2", "O3", "O4"]
         }, {
             title: "Question 3?",
-            options: ["O1", "O2", "O3", "O4"]
+            options: ["O1", "O 22", "O3", "O4"]
         }, {
             title: "Question 4?",
-            options: ["O1", "O2", "O3", "O4"]
+            options: ["O1", "O2", "O 33", "O4"]
         },
     ];
 
@@ -34,6 +35,6 @@ function initApp() {
 initApp();
 
 
-const elementHelper = new ElementHelper(app, quizCard, questionsCard, quiz);
+const elementHelper = new ElementHelper(app, quizCard, questionsCard, resultCard, quiz);
 
 elementHelper.showQuizCard();
