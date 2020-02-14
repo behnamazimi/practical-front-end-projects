@@ -28,12 +28,52 @@
         </div>
 
         <div class="quiz-details__start-btn-wrapper">
-            <button class="quiz-details__start-btn">
+            <button class="default-btn quiz-details__start-btn">
                 Start
             </button>
         </div>
     </section>
 
+    <section class="center-card questions-card" id="questions-card">
+        <div class="questions-card__progress-wrapper">
+            <span class="questions-card__q-count">Question 2/3</span>
+            <span class="questions-card__remaining-time">00:15</span>
+            <div class="questions-card__progress"><span class="--value"></span></div>
+        </div>
+        <p class="questions-card__q-title" data-qn="Q 1:">Lorem ipsum dolor sit amet, consectetuer adipiscing elit?</p>
+
+        <div class="question-card__options">
+            <div class="question-card__option __one">
+                <input type="radio" name="question-option" id="option-one" value="0"/>
+                <label class="question-card__option__value"
+                       for="option-one">Option one with a long with that is not comfort for this postion.</label>
+            </div>
+            <div class="question-card__option __two">
+                <input type="radio" name="question-option" id="option-two" value="1"/>
+                <label class="question-card__option__value"
+                       for="option-two">Option two</label>
+            </div>
+            <div class="question-card__option __three">
+                <input type="radio" name="question-option" id="option-three" value="2"/>
+                <label class="question-card__option__value"
+                       for="option-three">Option three</label>
+            </div>
+            <div class="question-card__option __four">
+                <input type="radio" name="question-option" id="option-four" value="3"/>
+                <label class="question-card__option__value"
+                       for="option-four">Option four</label>
+            </div>
+        </div>
+
+        <div class="question-card-buttons">
+            <button class="default-btn question-card-buttons__stop"
+                    id="stop-btn">STOP
+            </button>
+            <button class="default-btn question-card-buttons__next"
+                    id="next-btn">NEXT
+            </button>
+        </div>
+    </section>
 </div>
 <script src="scripts/quiz.js"></script>
 <script src="scripts/element-helper.js"></script>

@@ -34,7 +34,6 @@ function initApp() {
 initApp();
 
 
-const elementHelper = new ElementHelper(app, quizCard, questionsCard);
+const elementHelper = new ElementHelper(app, quizCard, questionsCard, quiz);
 
-console.log(quiz);
-elementHelper.showQuizCard(quiz);
+elementHelper.showQuizCard();
