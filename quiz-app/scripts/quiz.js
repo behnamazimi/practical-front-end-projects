@@ -70,7 +70,6 @@ class Quiz {
         }
 
         this._stopped = true;
-        this._started = false;
         this._endTime = new Date().getTime();
         clearInterval(this[TIMER_INTERVAL_SYM]);
     }
@@ -86,7 +85,7 @@ class Quiz {
 
     result() {
         if (!this._started) {
-            console.log("Quiz not started");
+            console.log("Quiz not started.");
             return;
         }
 
@@ -112,11 +111,12 @@ class Quiz {
     }
 
     reset() {
-        if (this._started) {
+        if (this._started && !this._stopped) {
             console.log("Can not reset the started quiz.");
             return;
         }
 
+        this._started = false;
         this._stopped = false;
         this._startTime = null;
         this._endTime = null;
@@ -134,20 +134,16 @@ class Quiz {
 
         let response = {
             timeOver: this[TIME_OVER_SYM],
-            finished: this._stopped || this[TIME_OVER_SYM]
+            finished: this.isOnLastQuestion() || this._stopped || this[TIME_OVER_SYM]
         };
 
-        if (response.finished) {
-            response.result = this.result();
-
-        } else {
+        if (!this[TIME_OVER_SYM]) {
 
             const currentQ = this.currentQuestion();
             if (currentQ.skip !== void (0)) {
                 console.log("You already skipped this question");
                 return;
             }
-
             if (currentQ.answer !== void (0)) {
                 console.log("You already answered this question");
                 return;
@@ -158,11 +154,16 @@ class Quiz {
 
             response.answerResult = answerResult;
 
-            const nextQ = askNextQuestion.call(this);
-            if (!nextQ)
-                this.stop();
+            if (!response.finished) {
+                const nextQ = askNextQuestion.call(this);
+                if (nextQ) {
+                    response.nextQ = nextQ;
+                }
+            }
+        }
 
-            response.nextQ = nextQ;
+        if (response.finished) {
+            response.result = this.result();
         }
 
         return response;
@@ -176,31 +177,32 @@ class Quiz {
 
         let response = {
             timeOver: this[TIME_OVER_SYM],
-            finished: this._stopped || this[TIME_OVER_SYM]
+            finished: this.isOnLastQuestion() || this._stopped || this[TIME_OVER_SYM]
         };
 
-        if (response.finished) {
-            response.result = this.result();
-
-        } else {
+        if (!this[TIME_OVER_SYM]) {
 
             const currentQ = this.currentQuestion();
             if (currentQ.skip !== void (0)) {
                 console.log("You already skipped this question");
                 return;
             }
-
             if (currentQ.answer !== void (0)) {
                 console.log("You already answered this question");
                 return;
             }
             currentQ.skip = true;
 
-            const nextQ = askNextQuestion.call(this);
-            if (!nextQ)
-                this.stop();
+            if (!response.finished) {
+                const nextQ = askNextQuestion.call(this);
+                if (nextQ) {
+                    response.nextQ = nextQ;
+                }
+            }
+        }
 
-            response.nextQ = nextQ;
+        if (response.finished) {
+            response.result = this.result();
         }
 
         return response;
@@ -214,6 +216,10 @@ class Quiz {
      */
     checkAnswerValidity(questionID, option) {
         return Math.random() > .2;
+    }
+
+    isOnLastQuestion() {
+        return this._currentQuestionIndex + 1 >= this._questions.length
     }
 
     get timeDetails() {
@@ -267,7 +273,7 @@ function askNextQuestion() {
         return;
     }
 
-    if (this._currentQuestionIndex + 1 >= this._questions.length) {
+    if (this.isOnLastQuestion()) {
         console.log("No more question.");
         return;
     }
