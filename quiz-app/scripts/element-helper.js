@@ -6,24 +6,37 @@ class ElementHelper {
         this.quiz = quiz;
         this.quizCard = quizCard;
         this.questionCard = questionCard;
+        this.resultCard = resultCard;
+
+        this.initListeners();
+    }
+
+    initListeners() {
+        this.startBtn = this.quizCard.querySelector(".quiz-details__start-btn");
+        this.startBtn.addEventListener("click", this.showQuestionsCard.bind(this));
+
+        this.nextBtn = this.app.querySelector("#next-btn");
+        this.nextBtn.addEventListener("click", this.nextBtnHandler.bind(this));
+
+        this.stopBtn = this.app.querySelector("#stop-btn");
+        this.stopBtn.addEventListener("click", this.stopBtnHandler.bind(this));
+
+        this.gotoHome = this.resultCard.querySelector("#go-to-home");
+        this.gotoHome.addEventListener("click", this.hideResultCard.bind(this));
 
     }
 
     showQuizCard() {
-        this.hideQuestionsCard();
 
         const titleElm = this.quizCard.querySelector(".quiz-details__title");
         const descriptionElm = this.quizCard.querySelector(".quiz-details__description");
         const metaQCElm = this.quizCard.querySelector(".quiz-details__meta.--qc strong");
         const metaTimeElm = this.quizCard.querySelector(".quiz-details__meta.--t strong");
-        const buttonElm = this.quizCard.querySelector(".quiz-details__start-btn");
 
         titleElm.innerText = this.quiz.title;
         descriptionElm.innerText = this.quiz.description;
         metaQCElm.innerText = this.quiz._questions.length;
         metaTimeElm.innerText = this.quiz._time;
-
-        buttonElm.addEventListener("click", this.showQuestionsCard.bind(this));
 
         this.quizCard.classList.add("show");
     }
@@ -35,37 +48,35 @@ class ElementHelper {
     showQuestionsCard() {
         this.hideQuizCard();
 
-        this.nextBtn = this.app.querySelector("#next-btn");
-        this.stopBtn = this.app.querySelector("#stop-btn");
-
-        this.nextBtn.addEventListener("click", this.nextBtnHandler.bind(this));
-        this.stopBtn.addEventListener("click", this.stopBtnHandler.bind(this));
-
         this.questionCard.classList.add("show");
         this.questionCard.classList.remove("time-over");
 
-        setTimeout(() => {
-            this.startQuiz();
-        }, 700) // 700 is the longest transition time
+        this.startQuiz();
     }
 
     hideQuestionsCard() {
         this.questionCard.classList.remove("show");
     }
 
-    showResultCard() {
-        this.hideQuizCard();
+    showResultCard(result) {
         this.hideQuestionsCard();
 
+        const scoreElm = this.resultCard.querySelector("#score");
 
-        // this.questionCard.classList.add("show");
+        if (scoreElm && result)
+            scoreElm.innerText = result.score;
+
+        this.resultCard.classList.add("show");
     }
 
     hideResultCard() {
-        // this.questionCard.classList.remove("show");
+        this.resultCard.classList.remove("show");
+        this.showQuizCard();
     }
 
     startQuiz() {
+        this.resetPrevQuiz();
+        this.quiz.reset();
         const firstQuestion = this.quiz.start();
         if (firstQuestion) {
             this.parseNextQuestion(firstQuestion)
@@ -75,9 +86,8 @@ class ElementHelper {
 
         const progressRemainingTimeElm = document.querySelector(".questions-card__remaining-time");
         const progressbarElm = document.querySelector(".questions-card__progress .--value");
-        const remainingTimeInterval = setInterval(() => {
+        this.remainingTimeInterval = setInterval(() => {
             const qTime = this.quiz.timeDetails;
-
             if (qTime && qTime.remainingTime) {
                 progressRemainingTimeElm.innerText = qTime.remainingTime;
 
@@ -89,9 +99,10 @@ class ElementHelper {
             }
 
             if (qTime.timeOver) {
+                console.log("qTime clear");
                 this.questionCard.classList.add("time-over");
                 this.nextBtn.innerText = "Show Result";
-                clearInterval(remainingTimeInterval)
+                clearInterval(this.remainingTimeInterval)
             }
         }, 1000);
     }
@@ -130,19 +141,28 @@ class ElementHelper {
         }
 
         if (result.finished || result.timeOver) {
-            this.showResultCard()
-        } else {
+            this.showResultCard(result.result)
+        } else if (result) {
             this.parseNextQuestion(result.nextQ)
         }
 
-        console.log(result);
     }
 
     stopBtnHandler() {
-        this.hideQuestionsCard();
-        this.showQuizCard();
-        this.quiz.stop();
-        this.quiz.reset();
+        this.resetPrevQuiz();
+        this.showResultCard();
     }
 
+    resetPrevQuiz() {
+        this.quiz.stop();
+        clearInterval(this.remainingTimeInterval);
+
+        const progressRemainingTimeElm = document.querySelector(".questions-card__remaining-time");
+        const progressbarElm = document.querySelector(".questions-card__progress .--value");
+        const scoreElm = this.resultCard.querySelector("#score");
+
+        scoreElm.innerText = 0;
+        progressRemainingTimeElm.innerText = "00:00";
+        progressbarElm.style.width = '100%';
+    }
 }

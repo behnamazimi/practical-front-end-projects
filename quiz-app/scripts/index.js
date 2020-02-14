@@ -33,6 +33,7 @@ function initApp() {
 }
 
 initApp();
+console.log(quiz);
 
 
 const elementHelper = new ElementHelper(app, quizCard, questionsCard, resultCard, quiz);

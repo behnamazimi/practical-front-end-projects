@@ -60,6 +60,7 @@ body {
     transform: translateY(-150px) scale(.6);
     transition: transform .5s, opacity .7s .1s, visibility .7s .1s;
     user-select: none;
+    z-index: -1;
 }
 
 .center-card.show {
@@ -302,7 +303,36 @@ body {
     justify-content: flex-end;
 }
 
-.question-card-buttons__next {
 
+/** Result Card - START */
+.result-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
+.result-card__score {
+    font-size: calc(2vw + 2vh + 7vmin);
+    margin-top: 2rem;
+}
+
+.result-card__score__lbl {
+    color: #888;
+}
+
+.result-card-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    position: sticky;
+    width: 100%;
+    top: 100%;
+    left: 0;
+}
+
+.result-card-buttons button {
+    background: #0880d6;
+    width: 60%;
+}

@@ -1,3 +1,5 @@
+"use strict";
+
 let TIME_OVER_SYM = Symbol("TO");
 let TIMER_INTERVAL_SYM = Symbol("TI");
 
@@ -34,7 +36,7 @@ class Quiz {
      * @param options {Array}
      */
     addQuestion(title, options) {
-        if (this._started) {
+        if (this._startTime) {
             console.log("Question can not added on a started quiz.");
             return;
         }
@@ -49,13 +51,12 @@ class Quiz {
             return;
         }
 
-        if (this._started) {
+        if (this._startTime) {
             console.log("Already started.");
             return;
         }
 
         this.reset();
-        this._started = true;
         this._startTime = new Date().getTime();
 
         this._setTicker();
@@ -64,18 +65,13 @@ class Quiz {
     }
 
     stop() {
-        if (!this._started) {
-            console.log("Only started quiz can be stopped.");
-            return;
-        }
-
-        this._stopped = true;
         this._endTime = new Date().getTime();
         clearInterval(this[TIMER_INTERVAL_SYM]);
+        this[TIMER_INTERVAL_SYM] = null;
     }
 
     currentQuestion() {
-        if (!this._started) {
+        if (!this._startTime) {
             console.log("Quiz not started");
             return;
         }
@@ -84,7 +80,7 @@ class Quiz {
     }
 
     result() {
-        if (!this._started) {
+        if (!this._startTime) {
             console.log("Quiz not started.");
             return;
         }
@@ -106,35 +102,35 @@ class Quiz {
             correct,
             score,
             timeOver: this[TIME_OVER_SYM],
-            finished: this.isOnLastQuestion() || this[TIME_OVER_SYM] || this._stopped
+            finished: this.isOnLastQuestion() || this[TIME_OVER_SYM] || this._endTime
         };
     }
 
     reset() {
-        if (this._started && !this._stopped) {
-            console.log("Can not reset the started quiz.");
+        if (this._startTime && !this._endTime) {
+            console.log("Can not reset the running quiz.");
             return;
         }
 
-        this._started = false;
-        this._stopped = false;
         this._startTime = null;
         this._endTime = null;
         this._remainingTime = this._time;
         this._currentQuestionIndex = 0;
         this[TIME_OVER_SYM] = false;
         clearInterval(this[TIMER_INTERVAL_SYM]);
+
+        this._questions = this._questions.map(q => ({id: q.id, title: q.title, options: q.options}))
     }
 
     answerCurrentQuestion(option) {
-        if (!this._started) {
+        if (!this._startTime) {
             console.log("Start the quiz first");
             return;
         }
 
         let response = {
             timeOver: this[TIME_OVER_SYM],
-            finished: this.isOnLastQuestion() || this._stopped || this[TIME_OVER_SYM]
+            finished: this.isOnLastQuestion() || this._endTime || this[TIME_OVER_SYM]
         };
 
         if (!this[TIME_OVER_SYM]) {
@@ -164,20 +160,21 @@ class Quiz {
 
         if (response.finished) {
             response.result = this.result();
+            this.stop();
         }
 
         return response;
     }
 
     skipCurrentQuestion() {
-        if (!this._started) {
+        if (!this._startTime) {
             console.log("Start the quiz first");
             return;
         }
 
         let response = {
             timeOver: this[TIME_OVER_SYM],
-            finished: this.isOnLastQuestion() || this._stopped || this[TIME_OVER_SYM]
+            finished: this.isOnLastQuestion() || this._endTime || this[TIME_OVER_SYM]
         };
 
         if (!this[TIME_OVER_SYM]) {
@@ -203,6 +200,7 @@ class Quiz {
 
         if (response.finished) {
             response.result = this.result();
+            this.stop();
         }
 
         return response;
@@ -229,17 +227,13 @@ class Quiz {
             start: this._startTime,
             end: this._endTime,
             elapsedTime: ((this._endTime || now) - this._startTime) / 1000, // ms to sec
-            remainingTime: secToTimeStr(this.remainingTime),
+            remainingTime: secToTimeStr(this._remainingTime),
             timeOver: this[TIME_OVER_SYM]
         }
     }
 
-    get remainingTime() {
-        return this._remainingTime;
-    }
-
     _setTicker() {
-        if (!this._started) {
+        if (!this._startTime) {
             console.log("Quiz not started yet.");
             return;
         }
@@ -263,7 +257,7 @@ class Quiz {
 }
 
 function askNextQuestion() {
-    if (!this._started) {
+    if (!this._startTime) {
         console.log("Quiz not started");
         return;
     }
