@@ -111,7 +111,7 @@ class ElementsHelper {
 
 
         if (this.resultCard.scoreElm && result)
-            this.resultCard.scoreElm.innerText = result.score;
+            this.resultCard.scoreElm.innerText = Math.floor(result.score * 10) / 10;
 
         this.resultCard.classList.add("show");
     }
