@@ -17,16 +17,23 @@
     border-radius: 25px;
     position: relative;
     cursor: pointer;
+    overflow: hidden;
 }
 
+.simple-slider__loading-progress,
 .simple-slider__progress {
     position: absolute;
     left: 0;
     width: 0;
     height: 100%;
     background-color: #1c70ff;
-    border-radius: 25px;
     max-width: 100% !important;
+    z-index: 1;
+}
+
+.simple-slider__loading-progress {
+    z-index: 0;
+    background-color: #ccc;
 }
 
 .simple-slider__handler {
@@ -56,6 +63,7 @@
     transform-origin: center;
     opacity: 0;
     visibility: hidden;
+    z-index: 5;
 }
 
 .simple-slider:hover .simple-slider__handler,

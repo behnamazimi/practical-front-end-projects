@@ -37,6 +37,23 @@ Object.defineProperty(SimpleRange.prototype, "value", {
     }
 });
 
+// define loading value property
+Object.defineProperty(SimpleRange.prototype, "loadingValue", {
+    get: function () {
+        return this._loadingValue;
+    },
+    set: function (newValue) {
+        // limit the value between 0 and 100
+        newValue = Math.max(0, Math.min(newValue, 100));
+        this.loadingProgress.style.width = newValue + "%";
+
+        this._loadingValue = newValue;
+
+        // trigger loading value change event
+        this.events.call("loadingChange");
+    }
+});
+
 SimpleRange.prototype.init = function () {
 
     if (this.slider)
@@ -56,18 +73,22 @@ SimpleRange.prototype.init = function () {
         topPos: void 0
     };
     this._value = 0;
+    this._loadingValue = 0;
 
     // create DOM elements
     this.slider = document.createElement("div");
     this.path = document.createElement("div");
     this.progress = document.createElement("div");
+    this.loadingProgress = document.createElement("div");
     this.handler = document.createElement("div");
 
     this.slider.classList.add("simple-slider");
     this.path.classList.add("simple-slider__path");
     this.progress.classList.add("simple-slider__progress");
+    this.loadingProgress.classList.add("simple-slider__loading-progress");
     this.handler.classList.add("simple-slider__handler");
 
+    this.path.appendChild(this.loadingProgress);
     this.path.appendChild(this.progress);
     this.slider.appendChild(this.path);
     this.slider.appendChild(this.handler);
@@ -212,5 +233,3 @@ SimpleRange.prototype.update = function (options) {
 
     return this;
 };
-
-

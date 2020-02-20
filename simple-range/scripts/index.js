@@ -22,4 +22,8 @@ sr.on("stop", () => {
     // console.log("stopped");
 });
 
+sr.on("loadingChange", () => {
+    // console.log("loadingChange");
+});
+
 console.log(sr);
