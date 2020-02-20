@@ -1,0 +1,75 @@
+.simple-slider {
+    --slider-path-diameter: 6px;
+    --slider-handler-size: 14px;
+
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: calc(8px / 1) 0;
+    padding: calc(var(--slider-path-diameter, 8px) / 1) 0;
+}
+
+.simple-slider__path {
+    width: 100%;
+    height: 8px;
+    height: var(--slider-path-diameter, 8px);
+    background-color: #ddd;
+    border-radius: 25px;
+    position: relative;
+    cursor: pointer;
+}
+
+.simple-slider__progress {
+    position: absolute;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background-color: #1c70ff;
+    border-radius: 25px;
+    max-width: 100% !important;
+}
+
+.simple-slider__handler {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 8px;
+    width: var(--slider-path-diameter, 8px);
+    height: 8px;
+    height: var(--slider-path-diameter, 8px);
+    background: rgba(174, 196, 221, 0.7);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: .5%;
+    margin-left: calc(8px * -.5);
+    margin-left: calc(var(--slider-path-diameter, 8px) * -.5);
+    margin-top: calc(8px * -.5);
+    margin-top: calc(var(--slider-path-diameter, 8px) * -.5);
+    cursor: pointer;
+    -webkit-transition: opacity .1s, visibility .3s, -webkit-box-shadow .3s;
+    transition: opacity .1s, visibility .3s, -webkit-box-shadow .3s;
+    -o-transition: box-shadow .3s, opacity .1s, visibility .3s;
+    transition: box-shadow .3s, opacity .1s, visibility .3s;
+    transition: box-shadow .3s, opacity .1s, visibility .3s, -webkit-box-shadow .3s;
+    -webkit-transform-origin: center;
+    -ms-transform-origin: center;
+    transform-origin: center;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.simple-slider:hover .simple-slider__handler,
+.simple-slider.--dragging .simple-slider__handler,
+.simple-slider__handler:hover {
+    -webkit-box-shadow: 0 0 0 calc(var(--slider-handler-size)) rgba(174, 196, 221, 0.7);
+    -ms-box-shadow: 0 0 0 calc(var(--slider-handler-size)) rgba(174, 196, 221, 0.7);
+    box-shadow: 0 0 0 calc(var(--slider-handler-size)) rgba(174, 196, 221, 0.7);
+    background: #1c70ff;
+    opacity: 1;
+    visibility: visible;
+    -webkit-transition: opacity .2s, visibility .2s, -webkit-box-shadow .4s;
+    transition: opacity .2s, visibility .2s, -webkit-box-shadow .4s;
+    -o-transition: box-shadow .4s, opacity .2s, visibility .2s;
+    transition: box-shadow .4s, opacity .2s, visibility .2s;
+    transition: box-shadow .4s, opacity .2s, visibility .2s, -webkit-box-shadow .4s;
+}
