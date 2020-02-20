@@ -1,4 +1,4 @@
-const sr = new SimpleRangeSlider(document.getElementById("simple-range-slider"), {
+const sr = new SimpleRangeSlider(document.getElementById("simple-range"), {
     min: 0,
     max: 10,
     mode: "horizontal",
@@ -9,7 +9,7 @@ const sr = new SimpleRangeSlider(document.getElementById("simple-range-slider"),
     pathColor: "#ddd",
     progressColor: "#1c70ff",
     loadingProgressColor: "#ccc",
-    lockOnLoadingValue: true,
+    lockOnLoadingValue: false,
 });
 
 sr.on("start", (value) => {

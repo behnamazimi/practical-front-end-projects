@@ -236,16 +236,6 @@ SimpleRangeSlider.prototype.initListeners = function () {
     return this;
 };
 
-SimpleRangeSlider.prototype.setDefaultValue = function () {
-    if (this.options.defaultValue !== void 0) {
-        // calc default val as percent
-        this.value = Math.max(0, Math.min(100, this.options.defaultValue * 100 / this.options.max));
-    }
-    if (this._loadingValue !== void 0) {
-        this.loadingValue = this._loadingValue;
-    }
-};
-
 SimpleRangeSlider.prototype.applyOptions = function () {
 
     let modeClass = "--" + (this.options.mode || this.defaultOptions.mode);
@@ -288,7 +278,11 @@ SimpleRangeSlider.prototype.applyOptions = function () {
         this.slider.style.setProperty("--slider-loading-progress-color", this.options.loadingProgressColor);
     }
 
-    this.setDefaultValue();
+    // set default value
+    this.value = this.options.defaultValue || 0;
+
+    // set default loading value
+    this.loadingValue = this._loadingValue || 0;
 
 };
 
