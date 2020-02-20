@@ -2,28 +2,28 @@ const sr = new SimpleRange(document.getElementById("simple-range"), {
     min: 0,
     max: 10,
     defaultValue: 5,
-    pathDiameter: "15px",
+    pathDiameter: "10px",
     handlerSize: "8px",
 });
 
-sr.on("start", () => {
-    // console.log("started");
+sr.on("start", (value) => {
+    console.log("started", value);
 });
 
-sr.on("dragging", () => {
-    // console.log("dragging");
+sr.on("dragging", (pos, value) => {
+    console.log("dragging", pos, value);
 });
 
-sr.on("change", () => {
-    // console.log("changed");
+sr.on("change", (value) => {
+    console.log("changed", value);
 });
 
-sr.on("stop", () => {
-    // console.log("stopped");
+sr.on("stop", (value) => {
+    console.log("stopped", value);
 });
 
-sr.on("loadingChange", () => {
-    // console.log("loadingChange");
+sr.on("loadingChange", (value) => {
+    console.log("loadingChange", value);
 });
 
 console.log(sr);

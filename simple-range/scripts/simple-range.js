@@ -33,7 +33,7 @@ Object.defineProperty(SimpleRange.prototype, "value", {
         this._value = newValue;
 
         // trigger value change event
-        this.events.call("change");
+        this.events.call("change", this._value);
     }
 });
 
@@ -50,7 +50,7 @@ Object.defineProperty(SimpleRange.prototype, "loadingValue", {
         this._loadingValue = newValue;
 
         // trigger loading value change event
-        this.events.call("loadingChange");
+        this.events.call("loadingChange", this._loadingValue);
     }
 });
 
@@ -62,8 +62,10 @@ SimpleRange.prototype.init = function () {
     this.initialized = false;
     this.events = {
         call: function (event) {
-            if (event && typeof event === "string" && typeof this.events[event] === "function")
-                this.events[event]();
+            if (event && typeof event === "string" && typeof this.events[event] === "function") {
+                const args = Array.prototype.slice.call(arguments).slice(1);
+                this.events[event].apply(this, args);
+            }
         }.bind(this),
     };
     this.bound = {
@@ -125,7 +127,7 @@ SimpleRange.prototype.initListeners = function () {
         dragging = true;
 
         // trigger drag start event
-        this.events.call("start");
+        this.events.call("start", this.value);
 
         let scrollLeft = window.pageXOffset;
         let scrollTop = window.pageYOffset;
@@ -164,20 +166,21 @@ SimpleRange.prototype.initListeners = function () {
         document.removeEventListener("touchmove", onDragging);
 
         // trigger stop event
-        this.events.call("stop");
+        this.events.call("stop", this.value);
     }.bind(this);
 
     let onDragging = function (e) {
         if (!dragging)
             return;
 
-        // trigger dragging event
-        this.events.call("dragging");
-
         let xPos = e.pageX;
         if (xPos && e.touches)
             xPos = e.touches[0].pageX;
-        setSliderValue(xPos)
+        setSliderValue(xPos);
+
+        // trigger dragging event
+        this.events.call("dragging", xPos, this.value);
+
     }.bind(this);
 
     this.slider.addEventListener("mousedown", draggingStart);
