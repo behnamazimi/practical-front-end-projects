@@ -1,9 +1,13 @@
 const sr = new SimpleRange(document.getElementById("simple-range"), {
     min: 0,
     max: 10,
+    width: "50%",
     defaultValue: 5,
     pathDiameter: "10px",
     handlerSize: "8px",
+    pathColor: "#ddd",
+    progressColor: "#1c70ff",
+    loadingProgressColor: "#ccc",
 });
 
 sr.on("start", (value) => {

@@ -7,10 +7,14 @@ function SimpleRange(wrapper, options) {
 
     this.defaultOptions = {
         min: 0,
-        max: 10,
-        defaultValue: 5,
+        max: 100,
+        width: '100%',
+        defaultValue: 50,
         pathDiameter: "8px",
         handlerSize: "20px",
+        pathColor: "#ddd",
+        progressColor: "#1c70ff",
+        loadingProgressColor: "#ccc",
     };
 
     this.options = Object.assign(this.defaultOptions, options || {});
@@ -212,6 +216,18 @@ SimpleRange.prototype.applyOptions = function () {
 
     if (this.options.handlerSize) {
         this.slider.style.setProperty("--slider-handler-size", this.options.handlerSize);
+    }
+
+    if (this.options.pathColor) {
+        this.slider.style.setProperty("--slider-path-color", this.options.pathColor);
+    }
+
+    if (this.options.progressColor) {
+        this.slider.style.setProperty("--slider-progress-color", this.options.progressColor);
+    }
+
+    if (this.options.loadingProgressColor) {
+        this.slider.style.setProperty("--slider-loading-progress-color", this.options.loadingProgressColor);
     }
 };
 

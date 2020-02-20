@@ -1,6 +1,9 @@
 .simple-slider {
     --slider-path-diameter: 6px;
     --slider-handler-size: 14px;
+    --slider-path-color: #ddd;
+    --slider-progress-color: #1c70ff;
+    --slider-loading-progress-color: #ccc;
 
     position: relative;
     display: block;
@@ -13,7 +16,7 @@
     width: 100%;
     height: 8px;
     height: var(--slider-path-diameter, 8px);
-    background-color: #ddd;
+    background-color: var(--slider-path-color, #ddd);
     border-radius: 25px;
     position: relative;
     cursor: pointer;
@@ -26,14 +29,14 @@
     left: 0;
     width: 0;
     height: 100%;
-    background-color: #1c70ff;
+    background-color: var(--slider-progress-color, #1c70ff);
     max-width: 100% !important;
     z-index: 1;
 }
 
 .simple-slider__loading-progress {
     z-index: 0;
-    background-color: #ccc;
+    background-color: var(--slider-loading-progress-color, #ccc);
 }
 
 .simple-slider__handler {
@@ -72,7 +75,7 @@
     -webkit-box-shadow: 0 0 0 calc(var(--slider-handler-size)) rgba(174, 196, 221, 0.7);
     -ms-box-shadow: 0 0 0 calc(var(--slider-handler-size)) rgba(174, 196, 221, 0.7);
     box-shadow: 0 0 0 calc(var(--slider-handler-size)) rgba(174, 196, 221, 0.7);
-    background: #1c70ff;
+    background: var(--slider-progress-color, #1c70ff);
     opacity: 1;
     visibility: visible;
     -webkit-transition: opacity .2s, visibility .2s, -webkit-box-shadow .4s;
