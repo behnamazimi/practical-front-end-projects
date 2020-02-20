@@ -9,6 +9,7 @@ const sr = new SimpleRange(document.getElementById("simple-range"), {
     pathColor: "#ddd",
     progressColor: "#1c70ff",
     loadingProgressColor: "#ccc",
+    lockOnLoadingValue: true,
 });
 
 sr.on("start", (value) => {

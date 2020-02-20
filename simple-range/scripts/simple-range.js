@@ -16,6 +16,7 @@ function SimpleRange(wrapper, options) {
         pathColor: "#ddd",
         progressColor: "#1c70ff",
         loadingProgressColor: "#ccc",
+        lockOnLoadingValue: false
     };
 
     this.options = Object.assign(this.defaultOptions, options || {});
@@ -30,6 +31,14 @@ Object.defineProperty(SimpleRange.prototype, "value", {
         return this._value;
     },
     set: function (newValue) {
+
+        // check to lock progress on loading value
+        if (this.options.lockOnLoadingValue) {
+            if (newValue >= this.loadingValue) {
+                newValue = this.loadingValue;
+            }
+        }
+
         // convert to percent with two floating point
         const valueAsPercent = Math.floor(Math.max(0, Math.min(100, newValue * 100 / this.options.max)) * 100) / 100;
 

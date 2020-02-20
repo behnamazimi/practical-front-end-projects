@@ -58,6 +58,7 @@
 }
 
 .simple-slider__loading-progress {
+    border-radius: 25px;
     z-index: 0;
     background-color: var(--slider-loading-progress-color, #ccc);
 }
