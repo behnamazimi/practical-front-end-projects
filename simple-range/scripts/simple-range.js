@@ -8,7 +8,8 @@ function SimpleRange(wrapper, options) {
     this.defaultOptions = {
         min: 0,
         max: 100,
-        width: '100%',
+        mode: "horizontal",
+        size: '100%',
         defaultValue: 50,
         pathDiameter: "8px",
         handlerSize: "20px",
@@ -31,8 +32,16 @@ Object.defineProperty(SimpleRange.prototype, "value", {
     set: function (newValue) {
         // limit the value between 0 and 100
         newValue = Math.max(0, Math.min(newValue, 100));
-        this.progress.style.width = newValue + "%";
-        this.handler.style.left = newValue + "%";
+
+        if (this.isHorizontalMode) {
+            this.progress.style.height = "100%";
+            this.progress.style.width = newValue + "%";
+            this.handler.style.left = newValue + "%";
+        } else if (this.isVerticalMode) {
+            this.progress.style.width = "100%";
+            this.progress.style.height = newValue + "%";
+            this.handler.style.bottom = newValue + "%";
+        }
 
         this._value = newValue;
 
@@ -49,7 +58,14 @@ Object.defineProperty(SimpleRange.prototype, "loadingValue", {
     set: function (newValue) {
         // limit the value between 0 and 100
         newValue = Math.max(0, Math.min(newValue, 100));
-        this.loadingProgress.style.width = newValue + "%";
+
+        if (this.isHorizontalMode) {
+            this.loadingProgress.style.height = "100%";
+            this.loadingProgress.style.width = newValue + "%";
+        } else if (this.isVerticalMode) {
+            this.loadingProgress.style.width = "100%";
+            this.loadingProgress.style.height = newValue + "%";
+        }
 
         this._loadingValue = newValue;
 
@@ -117,8 +133,31 @@ SimpleRange.prototype.initListeners = function () {
 
     let dragging = false;
 
-    const setSliderValue = function (xPos) {
+    const findPositionFromEvent = function (event) {
+        let xPos = event.pageX;
+        if (xPos && event.touches)
+            xPos = event.touches[0].pageX;
+        let yPos = event.pageY;
+        if (yPos && event.touches)
+            yPos = event.touches[0].pageY;
+
+        if (this.isHorizontalMode) {
+            setHorizontalSliderValue(xPos);
+        } else if (this.isVerticalMode) {
+            setVerticalSliderValue(yPos);
+        }
+    }.bind(this);
+
+    const setHorizontalSliderValue = function (xPos) {
         const changeGrade = Math.min(1, Math.max(0, (xPos - this.bound.leftPos) / this.bound.width));
+        let newValue = ((1 - changeGrade) * this.options.min) + (changeGrade * this.options.max);
+        // convert to percent with two floating point
+        newValue = Math.floor(Math.max(0, Math.min(100, newValue * 100 / this.options.max)) * 100) / 100;
+        this.value = newValue;
+    }.bind(this);
+
+    const setVerticalSliderValue = function (yPos) {
+        const changeGrade = Math.min(1, Math.max(0, 1 - ((yPos - this.bound.topPos) / this.bound.height)));
         let newValue = ((1 - changeGrade) * this.options.min) + (changeGrade * this.options.max);
         // convert to percent with two floating point
         newValue = Math.floor(Math.max(0, Math.min(100, newValue * 100 / this.options.max)) * 100) / 100;
@@ -145,10 +184,9 @@ SimpleRange.prototype.initListeners = function () {
         };
 
         this.slider.classList.add("--dragging");
-        let xPos = e.pageX;
-        if (xPos && e.touches)
-            xPos = e.touches[0].pageX;
-        setSliderValue(xPos);
+
+        findPositionFromEvent(e);
+
         document.addEventListener("mousemove", onDragging);
         document.addEventListener("touchmove", onDragging);
     }.bind(this);
@@ -177,13 +215,10 @@ SimpleRange.prototype.initListeners = function () {
         if (!dragging)
             return;
 
-        let xPos = e.pageX;
-        if (xPos && e.touches)
-            xPos = e.touches[0].pageX;
-        setSliderValue(xPos);
+        findPositionFromEvent(e);
 
         // trigger dragging event
-        this.events.call("dragging", xPos, this.value);
+        this.events.call("dragging", e, this.value);
 
     }.bind(this);
 
@@ -201,13 +236,31 @@ SimpleRange.prototype.setDefaultValue = function () {
         // calc default val as percent
         this.value = Math.max(0, Math.min(100, this.options.defaultValue * 100 / this.options.max));
     }
+    if (this._loadingValue !== void 0) {
+        this.loadingValue = this._loadingValue;
+    }
 };
 
 SimpleRange.prototype.applyOptions = function () {
-    this.setDefaultValue();
 
-    if (this.options.width) {
-        this.slider.style.width = this.options.width;
+    let modeClass = "--" + (this.options.mode || this.defaultOptions.mode);
+    this.slider.classList.remove("--horizontal");
+    this.slider.classList.remove("--vertical");
+    this.slider.classList.remove("--circle");
+    this.slider.classList.add(modeClass);
+
+    this.isVerticalMode = this.options.mode === "vertical";
+    this.isCircleMode = this.options.mode === "circle";
+    this.isHorizontalMode = !this.isCircleMode && !this.isVerticalMode;
+
+    if (this.options.size) {
+        if (this.isHorizontalMode) {
+            this.slider.style.height = "unset";
+            this.slider.style.width = this.options.size;
+        } else if (this.isVerticalMode) {
+            this.slider.style.width = "auto";
+            this.slider.style.height = this.options.size;
+        }
     }
 
     if (this.options.pathDiameter) {
@@ -229,6 +282,9 @@ SimpleRange.prototype.applyOptions = function () {
     if (this.options.loadingProgressColor) {
         this.slider.style.setProperty("--slider-loading-progress-color", this.options.loadingProgressColor);
     }
+
+    this.setDefaultValue();
+
 };
 
 SimpleRange.prototype.on = function (event, fn) {
@@ -246,9 +302,7 @@ SimpleRange.prototype.update = function (options) {
 
     this.options = Object.assign(this.defaultOptions, options || {});
 
-    if (this.options.width) {
-        this.slider.style.width = this.options.width;
-    }
+    this.applyOptions();
 
     return this;
 };
