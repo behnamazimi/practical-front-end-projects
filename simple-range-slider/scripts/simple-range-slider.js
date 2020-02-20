@@ -1,6 +1,6 @@
 "use strict";
 
-function SimpleRange(wrapper, options) {
+function SimpleRangeSlider(wrapper, options) {
 
     if (!wrapper || !(wrapper instanceof Element || wrapper instanceof HTMLDocument))
         throw new Error("Wrapper must be a valid node.");
@@ -26,7 +26,7 @@ function SimpleRange(wrapper, options) {
 }
 
 // define value property
-Object.defineProperty(SimpleRange.prototype, "value", {
+Object.defineProperty(SimpleRangeSlider.prototype, "value", {
     get: function () {
         return this._value;
     },
@@ -60,7 +60,7 @@ Object.defineProperty(SimpleRange.prototype, "value", {
 });
 
 // define loading value property
-Object.defineProperty(SimpleRange.prototype, "loadingValue", {
+Object.defineProperty(SimpleRangeSlider.prototype, "loadingValue", {
     get: function () {
         return this._loadingValue;
     },
@@ -83,7 +83,7 @@ Object.defineProperty(SimpleRange.prototype, "loadingValue", {
     }
 });
 
-SimpleRange.prototype.init = function () {
+SimpleRangeSlider.prototype.init = function () {
 
     if (this.slider)
         return this;
@@ -133,7 +133,7 @@ SimpleRange.prototype.init = function () {
     this.initListeners();
 };
 
-SimpleRange.prototype.initListeners = function () {
+SimpleRangeSlider.prototype.initListeners = function () {
     if (!this.slider)
         return;
 
@@ -236,7 +236,7 @@ SimpleRange.prototype.initListeners = function () {
     return this;
 };
 
-SimpleRange.prototype.setDefaultValue = function () {
+SimpleRangeSlider.prototype.setDefaultValue = function () {
     if (this.options.defaultValue !== void 0) {
         // calc default val as percent
         this.value = Math.max(0, Math.min(100, this.options.defaultValue * 100 / this.options.max));
@@ -246,7 +246,7 @@ SimpleRange.prototype.setDefaultValue = function () {
     }
 };
 
-SimpleRange.prototype.applyOptions = function () {
+SimpleRangeSlider.prototype.applyOptions = function () {
 
     let modeClass = "--" + (this.options.mode || this.defaultOptions.mode);
     this.slider.classList.remove("--horizontal");
@@ -292,7 +292,7 @@ SimpleRange.prototype.applyOptions = function () {
 
 };
 
-SimpleRange.prototype.on = function (event, fn) {
+SimpleRangeSlider.prototype.on = function (event, fn) {
     if (typeof event !== "string" || typeof fn !== "function") {
         throw "Invalid event or callback function";
     }
@@ -300,7 +300,7 @@ SimpleRange.prototype.on = function (event, fn) {
     this.events[event] = fn;
 };
 
-SimpleRange.prototype.update = function (options) {
+SimpleRangeSlider.prototype.update = function (options) {
     if (!this.slider) {
         return;
     }

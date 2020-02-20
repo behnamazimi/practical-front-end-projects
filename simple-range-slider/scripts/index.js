@@ -1,4 +1,4 @@
-const sr = new SimpleRange(document.getElementById("simple-range"), {
+const sr = new SimpleRangeSlider(document.getElementById("simple-range-slider"), {
     min: 0,
     max: 10,
     mode: "horizontal",
