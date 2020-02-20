@@ -30,17 +30,17 @@ Object.defineProperty(SimpleRange.prototype, "value", {
         return this._value;
     },
     set: function (newValue) {
-        // limit the value between 0 and 100
-        newValue = Math.max(0, Math.min(newValue, 100));
+        // convert to percent with two floating point
+        const valueAsPercent = Math.floor(Math.max(0, Math.min(100, newValue * 100 / this.options.max)) * 100) / 100;
 
         if (this.isHorizontalMode) {
             this.progress.style.height = "100%";
-            this.progress.style.width = newValue + "%";
-            this.handler.style.left = newValue + "%";
+            this.progress.style.width = valueAsPercent + "%";
+            this.handler.style.left = valueAsPercent + "%";
         } else if (this.isVerticalMode) {
             this.progress.style.width = "100%";
-            this.progress.style.height = newValue + "%";
-            this.handler.style.bottom = newValue + "%";
+            this.progress.style.height = valueAsPercent + "%";
+            this.handler.style.bottom = valueAsPercent + "%";
         }
 
         this._value = newValue;
@@ -56,15 +56,15 @@ Object.defineProperty(SimpleRange.prototype, "loadingValue", {
         return this._loadingValue;
     },
     set: function (newValue) {
-        // limit the value between 0 and 100
-        newValue = Math.max(0, Math.min(newValue, 100));
+        // convert to percent with two floating point
+        const valueAsPercent = Math.floor(Math.max(0, Math.min(100, newValue * 100 / this.options.max)) * 100) / 100;
 
         if (this.isHorizontalMode) {
             this.loadingProgress.style.height = "100%";
-            this.loadingProgress.style.width = newValue + "%";
+            this.loadingProgress.style.width = valueAsPercent + "%";
         } else if (this.isVerticalMode) {
             this.loadingProgress.style.width = "100%";
-            this.loadingProgress.style.height = newValue + "%";
+            this.loadingProgress.style.height = valueAsPercent + "%";
         }
 
         this._loadingValue = newValue;
@@ -148,20 +148,16 @@ SimpleRange.prototype.initListeners = function () {
         }
     }.bind(this);
 
+
     const setHorizontalSliderValue = function (xPos) {
         const changeGrade = Math.min(1, Math.max(0, (xPos - this.bound.leftPos) / this.bound.width));
-        let newValue = ((1 - changeGrade) * this.options.min) + (changeGrade * this.options.max);
-        // convert to percent with two floating point
-        newValue = Math.floor(Math.max(0, Math.min(100, newValue * 100 / this.options.max)) * 100) / 100;
-        this.value = newValue;
+        this.value = ((1 - changeGrade) * this.options.min) + (changeGrade * this.options.max);
     }.bind(this);
 
     const setVerticalSliderValue = function (yPos) {
         const changeGrade = Math.min(1, Math.max(0, 1 - ((yPos - this.bound.topPos) / this.bound.height)));
-        let newValue = ((1 - changeGrade) * this.options.min) + (changeGrade * this.options.max);
-        // convert to percent with two floating point
-        newValue = Math.floor(Math.max(0, Math.min(100, newValue * 100 / this.options.max)) * 100) / 100;
-        this.value = newValue;
+        this.value = ((1 - changeGrade) * this.options.min) + (changeGrade * this.options.max);
+
     }.bind(this);
 
     let draggingStart = function (e) {
