@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="styles/styles.css">
+    <title>Notes App</title>
+</head>
+<body>
+<div id="note-app">
+    <header class="toolbox">
+        <div class="input-field">
+            <span class="icon"></span>
+            <input type="text" placeholder="Search...">
+        </div>
+
+        &nbsp;&nbsp;&nbsp;
+        <form id="add-category-form">
+            <input type="text" placeholder="Category title">
+            <button type="submit">Add</button>
+        </form>
+    </header>
+    <main>
+        <section id="categories-list">
+<!--            <div class="category-item">-->
+<!--                <input type="radio" name="category-item" value="category-name" id="cti-1">-->
+<!--                <label for="cti-1">Category 1</label>-->
+<!--            </div>-->
+        </section>
+
+        <section id="notes-list">
+<!--            <div class="note-item">-->
+<!--                <input type="radio" name="note-item" value="note-item" id="note-1">-->
+<!--                <label for="note-1">-->
+<!--                    <strong>Note title</strong>-->
+<!--                    <small style="display: block">Note summary - 21 Aug</small>-->
+<!--                </label>-->
+<!--            </div>-->
+
+        </section>
+
+        <section id="note-editor">
+            <form id="note-add-edit-form">
+                <input type="text" name="note-title" placeholder="Note title"/>
+                <textarea name="note-content" id="note-content" placeholder="Your note"></textarea>
+                <button type="submit">Update</button>
+            </form>
+        </section>
+    </main>
+</div>
+<script src="scripts/note.js"></script>
+<script src="scripts/note-dom-helper.js"></script>
+<script src="scripts/index.js"></script>
+</body>
+</html>

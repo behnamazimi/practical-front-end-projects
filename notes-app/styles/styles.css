@@ -1,0 +1,74 @@
+/** Simple Reset - START */
+html {
+    box-sizing: border-box;
+    font-size: 16px;
+    overflow-x: hidden;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+body, h1, h2, h3, h4, h5, h6, p, ol, ul {
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/** Global - START */
+#note-app {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #efefef;
+    display: flex;
+    flex-direction: column;
+}
+
+#note-app main {
+    position: relative;
+
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: 200px 250px auto;
+    grid-template-rows: auto;
+    grid-template-areas: "categories notes editor";
+}
+
+.toolbox {
+    height: 3em;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: .5rem 1rem;
+    border-bottom: 1px solid #e0e0e0;
+    background: #efefef;
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.10);
+}
+
+#categories-list {
+    grid-area: categories;
+}
+
+#notes-list {
+    grid-area: notes;
+}
+
+#note-editor {
+    grid-area: editor;
+}
+
+#note-editor form {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
