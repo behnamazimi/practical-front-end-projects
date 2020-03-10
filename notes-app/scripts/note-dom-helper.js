@@ -5,7 +5,7 @@ const TYPES = {
         tag: "div",
         containerID: "categories-list",
         attributes: [
-            ["class", "category-item"],
+            ["class", "category-item custom-radio"],
             ["data-cat-id", function () {
                 return this.data.id;
             }]
@@ -40,17 +40,26 @@ const TYPES = {
                 tag: "button",
                 attributes: [
                     ["type", "button"],
+                    ["class", "icon-button"],
                     ["data-action", "remove"],
                 ],
-                inner: "x",
+                html: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>`,
             },
             {
                 tag: "button",
                 attributes: [
                     ["type", "button"],
+                    ["class", "icon-button"],
                     ["data-action", "edit"],
                 ],
-                inner: "E",
+                html: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                        </svg>`
             }
         ]
     },
@@ -58,7 +67,7 @@ const TYPES = {
         tag: "div",
         containerID: "notes-list",
         attributes: [
-            ["class", "note-item"],
+            ["class", "note-item custom-radio"],
             ["data-note-id", function () {
                 return this.data.id;
             }]
@@ -96,12 +105,21 @@ const TYPES = {
                         }
                     },
                     {
-                        tag: "small",
+                        tag: "span",
                         attributes: [
                             ["class", "note-item__subtitle"],
                         ],
                         inner: function () {
-                            return this.data.content.substr(0, 70)
+                            return this.data.content.substr(0, 50)
+                        }
+                    },
+                    {
+                        tag: "small",
+                        attributes: [
+                            ["class", "note-item__datetime"],
+                        ],
+                        inner: function () {
+                            return this.getCreatedAtTime.call(this)
                         }
                     }
                 ]
@@ -110,9 +128,14 @@ const TYPES = {
                 tag: "button",
                 attributes: [
                     ["type", "button"],
+                    ["class", "icon-button"],
                     ["data-action", "remove"],
                 ],
-                inner: "x",
+                html: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>`,
             },
         ]
     },
@@ -212,6 +235,11 @@ class AppElement {
             else if (child.inner)
                 childElm.innerText = child.inner;
 
+            if (child.html && typeof child.html === "function")
+                childElm.innerHTML = child.html.call(this);
+            else if (child.html)
+                childElm.innerHTML = child.html;
+
             // create child of child elements
             if (child.child)
                 this._createChildElements(child.child, childElm);
@@ -260,6 +288,10 @@ class CategoryItem extends AppElement {
         this.el.querySelector("input").checked = true;
     }
 
+    // deselect the item
+    deselect() {
+        this.el.querySelector("input").checked = false;
+    }
 
 }
 
@@ -272,12 +304,26 @@ class NoteItem extends AppElement {
     // update category title
     update({title, content}) {
         this.el.querySelector("label strong").innerText = title;
-        this.el.querySelector("label small").innerText = content.substr(0, 70)
+        this.el.querySelector("label span").innerText = content.substr(0, 70)
     }
 
     // select the item
     select() {
         this.el.querySelector("input").checked = true;
+    }
+
+    // deselect the item
+    deselect() {
+        this.el.querySelector("input").checked = false;
+    }
+
+    getCreatedAtTime() {
+        if (!this.data.created_at)
+            return '';
+
+        const dateObject = new Date(this.data.created_at);
+
+        return dateObject.toLocaleDateString() + " " + dateObject.toLocaleTimeString();
     }
 
 }
@@ -298,10 +344,10 @@ class AlertBox extends AppElement {
         this.el.querySelector(".alert-box__message").innerText = this.data.message;
         this.el.querySelector(".alert-box__ok").innerText = this.data.buttonText;
 
-        this.el.style.display = "block";
+        this.el.classList.add("visible")
     }
 
     close() {
-        this.el.style.display = "none";
+        this.el.classList.remove("visible")
     }
 }

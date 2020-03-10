@@ -54,6 +54,7 @@ class Note {
             throw new Error(`Expecting NoteItem instance but received ${typeof note}`);
 
         this.notes.push(note);
+        this.selectedNote = note;
         // save changes to local storage
         this.saveData();
     }
@@ -64,7 +65,11 @@ class Note {
 
         this.notes = this.notes.map(note => {
             if (note.data.id === parseInt(this.selectedNote.data.id)) {
-                note.data = {...details, id: this.selectedNote.data.id};
+                note.data = {
+                    ...details,
+                    created_at: this.selectedNote.data.created_at,
+                    id: this.selectedNote.data.id
+                };
                 note.update(details);
             }
             return note;
@@ -86,9 +91,15 @@ class Note {
     }
 
     filterNotes(trend) {
-        return this.notes
+        let result = this.notes
             .filter(note => note.data.title.toLowerCase().indexOf(trend.toLowerCase()) > -1
-                || note.data.content.toLowerCase().indexOf(trend.toLowerCase()) > -1)
+                || note.data.content.toLowerCase().indexOf(trend.toLowerCase()) > -1);
+
+        // filter by selected category
+        if (this.selectedCategory)
+            result = result.filter(note => note.data.category === this.selectedCategory.data.id);
+
+        return result;
     }
 
     addCategory(category) {
@@ -127,11 +138,17 @@ class Note {
 
     removeCategory(id) {
         this.categories = this.categories.filter(cat => {
-            if (cat.data.id === parseInt(id))
+            if (cat.data.id === parseInt(id)) {
+                // remove selectedCategory too
+                if (this.selectedCategory.data.id === parseInt(id))
+                    this.selectedCategory = null;
+
                 cat.removeElement();
+            }
 
             return cat.data.id !== parseInt(id)
         });
+
         // save changes to local storage
         this.saveData();
     }
@@ -145,6 +162,14 @@ class Note {
     }
 
     set selectedCategory(category) {
+
+        if (!category) {
+            if (this._selectedCategory)
+                this._selectedCategory.deselect();
+            this._selectedCategory = null;
+            return;
+        }
+
         if (!(category instanceof CategoryItem))
             throw new Error(`Expecting CategoryElement instance but received ${typeof category}`);
 
@@ -159,6 +184,15 @@ class Note {
     }
 
     set selectedNote(note) {
+
+        // clear note selection
+        if (!note) {
+            if (this._selectedNote)
+                this._selectedNote.deselect();
+            this._selectedNote = null;
+            return
+        }
+
         if (!(note instanceof NoteItem))
             throw new Error(`Expecting NoteElement instance but received ${typeof note}`);
 

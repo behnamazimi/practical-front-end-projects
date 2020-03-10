@@ -5,9 +5,24 @@
     const categoryAddEditForm = document.getElementById("add-category-form");
     const noteAddEditForm = document.getElementById("note-add-edit-form");
     const searchInput = document.getElementById("search-input");
+    const newNoteBtn = document.getElementById("new-note-btn");
+    const showAllNotesBtn = document.getElementById("show-all-notes");
     const _note_app = new Note();
 
     const alertBox = new AlertBox({});
+
+    function filterNotesList(trend = '') {
+        const result = _note_app.filterNotes(trend);
+
+        notesList.innerHTML = '';
+        // show result in list
+        result.map(note => {
+            notesList.appendChild(note.el)
+        });
+
+        if (!result.length)
+            notesList.innerHTML = `<p class="content-placeholder">Notes not found.</p>`
+    }
 
     function handleCategoryAddUpdate(e) {
         e.preventDefault();
@@ -17,6 +32,7 @@
 
         if (!titleInput.value) {
             alertBox.show({header: "Category Adding Error", message: "Enter a valid title.", buttonText: "OK!"});
+            titleInput.focus();
             return
         }
 
@@ -68,9 +84,10 @@
 
         } else {
             // update selected category
-            _note_app.selectedCategory = targetCategory
+            _note_app.selectedCategory = targetCategory;
         }
 
+        filterNotesList()
     }
 
     function handleNoteAddUpdate(e) {
@@ -81,6 +98,7 @@
 
         if (!titleInput.value) {
             alertBox.show({header: "Note Saving Error", message: "Enter a valid title.", buttonText: "OK!"});
+            titleInput.focus();
             return
         }
 
@@ -109,10 +127,6 @@
             // update existing category
             _note_app.updateNote(noteObj);
         }
-
-        // reset input
-        titleInput.value = "";
-        contentArea.value = "";
 
     }
 
@@ -143,7 +157,6 @@
             // set selected notes values to the editor form
             const noteTitle = noteAddEditForm.querySelector("input");
             const noteContent = noteAddEditForm.querySelector("textarea");
-            _note_app.updatingNoteID = targetNote.data.id;
             noteTitle.value = targetNote.data.title;
             noteContent.value = targetNote.data.content;
 
@@ -154,14 +167,22 @@
     }
 
     function handleSearchInNotes(e) {
-        const result = _note_app.filterNotes(e.target.value);
+        filterNotesList(e.target.value)
+    }
 
-        notesList.innerHTML = '';
-        // show result in list
-        result.map(note => {
-            notesList.appendChild(note.el)
-        })
+    function handleNewNoteBtnClick(e) {
+        _note_app.selectedNote = null;
+        const noteTitle = noteAddEditForm.querySelector("input");
+        const noteContent = noteAddEditForm.querySelector("textarea");
+        noteTitle.value = '';
+        noteContent.value = '';
+        noteTitle.focus();
 
+    }
+
+    function handleShowAllNotesBtnClick(e) {
+        _note_app.selectedCategory = null;
+        filterNotesList()
     }
 
     function initListeners() {
@@ -176,10 +197,11 @@
         // add listener to control search
         searchInput.addEventListener("input", handleSearchInNotes);
 
+        newNoteBtn.addEventListener("click", handleNewNoteBtnClick);
+
+        showAllNotesBtn.addEventListener("click", handleShowAllNotesBtnClick);
     }
 
-
-    initListeners()
-
+    initListeners();
 
 })();
