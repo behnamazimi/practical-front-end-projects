@@ -1,6 +1,6 @@
 "use strict";
 
-const TYPES = {
+const COMPONENTS = {
     category: {
         tag: "div",
         containerID: "categories-list",
@@ -204,7 +204,7 @@ class AppElement {
     }
 
     appendToContainer() {
-        const targetType = TYPES[this._type];
+        const targetType = COMPONENTS[this._type];
         const container = document.getElementById(targetType.containerID);
         if (!container)
             throw new Error(`Target container not found for ${this._type}`);
@@ -249,7 +249,7 @@ class AppElement {
     }
 
     createElement() {
-        const targetType = TYPES[this._type];
+        const targetType = COMPONENTS[this._type];
         this.el = document.createElement(targetType.tag);
         targetType.attributes.map(([name, value]) => {
             if (value && typeof value === "function")
