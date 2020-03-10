@@ -1,3 +1,6 @@
+const LOCAL_NOTES_KEY = "APP_NOTES";
+const LOCAL_CATS_KEY = "APP_CATS";
+
 class Note {
 
     constructor() {
@@ -5,31 +8,70 @@ class Note {
         this.categories = [];
 
         this.updatingCategoryID = null;
-        this.updatingNoteID = null;
         this._selectedCategory = null;
         this._selectedNote = null;
+
+        this.loadLocalData();
+    }
+
+    loadLocalData() {
+        const localCats = localStorage.getItem(LOCAL_CATS_KEY);
+        if (localCats && this._isValidJsonString(localCats)) {
+            const cats = JSON.parse(localCats);
+            if (Array.isArray(cats))
+                this.categories = cats.map(cat => new CategoryItem(cat));
+        }
+        const localNotes = localStorage.getItem(LOCAL_NOTES_KEY);
+        if (localNotes && this._isValidJsonString(localNotes)) {
+            const notes = JSON.parse(localNotes);
+            if (Array.isArray(notes))
+                this.notes = notes.map(note => new NoteItem(note));
+        }
+    }
+
+    /**
+     * Save data to local storage
+     */
+    saveData() {
+        const cats = JSON.stringify(this.categories.map(cat => cat.data));
+        const notes = JSON.stringify(this.notes.map(note => note.data));
+
+        localStorage.setItem(LOCAL_CATS_KEY, cats);
+        localStorage.setItem(LOCAL_NOTES_KEY, notes);
+    }
+
+    _isValidJsonString(JSONString) {
+        try {
+            JSON.parse(JSONString);
+            return true
+        } catch (e) {
+            return false
+        }
     }
 
     addNote(note) {
         if (!(note instanceof NoteItem))
             throw new Error(`Expecting NoteItem instance but received ${typeof note}`);
 
-        this.notes.push(note)
+        this.notes.push(note);
+        // save changes to local storage
+        this.saveData();
     }
 
     updateNote(details = {}) {
-        if (!this.updatingNoteID)
+        if (!this.selectedNote)
             return;
 
         this.notes = this.notes.map(note => {
-            if (note.data.id === parseInt(this.updatingNoteID)) {
-                note.data = {...details, id: this.updatingNoteID};
+            if (note.data.id === parseInt(this.selectedNote.data.id)) {
+                note.data = {...details, id: this.selectedNote.data.id};
                 note.update(details);
             }
             return note;
         });
 
-        this.updatingNoteID = null
+        // save changes to local storage
+        this.saveData();
     }
 
     removeNote(id) {
@@ -39,19 +81,23 @@ class Note {
 
             return note.data.id !== parseInt(id)
         });
+        // save changes to local storage
+        this.saveData();
     }
 
-    findNote(trend) {
+    filterNotes(trend) {
         return this.notes
-            .find(note => note.title.toLowerCase().indexOf(trend.toLowerCase()) > -1
-                || note.content.toLowerCase().indexOf(trend.toLowerCase()) > -1)
+            .filter(note => note.data.title.toLowerCase().indexOf(trend.toLowerCase()) > -1
+                || note.data.content.toLowerCase().indexOf(trend.toLowerCase()) > -1)
     }
 
     addCategory(category) {
         if (!(category instanceof CategoryItem))
             throw new Error(`Expecting CategoryElement instance but received ${typeof category}`);
 
-        this.categories.push(category)
+        this.categories.push(category);
+        // save changes to local storage
+        this.saveData();
     }
 
     updateCategory(title) {
@@ -66,7 +112,9 @@ class Note {
             return cat;
         });
 
-        this.updatingCategoryID = null
+        this.updatingCategoryID = null;
+        // save changes to local storage
+        this.saveData();
     }
 
     getCategoryByID(id) {
@@ -84,6 +132,12 @@ class Note {
 
             return cat.data.id !== parseInt(id)
         });
+        // save changes to local storage
+        this.saveData();
+    }
+
+    findCategory(id) {
+        return this.categories.find(cat => cat.data.id === parseInt(id))
     }
 
     get selectedCategory() {
@@ -112,5 +166,13 @@ class Note {
         // to set its checked status as true manually
         note.select();
         this._selectedNote = note;
+
+        // update selected category according to the selected note
+        if (note.data.category) {
+            const noteCategory = this.findCategory(note.data.category);
+            if (noteCategory) {
+                this.selectedCategory = noteCategory
+            }
+        }
     }
 }

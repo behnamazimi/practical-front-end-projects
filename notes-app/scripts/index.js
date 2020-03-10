@@ -1,10 +1,13 @@
-"use strict";
 (() => {
+    "use strict";
     const categoriesList = document.getElementById("categories-list");
     const notesList = document.getElementById("notes-list");
     const categoryAddEditForm = document.getElementById("add-category-form");
     const noteAddEditForm = document.getElementById("note-add-edit-form");
+    const searchInput = document.getElementById("search-input");
     const _note_app = new Note();
+
+    const alertBox = new AlertBox({});
 
     function handleCategoryAddUpdate(e) {
         e.preventDefault();
@@ -13,21 +16,21 @@
         const titleInput = e.target.querySelector("input");
 
         if (!titleInput.value) {
-            console.log("Enter a valid title");
+            alertBox.show({header: "Category Adding Error", message: "Enter a valid title.", buttonText: "OK!"});
             return
         }
 
         if (!_note_app.updatingCategoryID) {
             // unique id for each cat
             const id = new Date().getTime();
-            const newCat = new CategoryItem({title: titleInput.value, id});
+            const newCat = new CategoryItem({title: titleInput.value.trim(), id});
 
             // add new category to app
             _note_app.addCategory(newCat);
 
         } else {
             // update existing category
-            _note_app.updateCategory(titleInput.value);
+            _note_app.updateCategory(titleInput.value.trim());
         }
 
         // reset input
@@ -44,8 +47,10 @@
         const targetItemID = item.getAttribute("data-cat-id");
 
         const targetCategory = _note_app.getCategoryByID(targetItemID);
-        if (!targetCategory)
+        if (!targetCategory) {
+            alertBox.show({header: "Category Select Error", message: "Target category not found.", buttonText: "OK!"});
             return;
+        }
 
         // control item removing
         if (e.target.tagName === "BUTTON") {
@@ -75,22 +80,22 @@
         const contentArea = e.target.querySelector("textarea");
 
         if (!titleInput.value) {
-            console.log("Enter a valid title");
+            alertBox.show({header: "Note Saving Error", message: "Enter a valid title.", buttonText: "OK!"});
             return
         }
 
         if (!_note_app.selectedCategory) {
-            console.log("Select a category first");
+            alertBox.show({header: "Note Saving Error", message: "Select a category first.", buttonText: "OK!"});
             return;
         }
 
         const noteObj = {
-            title: titleInput.value,
-            content: contentArea.value,
+            title: titleInput.value.trim(),
+            content: contentArea.value.trim(),
             category: _note_app.selectedCategory.data.id // set category on note
         };
 
-        if (!_note_app.updatingNoteID) {
+        if (!_note_app.selectedNote) {
             // unique id for each note
             noteObj.id = new Date().getTime();
             noteObj.created_at = new Date().getTime();
@@ -121,8 +126,10 @@
         const targetItemID = item.getAttribute("data-note-id");
 
         const targetNote = _note_app.getNoteById(targetItemID);
-        if (!targetNote)
+        if (!targetNote) {
+            alertBox.show({header: "Note Select Error", message: "Target note not found.", buttonText: "OK!"});
             return;
+        }
 
         // control item removing
         if (e.target.tagName === "BUTTON") {
@@ -130,20 +137,30 @@
             const action = e.target.getAttribute("data-action");
             if (action === "remove") {
                 _note_app.removeNote(targetItemID);
-
-            } else if (action === "edit") {
-                const noteTitle = noteAddEditForm.querySelector("input");
-                const noteContent = noteAddEditForm.querySelector("textarea");
-                _note_app.updatingNoteID = targetNote.data.id;
-                noteTitle.value = targetNote.data.title;
-                noteContent.value = targetNote.data.content;
-                noteTitle.focus();
             }
 
         } else {
+            // set selected notes values to the editor form
+            const noteTitle = noteAddEditForm.querySelector("input");
+            const noteContent = noteAddEditForm.querySelector("textarea");
+            _note_app.updatingNoteID = targetNote.data.id;
+            noteTitle.value = targetNote.data.title;
+            noteContent.value = targetNote.data.content;
+
             // update selected category
             _note_app.selectedNote = targetNote
         }
+
+    }
+
+    function handleSearchInNotes(e) {
+        const result = _note_app.filterNotes(e.target.value);
+
+        notesList.innerHTML = '';
+        // show result in list
+        result.map(note => {
+            notesList.appendChild(note.el)
+        })
 
     }
 
@@ -155,6 +172,10 @@
         // add listener to note form
         noteAddEditForm.addEventListener("submit", handleNoteAddUpdate);
         notesList.addEventListener("click", handleNoteItemClick);
+
+        // add listener to control search
+        searchInput.addEventListener("input", handleSearchInNotes);
+
     }
 
 
