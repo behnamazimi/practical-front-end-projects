@@ -32,4 +32,17 @@ sr.on("loadingChange", (value) => {
     // console.log("loadingChange", value);
 });
 
-console.log(sr);
+
+const srVertical = new SimpleRangeSlider(document.getElementById("simple-range-vertical"), {
+    min: 0,
+    max: 10,
+    mode: "vertical",
+    size: "200px",
+    defaultValue: 5,
+    pathDiameter: "10px",
+    handlerSize: "8px",
+    pathColor: "#ddd",
+    progressColor: "#1c70ff",
+    loadingProgressColor: "#ccc",
+    lockOnLoadingValue: false,
+});
