@@ -140,7 +140,7 @@ class Note {
         this.categories = this.categories.filter(cat => {
             if (cat.data.id === parseInt(id)) {
                 // remove selectedCategory too
-                if (this.selectedCategory.data.id === parseInt(id))
+                if (this.selectedCategory && this.selectedCategory.data.id === parseInt(id))
                     this.selectedCategory = null;
 
                 cat.removeElement();
