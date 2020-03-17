@@ -141,7 +141,7 @@ class Note {
             if (cat.data.id === parseInt(id)) {
                 // remove selectedCategory too
                 if (this.selectedCategory && this.selectedCategory.data.id === parseInt(id))
-                    this.selectedCategory = null
+                    this.selectedCategory = null;
 
                 cat.removeElement();
             }
