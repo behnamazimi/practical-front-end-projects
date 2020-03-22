@@ -19,7 +19,6 @@ There is 6 developed projects that you can review now.
   - [Othello Board Game](#othello-board-game-view-online)
   - [Quiz App](#quiz-app-view-online)
   - [Simple Range Slider](#simple-range-slider-view-online)
-  - [New projects are being prepared](#new-projects-are-being-prepared)
 
 ### Custom Video Player ([View Online](https://behnamazimi.github.io/simple-web-projects/custom-video-player/))
 
