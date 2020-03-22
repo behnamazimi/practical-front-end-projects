@@ -18,7 +18,6 @@ There are 6 developed project that you can review now.
   - [Othello Board Game](#othello-board-game)
   - [Quiz App](#quiz-app)
   - [Simple Range Slider](#simple-range-slider)
-  - [New projects are being prepared](#new-projects-are-being-prepared)
  
 #### Custom Video Player
 In this project I customized the video controls and designed them manually. Focus on handling the video node and how to implement custom behavior for it.
