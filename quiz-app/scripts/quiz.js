@@ -10,8 +10,9 @@ class Quiz {
      * @param title - quiz main title
      * @param description
      * @param time - in second
+     * @param questions - as array 
      */
-    constructor(title, description, time) {
+    constructor(title, description, time, questions = []) {
 
         if (!title)
             throw new Error("Title of quiz is required.");
@@ -27,7 +28,7 @@ class Quiz {
         this._time = time;
         this[TIME_OVER_SYM] = null;
         this[TIMER_INTERVAL_SYM] = null;
-        this._questions = [];
+        this._questions = questions;
     }
 
     /**

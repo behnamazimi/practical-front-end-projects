@@ -60,11 +60,12 @@ function initApp() {
     quiz = new Quiz(
         "Simple JavaScript Quiz",
         `Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.`,
-        70);
+        70,
+        questions);
 
-    questions.map(q => quiz.addQuestion(q.title, q.options));
+    // questions.map(q => quiz.addQuestion(q.title, q.options));
 
-    new ElementsHelper(app, quizCard, questionsCard, resultCard, quiz);
+    new QuizElementsHelper(app, quizCard, questionsCard, resultCard, quiz);
 }
 
 initApp();
