@@ -1,6 +1,6 @@
 "use strict";
 
-const API_URL = "http://www.omdbapi.com/";
+const API_URL = "https://www.omdbapi.com/";
 const API_KEY = "3ef4ab9e";
 
 /**
