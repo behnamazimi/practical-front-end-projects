@@ -12,7 +12,7 @@ A collection of simple web projects developed for enthusiasts and beginners. The
 
 ### Projects
 
-There are 6 developed project that you can review now.
+There is 6 developed projects that you can review now.
   - [Custom Video Player](#custom-video-player-view-online)
   - [Lovely Movies](#lovely-movies-view-online)
   - [Note App](#note-app-view-online)
@@ -51,6 +51,7 @@ A practical note web app to handle categorized notes. There are notes that can h
 - Object Oriented Programming (OOP)
 - Creating DOM elements
 - Layouting with CSS grid system
+- localStorage usage
 
 ### Othello Board Game ([View Online](https://behnamazimi.github.io/simple-web-projects/othello-board-game/))
 
@@ -76,7 +77,7 @@ Simulating a quiz in web app.
 
 ### Simple Range Slider ([View Online](https://behnamazimi.github.io/simple-web-projects/simple-range-slider/))
 
-Simple implementation of a small range slider with pure Javascript.
+A simple implementation of a small range slider with pure Javascript.
 
 **Special topics covered:**
 
