@@ -21,7 +21,7 @@ There are 6 developed project that you can review now.
   - [Simple Range Slider (View Online)](#simple-range-slider-view-online)
   - [New projects are being prepared](#new-projects-are-being-prepared)
 
-### Custom Video Player ([View Online](https://behnamazimi.github.io/simple-web-projects/custom-video-player/))
+### Custom Video Player ([View Online](https://behnamazimi.github.io/simple-web-projects/custom-video-player/){:target="_blank"})
 
 In this project I customized the video controls and designed them manually. Focus on handling the video node and how to implement custom behavior for it.
 
@@ -31,7 +31,7 @@ In this project I customized the video controls and designed them manually. Focu
 - Fullscreen handling
 - CSS variables
 
-### Lovely Movies ([View Online](https://behnamazimi.github.io/simple-web-projects/lovely-movies/))
+### Lovely Movies ([View Online](https://behnamazimi.github.io/simple-web-projects/lovely-movies/){:target="_blank"})
 
 A simple movie search website
 
@@ -42,7 +42,7 @@ A simple movie search website
 - Usage of `position: static;` in CSS
 - Using CSS variables
 
-### Note App ([View Online](https://behnamazimi.github.io/simple-web-projects/notes-app/))
+### Note App ([View Online](https://behnamazimi.github.io/simple-web-projects/notes-app/){:target="_blank"})
 
 A practical note web app to handle categorized notes. There are notes that can have a category for. you can search in notes and edit or remove those.
 
@@ -52,7 +52,7 @@ A practical note web app to handle categorized notes. There are notes that can h
 - Creating DOM elements
 - Layouting with CSS grid system
 
-### Othello Board Game ([View Online](https://behnamazimi.github.io/simple-web-projects/othello-board-game/))
+### Othello Board Game ([View Online](https://behnamazimi.github.io/simple-web-projects/othello-board-game/){:target="_blank"})
 
 Famous strategy game Othello, known as Reversi, implemented in pure Javascript.
 
@@ -64,7 +64,7 @@ Famous strategy game Othello, known as Reversi, implemented in pure Javascript.
 - Event handling
 - Error handling
 
-### Quiz App ([View Online](https://behnamazimi.github.io/simple-web-projects/quiz-app/))
+### Quiz App ([View Online](https://behnamazimi.github.io/simple-web-projects/quiz-app/){:target="_blank"})
 
 Simulating a quiz in web app.
 
@@ -74,7 +74,7 @@ Simulating a quiz in web app.
 - Creating and handling DOM elements
 - CSS animation
 
-### Simple Range Slider ([View Online](https://behnamazimi.github.io/simple-web-projects/simple-range-slider/))
+### Simple Range Slider ([View Online](https://behnamazimi.github.io/simple-web-projects/simple-range-slider/){:target="_blank"})
 
 Simple implementation of a small range slider with pure Javascript.
 
