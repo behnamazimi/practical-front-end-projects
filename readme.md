@@ -13,12 +13,12 @@ A collection of simple web projects developed for enthusiasts and beginners. The
 ### Projects
 
 There are 6 developed project that you can review now.
-  - [Custom Video Player (View Online)](#custom-video-player-view-online)
-  - [Lovely Movies (View Online)](#lovely-movies-view-online)
-  - [Note App (View Online)](#note-app-view-online)
-  - [Othello Board Game (View Online)](#othello-board-game-view-online)
-  - [Quiz App (View Online)](#quiz-app-view-online)
-  - [Simple Range Slider (View Online)](#simple-range-slider-view-online)
+  - [Custom Video Player](#custom-video-player-view-online)
+  - [Lovely Movies](#lovely-movies-view-online)
+  - [Note App](#note-app-view-online)
+  - [Othello Board Game](#othello-board-game-view-online)
+  - [Quiz App](#quiz-app-view-online)
+  - [Simple Range Slider](#simple-range-slider-view-online)
   - [New projects are being prepared](#new-projects-are-being-prepared)
 
 ### Custom Video Player ([View Online](https://behnamazimi.github.io/simple-web-projects/custom-video-player/))
