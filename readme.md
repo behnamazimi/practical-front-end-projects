@@ -23,9 +23,9 @@ There are 6 developed project that you can review now.
 In this project I customized the video controls and designed them manually. Focus on handling the video node and how to implement custom behavior for it.
 
 **Special topics covered:**
-* Video node controls
-* Fullscreen handling
-* CSS variables
+- Video node controls
+- Fullscreen handling
+- CSS variables
 
 ![Custom Video Player](custom-video-player/static/custom-video-player-ss.jpg)
  
@@ -33,10 +33,10 @@ In this project I customized the video controls and designed them manually. Focu
 A simple movie search website
 
 **Special topics covered:**
-* Promises and Fetch data with API
-* Control DOM behaviors and events
-* Usage of `position: static;` in CSS
-* Using CSS variables
+- Promises and Fetch data with API
+- Control DOM behaviors and events
+- Usage of `position: static;` in CSS
+- Using CSS variables
 
 ![Lovely Movies](lovely-movies/static/lovely-movies-ss.jpg)
  
@@ -44,9 +44,9 @@ A simple movie search website
 A practical note web app to handle categorized notes. There are notes that can have a category for. you can search in notes and edit or remove those.
 
 **Special topics covered:**
-* Object Oriented Programming (OOP)
-* Creating DOM elements
-* Layouting with CSS grid system
+- Object Oriented Programming (OOP)
+- Creating DOM elements
+- Layouting with CSS grid system
 
 ![Note App](notes-app/static/notes-app-ss.jpg)
 
@@ -54,11 +54,11 @@ A practical note web app to handle categorized notes. There are notes that can h
 Famous strategy game Othello, known as Reversi, implemented in pure Javascript.
 
 **Special topics covered:**
-* Object Oriented Programming (OOP)
-* Othello game strategy
-* Creating DOM elements
-* Event handling
-* Error handling
+- Object Oriented Programming (OOP)
+- Othello game strategy
+- Creating DOM elements
+- Event handling
+- Error handling
 
 ![Othello Board Game](othello-board-game/static/othello-board-game-ss.jpg)
 
@@ -66,9 +66,9 @@ Famous strategy game Othello, known as Reversi, implemented in pure Javascript.
 Simulating a quiz in web app.
 
 **Special topics covered:**
-* Object Oriented Programming (OOP)
-* Creating and handling DOM elements
-* CSS animation
+- Object Oriented Programming (OOP)
+- Creating and handling DOM elements
+- CSS animation
 
 ![Quiz App](quiz-app/static/quiz-app-ss.jpg)
 
@@ -76,9 +76,9 @@ Simulating a quiz in web app.
 Simple implementation of a small range slider with pure Javascript.
 
 **Special topics covered:**
-* Prototypal Object-Oriented Programming
-* DOM events handling 
-* CSS variables
+- Prototypal Object-Oriented Programming
+- DOM events handling 
+- CSS variables
 
 ![Simple Range Slider](simple-range-slider/static/simple-range-slider-ss.jpg)
 
