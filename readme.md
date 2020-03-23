@@ -86,7 +86,7 @@ A simple implementation of a small range slider with pure Javascript.
 
 ### Running locally
 
-It's so simple. Clone or download the repository, open project directory and click `index.html`. As I mentioned above, there is not any bundler and all scripts have been injected in the HTML.
+It's so simple. Clone or download the repository, open project directory and open `index.html` in your browser. As I mentioned above, there is not any bundler and all scripts have been injected in the HTML.
 
 #### New projects are being prepared
 
