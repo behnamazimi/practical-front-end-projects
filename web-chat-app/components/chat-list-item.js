@@ -62,7 +62,7 @@ class ChatListItem extends HTMLElement {
                     .avatar-container img {
                         max-width: 100%;
                     }
-                    .online-badge{
+                    .online-badge {
                         position: absolute;
                         right: 10px;
                         bottom: 4px;
