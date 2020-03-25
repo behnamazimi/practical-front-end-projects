@@ -83,6 +83,8 @@ class ChatListItem extends Component {
                     }
                     .chat-list-item.selected {
                         box-shadow: 0 0 7px 2px rgba(0, 0, 0, 0.1);
+                        position: relative;
+                        z-index: 1;
                     }
                     .avatar-container {
                         flex: 0 0 3em;
