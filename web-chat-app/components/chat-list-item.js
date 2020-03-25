@@ -15,23 +15,36 @@ class ChatListItem extends Component {
             title: {
                 type: "string",
                 required: true,
+                observe: true
             },
             desc: {
                 type: "string",
+                observe: true
             },
             avatar: {
                 type: "string",
+                observe: true
             },
             lastseen: {
                 type: "string",
+                observe: true
             },
             unreadcount: {
                 type: "number",
+                observe: true
             },
             online: {
                 type: "boolean",
+                observe: true
             },
         };
+    }
+
+    /**
+     * generate observed attributes array from attr types object
+     */
+    static get observedAttributes() {
+        return super.getObservedAttrs(ChatListItem.attrTypes);
     }
 
     /**
@@ -201,7 +214,10 @@ class ChatListItem extends Component {
         this.initListeners();
     }
 
-    attributeChangeCallback(attrName, oldValue, newValue) {
+    attributeChangedCallback(attrName, oldValue, newValue) {
+        console.log(attrName, oldValue, newValue);
+        // re-render component
+        this.render();
     }
 
     initListeners() {
@@ -212,12 +228,22 @@ class ChatListItem extends Component {
     }
 
     onElmClick(e) {
+        if (this.disabled) {
+            e.preventDefault();
+            return;
+        }
+
+        this.dispatchEvent(new CustomEvent("clicked", {
+            detail: this.elm,
+        }));
+
         document.querySelectorAll("chat-list-item")
             .forEach(i => {
                 i.shadowRoot.querySelector(".chat-list-item").classList.remove("selected");
             });
 
         this.elm.classList.add("selected");
+
     }
 
     /**

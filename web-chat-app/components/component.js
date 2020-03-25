@@ -11,6 +11,8 @@ class Component extends HTMLElement {
 
         this.makeShadow();
 
+        console.log(Component.attrTypes);
+
         this.findMainElement();
     }
 
@@ -134,6 +136,12 @@ class Component extends HTMLElement {
      */
     static generateTagName(className) {
         return className.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+    }
+
+    static getObservedAttrs(attrTypes = {}) {
+        return Object.entries(attrTypes || {})
+            .filter(([_, details]) => details.observe)
+            .map(([attr, _]) => attr);
     }
 
 }
