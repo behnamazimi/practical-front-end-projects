@@ -212,7 +212,12 @@ class ChatListItem extends Component {
     }
 
     onElmClick(e) {
-        console.log(this.elm);
+        document.querySelectorAll("chat-list-item")
+            .forEach(i => {
+                i.shadowRoot.querySelector(".chat-list-item").classList.remove("selected");
+            });
+
+        this.elm.classList.add("selected");
     }
 
     /**
