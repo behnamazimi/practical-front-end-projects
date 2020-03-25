@@ -1,26 +1,53 @@
-class ChatListItem extends HTMLElement {
+import Component from "./component";
 
-    constructor() {
-        super();
+class ChatListItem extends Component {
 
-        // get template note
-        const template = this.getTemplateContent();
-
-        // generate shadow dom
-        this.shadowRoot = this.attachShadow({mode: 'open'})
-            .appendChild(template);
-
-        this.render();
-
+    /**
+     * define attributes types
+     * @returns {Object}
+     */
+    static get attrTypes() {
+        return {
+            id: {
+                type: "string",
+                required: true,
+            },
+            title: {
+                type: "string",
+                required: true,
+            },
+            desc: {
+                type: "string",
+            },
+            avatar: {
+                type: "string",
+            },
+            lastseen: {
+                type: "string",
+            },
+            unreadcount: {
+                type: "number",
+            },
+            online: {
+                type: "boolean",
+            },
+        };
     }
 
-    getTemplateContent() {
-        const templateId = "chat-list-item-template";
+    /**
+     * generate tag-name from component class name
+     * @returns {string}
+     */
+    static get tagName() {
+        return super.generateTagName(ChatListItem.name);
+    }
 
-        this._template =
-            `
-            <template id="${templateId}">
-                <style>
+    /**
+     * styles of component
+     * @returns {string}
+     */
+    static get style() {
+        return (`<style>
                     :root {
                     }
                     * {
@@ -106,12 +133,12 @@ class ChatListItem extends HTMLElement {
                         align-items: center;
                         background: #fff;                    
                     }
-                    #active-time {
+                    #lastseen {
                         font-size: .7em;
                         opacity: .5;
                         margin-right: 1em;
                     }
-                    #msg-count {
+                    #unreadcount {
                         background: var(--primaryColor);
                         width: 22px;
                         height: 22px;
@@ -124,44 +151,89 @@ class ChatListItem extends HTMLElement {
                         align-items: center;
                         visibility: hidden;
                         opacity: 0;
+                        overflow: hidden;
+                        text-overflow: clip;
                     }
-                    .chat-list-item.unread #msg-count {
+                    .chat-list-item.unread #unreadcount {
                         visibility: visible;
                         opacity: 1;
                     }
-                </style>
+                </style>`)
+    }
+
+    /**
+     * html template of component
+     * @returns {string}
+     */
+    static get template() {
+        return (`
+            <template>
+                ${ChatListItem.style}
                 <div class="chat-list-item">
                     <div class="avatar-container">
                         <span class="online-badge"></span>
-                        <img id="avatar">
+                        <img src="" id="avatar">
                     </div>
                     <div class="item-details">
                         <h3 id="title"></h3>
                         <p id="desc"></p>
                         <div class="item-meta">
-                            <span id="active-time"></span>
-                            <span id="msg-count"></span>
+                            <span id="lastseen"></span>
+                            <span id="unreadcount"></span>
                         </div>
                     </div>
                 </div>
             </template>
-            `;
-
-        let parser = new DOMParser();
-        const doc = parser.parseFromString(this._template, 'text/html');
-
-        return doc.getElementById(templateId).content.cloneNode(true);
+            `)
     }
 
-    render() {
+    constructor() {
+        super({
+            attrTypes: ChatListItem.attrTypes,
+            template: ChatListItem.template
+        });
 
-        const itemElement = this.shadowRoot.querySelector(".chat-list-item");
+        // render component
+        this.render();
+    }
+
+    connectedCallback() {
+        this.initListeners();
+    }
+
+    attributeChangeCallback(attrName, oldValue, newValue) {
+    }
+
+    initListeners() {
+        if (!this.elm)
+            return;
+
+        this.elm.addEventListener("click", this.onElmClick.bind(this))
+    }
+
+    onElmClick(e) {
+        console.log(this.elm);
+    }
+
+    /**
+     * render component according to template and attributes
+     */
+    render() {
+        this.findMainElement(".chat-list-item");
+
+        // check the required attributes
+        if (!("id" in this.attributes)) {
+            this.removeMainElement();
+        }
 
         // put first char of title when avatar not passed
         const title = this.getAttribute("title").toUpperCase() || "";
+
+        // fetch first char of title to show if avatar not passed
         let nonAvatarSpan = document.createTextNode(title.substr(0, 1));
 
-        if (!("avatar" in this.attributes)) {
+        // check the existence of avatar
+        if (!("avatar" in this.attributes) || !this.getAttribute("avatar")) {
             this.shadowRoot.querySelector(".avatar-container").append(nonAvatarSpan);
         }
 
@@ -178,16 +250,16 @@ class ChatListItem extends HTMLElement {
 
                 case "online":
                     if (attr.value === "true")
-                        itemElement.classList.add("online");
+                        this.elm && this.elm.classList.add("online");
                     else
-                        itemElement.classList.remove("online");
+                        this.elm && this.elm.classList.remove("online");
                     break;
 
-                case "msg-count":
+                case "unreadcount":
                     if (parseInt(attr.value) > 0)
-                        itemElement.classList.add("unread");
+                        this.elm && this.elm.classList.add("unread");
                     else
-                        itemElement.classList.remove("unread");
+                        this.elm && this.elm.classList.remove("unread");
                     break;
 
             }
@@ -197,4 +269,4 @@ class ChatListItem extends HTMLElement {
 
 }
 
-customElements.define("chat-list-item", ChatListItem);
+customElements.define(ChatListItem.tagName, ChatListItem);
