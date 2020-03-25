@@ -186,6 +186,7 @@ class ChatListItem extends Component {
                     <div class="avatar-container">
                         <span class="online-badge"></span>
                         <img src="" id="avatar">
+                        <span class="char-avatar"></span>
                     </div>
                     <div class="item-details">
                         <h3 id="title"></h3>
@@ -260,12 +261,11 @@ class ChatListItem extends Component {
         // put first char of title when avatar not passed
         const title = this.getAttribute("title").toUpperCase() || "";
 
-        // fetch first char of title to show if avatar not passed
-        let nonAvatarSpan = document.createTextNode(title.substr(0, 1));
 
         // check the existence of avatar
-        if (!("avatar" in this.attributes) || !this.getAttribute("avatar")) {
-            this.shadowRoot.querySelector(".avatar-container").append(nonAvatarSpan);
+        // fetch first char of title to show if avatar not passed
+        if (!this.getAttribute("avatar")) {
+            this.shadowRoot.querySelector(".char-avatar").innerText = title.substr(0, 1);
         }
 
         // loop over attributes and set all

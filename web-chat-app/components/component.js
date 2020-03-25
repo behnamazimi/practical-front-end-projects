@@ -138,6 +138,11 @@ class Component extends HTMLElement {
         return className.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
     }
 
+    /**
+     * generate list of attrs has observe:true
+     * @param attrTypes {Object}
+     * @returns {string[]}
+     */
     static getObservedAttrs(attrTypes = {}) {
         return Object.entries(attrTypes || {})
             .filter(([_, details]) => details.observe)
