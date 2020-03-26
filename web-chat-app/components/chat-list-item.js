@@ -273,7 +273,7 @@ class ChatListItem extends Component {
             return;
         }
 
-        this.selected = !this.selected
+        this.selected = true
     }
 
     /**
