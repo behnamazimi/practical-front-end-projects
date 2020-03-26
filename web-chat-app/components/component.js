@@ -10,10 +10,6 @@ class Component extends HTMLElement {
         this.checkAttrs();
 
         this.makeShadow();
-
-        console.log(Component.attrTypes);
-
-        this.findMainElement();
     }
 
     /**
@@ -61,8 +57,9 @@ class Component extends HTMLElement {
 
             let value = this.parseAttrType(this.getAttribute(attr), details.type);
 
-            // replace attribute with parsed value
-            this.setAttribute(attr, value || "");
+            // replace attribute with parsed value if value is not null
+            if (value !== null)
+                this.setAttribute(attr, value || "");
 
             if (details.required)
                 this.assert(!!value,
@@ -83,7 +80,7 @@ class Component extends HTMLElement {
      */
     assert(condition, error) {
         if (!condition)
-            throw new Error(error)
+            console.error(`Warning: ${error}`)
     }
 
     /**
@@ -108,26 +105,20 @@ class Component extends HTMLElement {
         this.attachShadow({mode: this._shadowMode}).appendChild(template);
     }
 
-    /**
-     * find main elements of shadow dom
-     * @param query
-     */
-    findMainElement(query) {
-        if (!this.elm) {
-            // find element
-            this.elm = this.shadowRoot.querySelector(query);
-        }
+    get disabled() {
+        return this.hasAttribute('disabled');
     }
 
     /**
-     * remove founded element
+     * reflect the disabled attr on HTML tag
+     * @param val
      */
-    removeMainElement() {
-        if (!this.elm)
-            return;
-
-        this.elm.remove();
-        this.elm = null;
+    set disabled(val) {
+        const isDisabled = Boolean(val);
+        if (isDisabled)
+            this.setAttribute('disabled', '');
+        else
+            this.removeAttribute('disabled');
     }
 
     /**

@@ -61,7 +61,11 @@ class ChatListItem extends Component {
      */
     static get style() {
         return (`<style>
-                    :root {
+                    :host {
+                        display: block;
+                    }
+                    :host([hidden]) {
+                        display: none;
                     }
                     * {
                         box-sizing: content-box;
@@ -81,7 +85,7 @@ class ChatListItem extends Component {
                     .chat-list-item:hover .item-meta{
                         background: var(--hoverColor);
                     }
-                    .chat-list-item.selected {
+                    :host([selected]) {
                         box-shadow: 0 0 7px 2px rgba(0, 0, 0, 0.1);
                         position: relative;
                         z-index: 1;
@@ -117,7 +121,7 @@ class ChatListItem extends Component {
                         visibility: hidden;
                         opacity: 0;
                     }
-                    .chat-list-item.online .online-badge {
+                     :host([online]) .online-badge {
                         visibility: visible;
                         opacity: 1;
                     }                    
@@ -169,7 +173,7 @@ class ChatListItem extends Component {
                         overflow: hidden;
                         text-overflow: clip;
                     }
-                    .chat-list-item.unread #unreadcount {
+                    :host([unread]) #unreadcount {
                         visibility: visible;
                         opacity: 1;
                     }
@@ -218,51 +222,72 @@ class ChatListItem extends Component {
     }
 
     attributeChangedCallback(attrName, oldValue, newValue) {
-        console.log(attrName, oldValue, newValue);
+        if (oldValue === newValue)
+            return;
+
         // re-render component
         this.render();
     }
 
-    initListeners() {
-        if (!this.elm)
-            return;
+    set selected(value) {
+        if (value) {
 
-        this.elm.addEventListener("click", this.onElmClick.bind(this))
+            // unselect other items
+            document.querySelectorAll("chat-list-item")
+                .forEach(i => i.shadowRoot.host.selected = false);
+
+            // fire selected event
+            this.dispatchEvent(new CustomEvent("selected", {
+                detail: {id: this.hasAttribute("id"),}
+            }));
+
+            this.setAttribute('selected', '');
+
+        } else {
+            this.removeAttribute('selected');
+        }
     }
 
-    onElmClick(e) {
+    get selected() {
+        return this.hasAttribute('selected');
+    }
+
+    set unread(value) {
+        if (value)
+            this.setAttribute('unread', '');
+        else
+            this.removeAttribute('unread');
+    }
+
+    get unread() {
+        return this.hasAttribute('unread');
+    }
+
+    initListeners() {
+        this.shadowRoot.host.addEventListener("click", this._onClick.bind(this))
+    }
+
+    _onClick(e) {
+        e.preventDefault();
         if (this.disabled) {
-            e.preventDefault();
             return;
         }
 
-        this.dispatchEvent(new CustomEvent("clicked", {
-            detail: this.elm,
-        }));
-
-        document.querySelectorAll("chat-list-item")
-            .forEach(i => {
-                i.shadowRoot.querySelector(".chat-list-item").classList.remove("selected");
-            });
-
-        this.elm.classList.add("selected");
-
+        this.selected = !this.selected
     }
 
     /**
      * render component according to template and attributes
      */
     render() {
-        this.findMainElement(".chat-list-item");
 
-        // check the required attributes
+        // remove component if id not passed
         if (!("id" in this.attributes)) {
-            this.removeMainElement();
+            this.remove()
         }
 
         // put first char of title when avatar not passed
         const title = this.getAttribute("title").toUpperCase() || "";
-
 
         // check the existence of avatar
         // fetch first char of title to show if avatar not passed
@@ -281,18 +306,8 @@ class ChatListItem extends Component {
                     target.src = attr.value;
                     break;
 
-                case "online":
-                    if (attr.value === "true")
-                        this.elm && this.elm.classList.add("online");
-                    else
-                        this.elm && this.elm.classList.remove("online");
-                    break;
-
                 case "unreadcount":
-                    if (parseInt(attr.value) > 0)
-                        this.elm && this.elm.classList.add("unread");
-                    else
-                        this.elm && this.elm.classList.remove("unread");
+                    this.unread = parseInt(attr.value) > 0;
                     break;
 
             }
