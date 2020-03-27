@@ -105,6 +105,33 @@ class Component extends HTMLElement {
         this.attachShadow({mode: this._shadowMode}).appendChild(template);
     }
 
+    /**
+     * dispatch an event
+     * @param event
+     * @param detail
+     */
+    emit(event, detail) {
+        this.dispatchEvent(new CustomEvent(event, {detail}));
+    }
+
+    /**
+     * Add listener to the host
+     * @param event
+     * @param callback
+     */
+    on(event, callback) {
+        this.shadowRoot.host.addEventListener(event, callback.bind(this))
+    }
+
+    /**
+     * Remove listener of the host
+     * @param event
+     * @param callback
+     */
+    off(event, callback) {
+        this.shadowRoot.host.removeEventListener(event, callback.bind(this))
+    }
+
     get disabled() {
         return this.hasAttribute('disabled');
     }

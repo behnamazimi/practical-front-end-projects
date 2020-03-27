@@ -1,5 +1,6 @@
 import Component from "./component";
 
+
 class ChatListItem extends Component {
 
     /**
@@ -221,6 +222,10 @@ class ChatListItem extends Component {
         this.initListeners();
     }
 
+    disconnectedCallback() {
+        this.removeListeners();
+    }
+
     attributeChangedCallback(attrName, oldValue, newValue) {
         if (oldValue === newValue)
             return;
@@ -237,9 +242,7 @@ class ChatListItem extends Component {
                 .forEach(i => i.shadowRoot.host.selected = false);
 
             // fire selected event
-            this.dispatchEvent(new CustomEvent("selected", {
-                detail: {id: this.hasAttribute("id"),}
-            }));
+            this.emit("selected", {id: this.hasAttribute("id"),});
 
             this.setAttribute('selected', '');
 
@@ -264,7 +267,11 @@ class ChatListItem extends Component {
     }
 
     initListeners() {
-        this.shadowRoot.host.addEventListener("click", this._onClick.bind(this))
+        this.on("click", this._onClick)
+    }
+
+    removeListeners() {
+        this.off("click", this._onClick)
     }
 
     _onClick(e) {
