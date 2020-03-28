@@ -69,7 +69,7 @@ class ChatListItem extends Component {
                         display: none;
                     }
                     * {
-                        box-sizing: content-box;
+                        box-sizing: border-box;
                         user-select: none;                        
                     }
                     .chat-list-item {

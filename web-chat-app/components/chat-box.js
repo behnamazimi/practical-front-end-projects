@@ -8,14 +8,10 @@ class ChatBox extends Component {
      */
     static get attrTypes() {
         return {
-            readonly: {
+            activeChat: {
                 type: "boolean",
                 observe: true
             },
-            lastsender: {
-                type: "string",
-                observe: true
-            }
         };
     }
 
@@ -41,14 +37,17 @@ class ChatBox extends Component {
     static get style() {
         return (`<style>
                 :host {
+                    --primaryColor:  #3AD07A;
+                    --hoverColor: #edfbf3;
                     display: block;
                     height: 100%;
+                    max-height: 100%;
                 }
                 :host([hidden]) {
                     display: none;
                 }
                 * {
-                    box-sizing: content-box;
+                    box-sizing: border-box;
                     user-select: none;                        
                 }
                 .chat-box-inner {
@@ -87,9 +86,19 @@ class ChatBox extends Component {
                 .chat-box-inner .chat-list-wrapper:after {
                     top: unset;
                     bottom: -2px;
-                    box-shadow: 0px -2px 10px 3px rgba(0,0,0,0.16);
+                    box-shadow: 0px -2px 10px 1px rgba(0,0,0,0.16);
                 }
-                h1{margin:0;}
+                .chat-day {
+                    margin: 2em 0;
+                    text-align: center; 
+                }
+                .chat-day span{
+                    font-size: 14px;
+                    padding: .5rem 1.5rem;
+                    border-radius: 25px;
+                    background: rgba(0,0,0,.2);
+                    color: #fff;
+                }
                 </style>`)
     }
 
@@ -102,13 +111,13 @@ class ChatBox extends Component {
             <template>
                 ${ChatBox.style}
                 <div class="chat-box-inner">
-                    <slot name="chat-with"></slot>
+                    <active-chat></active-chat>
                     <div class="chat-list-wrapper">
                         <div class="scrollable" id="chat-list">
                             
                         </div>
                     </div>
-                    <slot name="messaging"></slot>
+                    <new-message></new-message>
                 </div>
             </template>
             `)
@@ -155,52 +164,80 @@ class ChatBox extends Component {
         return this.hasAttribute('readonly');
     }
 
-    set lastSender(value) {
-        if (value) {
-            this.setAttribute('lastsender', '');
+    set activeChat(chat) {
+        this._activeChat = chat;
 
-        } else {
-            this.removeAttribute('lastsender');
-        }
+        this.renderChatBoxHeader();
     }
 
-    get lastSender() {
-        return this.getAttribute('lastsender');
+    get activeChat() {
+        return this._activeChat;
     }
 
     initListeners() {
-        this.on("add-chat", this._onChatAdd)
+        this.on("new-message", this._onMessageReceive.bind(this));
+        this._newMessageBox.on("new-message", this._onMessageReceive.bind(this))
     }
 
     removeListeners() {
-        this.off("add-chat", this._onChatAdd)
+        this._newMessageBox.off("new-message", this._onMessageReceive.bind(this))
     }
 
-    _onChatAdd(e) {
-        // temp
-        const loggedInUserId = "3";
+    _onMessageReceive({detail}) {
+        const {sender, message, time} = detail;
+        const isFromUser = sender === window.loggenInUser.id;
+        const isSameSender = this.lastMessage && this.lastMessage.sender === sender;
 
-        const isSameSender = this.lastMessage && this.lastMessage.sender === e.detail.sender;
+        this.assert(time instanceof Date, "Message time is not a real Date object");
+
+        const timeToShow = `${time.getHours()}:${time.getMinutes()}`;
 
         const msg = document.createElement("chat-message");
-        msg.setAttribute("text", e.detail.text);
-        msg.setAttribute("time", "11:50");
-        msg.setAttribute("position", e.detail.sender === loggedInUserId ? "right" : "left");
-        msg.setAttribute("sender", e.detail.sender);
+        msg.setAttribute("text", message);
+        msg.setAttribute("position", isFromUser ? "right" : "left");
+        msg.setAttribute("sender", sender);
+        msg.setTimeObject(time);
+        msg.setAttribute("time", timeToShow);
+        msg.setAttribute("title", time.toLocaleString());
         msg.isLastInGroup = true;
 
         if (this.lastMessage && isSameSender)
             this.lastMessage.isLastInGroup = false;
 
+        console.log(this._isMessageForDifferentDay(time));
+        if (!this.lastMessage || this._isMessageForDifferentDay(time)) {
+            this._appendDateToChatList(time);
+        }
 
         this.lastMessage = msg;
-
-        // msg.isLastInGroup = e.detail.sender !== this.isSameSender;
         this._chatList.appendChild(msg);
+
+        this._newMessageBox.clear();
+
         this.scrollToEnd();
 
-        // update sender
-        this.isSameSender = e.detail.sender;
+    }
+
+    _isMessageForDifferentDay(time) {
+        if (!this.lastMessage || !time)
+            return false;
+
+        return time.toDateString() !== this.lastMessage.timeObject.toDateString();
+    }
+
+    _appendDateToChatList(time) {
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        this.assert(time, "Message time not passed");
+
+        let dayTitle = `${monthNames[time.getMonth()]} ${time.getDay()}, ${time.getFullYear()}`;
+        if (time.toDateString() === new Date().toDateString())
+            dayTitle = "Today";
+
+        const dateNode = document.createElement("div");
+        dateNode.classList.add("chat-day");
+        dateNode.innerHTML = `<span>${dayTitle}</span>`;
+
+        this._chatList.appendChild(dateNode);
     }
 
     /**
@@ -212,14 +249,28 @@ class ChatBox extends Component {
         })
     }
 
+    renderChatBoxHeader() {
+        const activeChatNode = this.shadowRoot.querySelector("active-chat");
+        this.assert(activeChatNode, "The active-chat node not found in chat-box");
+
+        activeChatNode.setAttribute("id", this._activeChat.id);
+        activeChatNode.setAttribute("title", this._activeChat.title);
+        activeChatNode.setAttribute("avatar", this._activeChat.avatar || "");
+        if (this._activeChat.online)
+            activeChatNode.setAttribute("online", '');
+        else
+            activeChatNode.removeAttribute("online");
+    }
+
     render() {
 
-        this.scrollToEnd();
+        this._newMessageBox = this.shadowRoot.querySelector("new-message");
 
         if (this.readOnly) {
-            this.shadowRoot.querySelector("slot[name=messaging]").remove();
+            this._newMessageBox.remove();
         }
 
+        this.scrollToEnd();
     }
 
 }

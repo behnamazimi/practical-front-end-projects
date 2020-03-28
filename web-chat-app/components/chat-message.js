@@ -66,7 +66,7 @@ class ChatMessage extends Component {
                     display: none;
                 }
                 * {
-                    box-sizing: content-box;
+                    box-sizing: border-box;
                     user-select: none;                        
                 }
                 :host([position=left]),
@@ -111,7 +111,8 @@ class ChatMessage extends Component {
                 #text {
                     font-size: 16px;
                     line-height: 20px;
-                    margin: 0 0 .2em;                    
+                    margin: 0 0 .2em;          
+                    white-space: pre-line;          
                 }
                 #time {
                     font-size: 12px;
@@ -173,6 +174,14 @@ class ChatMessage extends Component {
 
     get text() {
         return this.getAttribute('text');
+    }
+
+    setTimeObject(value) {
+        this._timeObject = value;
+    }
+
+    get timeObject() {
+        return this._timeObject;
     }
 
     set time(value) {

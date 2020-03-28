@@ -9,34 +9,13 @@
 </head>
 <body>
 
-<!--<chat-message></chat-message>-->
+<div id="chat-web-app">
+    <chat-box></chat-box>
+</div>
 
-<section style="height: 100vh">
-
-    <chat-box>
-        <chat-list-item slot="chat-with"
-                        avatar="https://randomuser.me/api/portraits/men/75.jpg"
-                        id="3"
-                        title="Behnam Azimi"
-                        desc="Last sent message will appears here"
-                        lastseen="Yesterday"
-                        unreadcount="4"
-                        online></chat-list-item>
-        <chat-list-item slot="messaging"
-                        avatar="https://randomuser.me/api/portraits/men/75.jpg"
-                        id="3"
-                        title="Behnam Azimi"
-                        desc="Last sent message will appears here"
-                        lastseen="Yesterday"
-                        unreadcount="4"
-                        online></chat-list-item>
-
-    </chat-box>
-
-
-
-</section>
 <script src="components/component.js"></script>
+<script src="components/active-chat.js"></script>
+<script src="components/new-message.js"></script>
 <script src="components/chat-message.js"></script>
 <script src="components/chat-box.js"></script>
 <script src="components/chat-list-item.js"></script>

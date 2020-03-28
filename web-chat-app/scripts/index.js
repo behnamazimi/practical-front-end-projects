@@ -1,4 +1,13 @@
+window.loggenInUser = {
+    id: "3",
+    title: "Behnam Azimi",
+    online: true,
+    lastSeen: "Yesterday",
+    avatar: "https://randomuser.me/api/portraits/men/10.jpg"
+};
+
 const chatBox = document.querySelector("chat-box");
+chatBox.activeChat = window.loggenInUser;
 document.querySelectorAll("chat-list-item")
     .forEach(i => {
         i.on("selected", (e) => {
@@ -9,12 +18,17 @@ document.querySelectorAll("chat-list-item")
             //
             // console.log(e.detail);
 
-            chatBox.emit("add-chat", {
-                text: getMsgText(),
-                sender: Math.random() > .5 ? "3" : "4"
+            chatBox.emit("new-message", {
+                message: getMsgText(),
+                sender: "4",
+                time: new Date()
             })
         })
     });
+
+setTimeout(()=>{
+    chatBox.activeChat = {...loggenInUser, online: false}
+}, 3000);
 
 
 function getMsgText() {
