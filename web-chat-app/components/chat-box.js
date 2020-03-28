@@ -11,6 +11,10 @@ class ChatBox extends Component {
             readonly: {
                 type: "boolean",
                 observe: true
+            },
+            lastsender: {
+                type: "string",
+                observe: true
             }
         };
     }
@@ -54,7 +58,7 @@ class ChatBox extends Component {
                 }
                 .chat-box-inner .chat-list-wrapper {
                     position: relative;
-                    background: transparent url("https://mir-s3-cdn-cf.behance.net/project_modules/disp/2d9dd173426833.5c08f5634ff45.png");
+                    background: #3ad07a1f url(../static/chat-box-bg.png);
                     flex-grow: 1;
                     display: flex;
                     flex-direction: column;
@@ -67,7 +71,8 @@ class ChatBox extends Component {
                     overflow: hidden;
                     overflow-y: auto;
                     min-height: 0;
-                    padding: 1em;
+                    padding: 1em 1em 1.5em;
+                    display: grid;
                 }
                 .chat-box-inner .chat-list-wrapper:before ,
                 .chat-box-inner .chat-list-wrapper:after {
@@ -101,16 +106,6 @@ class ChatBox extends Component {
                     <div class="chat-list-wrapper">
                         <div class="scrollable" id="chat-list">
                             
-                            <h1>Chat here... 3</h1>
-                            <h1>Chat here... 4</h1>
-                            <h1>Chat here... 1</h1>
-                            <h1>Chat here... 2</h1>
-                            <h1>Chat here... 3</h1>
-                            <h1>Chat here... 4</h1>
-                            <h1>Chat here... 1</h1>
-                            <h1>Chat here... 2</h1>
-                            <h1>Chat here... 3</h1>
-                            <h1>Chat here... 44444</h1>
                         </div>
                     </div>
                     <slot name="messaging"></slot>
@@ -160,6 +155,19 @@ class ChatBox extends Component {
         return this.hasAttribute('readonly');
     }
 
+    set lastSender(value) {
+        if (value) {
+            this.setAttribute('lastsender', '');
+
+        } else {
+            this.removeAttribute('lastsender');
+        }
+    }
+
+    get lastSender() {
+        return this.getAttribute('lastsender');
+    }
+
     initListeners() {
         this.on("add-chat", this._onChatAdd)
     }
@@ -169,10 +177,30 @@ class ChatBox extends Component {
     }
 
     _onChatAdd(e) {
-        const n = document.createElement("h1");
-        n.innerText = e.detail.text;
-        this._chatList.appendChild(n);
+        // temp
+        const loggedInUserId = "3";
+
+        const isSameSender = this.lastMessage && this.lastMessage.sender === e.detail.sender;
+
+        const msg = document.createElement("chat-message");
+        msg.setAttribute("text", e.detail.text);
+        msg.setAttribute("time", "11:50");
+        msg.setAttribute("position", e.detail.sender === loggedInUserId ? "right" : "left");
+        msg.setAttribute("sender", e.detail.sender);
+        msg.isLastInGroup = true;
+
+        if (this.lastMessage && isSameSender)
+            this.lastMessage.isLastInGroup = false;
+
+
+        this.lastMessage = msg;
+
+        // msg.isLastInGroup = e.detail.sender !== this.isSameSender;
+        this._chatList.appendChild(msg);
         this.scrollToEnd();
+
+        // update sender
+        this.isSameSender = e.detail.sender;
     }
 
     /**
