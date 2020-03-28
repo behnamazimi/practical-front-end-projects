@@ -288,12 +288,11 @@ class ChatListItem extends Component {
             this.remove()
         }
 
-        // put first char of title when avatar not passed
-        const title = this.getAttribute("title").toUpperCase() || "";
-
         // check the existence of avatar
         // fetch first char of title to show if avatar not passed
         if (!this.getAttribute("avatar")) {
+            // put first char of title when avatar not passed
+            const title = this.getAttribute("title").toUpperCase() || "";
             this.shadowRoot.querySelector(".char-avatar").innerText = title.substr(0, 1);
         }
 
