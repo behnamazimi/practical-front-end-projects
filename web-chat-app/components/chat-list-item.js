@@ -63,7 +63,14 @@ class ChatListItem extends Component {
     static get style() {
         return (`<style>
                     :host {
-                        display: block;
+                        --primaryColor:  #3AD07A;
+                        --hoverColor: #edfbf3;
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+                        padding: .75em .5rem;
+                        position: relative;
+                        cursor: pointer;
                     }
                     :host([hidden]) {
                         display: none;
@@ -72,18 +79,8 @@ class ChatListItem extends Component {
                         box-sizing: border-box;
                         user-select: none;                        
                     }
-                    .chat-list-item {
-                        --primaryColor:  #3AD07A;
-                        --hoverColor: #edfbf3;
-                        display: flex;
-                        justify-content: flex-start;
-                        align-items: center;
-                        padding: 1em;
-                        position: relative;
-                        cursor: pointer;
-                    }
-                    .chat-list-item:hover,
-                    .chat-list-item:hover .item-meta{
+                    :host(:hover),
+                    :host(:hover) .item-meta{
                         background: var(--hoverColor);
                     }
                     :host([selected]) {
@@ -95,8 +92,6 @@ class ChatListItem extends Component {
                         flex: 0 0 3em;
                         width: 3em;
                         height: 3em;
-                        border-radius: 50%;
-                        overflow: hidden;   
                         display: flex;
                         justify-content: center;
                         align-items: center;
@@ -105,22 +100,31 @@ class ChatListItem extends Component {
                         font-weight: bold;
                         font-size: 1em;
                         position: relative;
+                        border-radius: 50%;                        
                     }
                     .avatar-container img {
                         max-width: 100%;
+                        border-radius: 50%;                        
+                        position: relative;
+                        z-index: 1;
+                    }
+                    .avatar-container .char-avatar {
+                        position: absolute;
+                        z-index: 0;
                     }
                     .online-badge {
                         position: absolute;
-                        right: 10px;
-                        bottom: 4px;
-                        width: 8px;
-                        height: 8px;
+                        right: 4px;
+                        bottom: 0;
+                        width: 12px;
+                        height: 12px;
                         background: var(--primaryColor);
                         display: inline-block;
                         border-radius: 50%;
-                        border: 1px solid #fff;
+                        border: 2px solid #fff;
                         visibility: hidden;
                         opacity: 0;
+                        z-index: 2;
                     }
                      :host([online]) .online-badge {
                         visibility: visible;
@@ -189,13 +193,12 @@ class ChatListItem extends Component {
         return (`
             <template>
                 ${ChatListItem.style}
-                <div class="chat-list-item">
-                    <div class="avatar-container">
-                        <span class="online-badge"></span>
-                        <img src="" id="avatar">
-                        <span class="char-avatar"></span>
-                    </div>
-                    <div class="item-details">
+                <div class="avatar-container">
+                    <span class="online-badge"></span>
+                    <img src="" id="avatar">
+                    <span class="char-avatar"></span>
+                </div>
+                <div class="item-details">
                         <h3 id="title"></h3>
                         <p id="desc"></p>
                         <div class="item-meta">
@@ -203,7 +206,6 @@ class ChatListItem extends Component {
                             <span id="unreadcount"></span>
                         </div>
                     </div>
-                </div>
             </template>
             `)
     }
@@ -292,7 +294,7 @@ class ChatListItem extends Component {
         // fetch first char of title to show if avatar not passed
         if (!this.getAttribute("avatar")) {
             // put first char of title when avatar not passed
-            const title = this.getAttribute("title").toUpperCase() || "";
+            const title = (this.getAttribute("title") || "").toUpperCase();
             this.shadowRoot.querySelector(".char-avatar").innerText = title.substr(0, 1);
         }
 
