@@ -42,6 +42,7 @@ class ChatBox extends Component {
                     display: block;
                     height: 100%;
                     max-height: 100%;
+                    flex-grow: 1;
                 }
                 :host([hidden]) {
                     display: none;
