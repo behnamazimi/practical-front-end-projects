@@ -1,17 +1,13 @@
 document.querySelectorAll("chat-list-item")
     .forEach(i => {
-        i.addEventListener("selected", (e) => {
-            // i.setAttribute("disabled", "");
+        i.on("selected", (e) => {
+
+            // unselect other items
+            document.querySelectorAll("chat-list-item")
+                .forEach(i => i.shadowRoot.host.selected = false);
+
             console.log(e.detail);
-            // i.disabled = true;
-            // console.log(i.disabled);
-            // if (e.target.getAttribute("online"))
-            //     e.target.removeAttribute("online");
-            // else
-            //     e.target.setAttribute("online", true)
+            console.log(e);
+            // e.target.disabled = true;
         })
     });
-
-document.addEventListener("selected", (e)=>{
-    console.log(e.detail);
-})

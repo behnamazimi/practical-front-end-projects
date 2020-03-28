@@ -236,13 +236,8 @@ class ChatListItem extends Component {
 
     set selected(value) {
         if (value) {
-
-            // unselect other items
-            document.querySelectorAll("chat-list-item")
-                .forEach(i => i.shadowRoot.host.selected = false);
-
             // fire selected event
-            this.emit("selected", {id: this.hasAttribute("id"),});
+            this.emit("selected", {id: this.getAttribute("id")});
 
             this.setAttribute('selected', '');
 
