@@ -114,11 +114,11 @@ class ChatsList extends Component {
 
     }
 
-    connectedCallback() {
+    onMount() {
         this.initListeners();
     }
 
-    disconnectedCallback() {
+    onUnmount() {
         this.removeListeners();
     }
 
@@ -131,7 +131,7 @@ class ChatsList extends Component {
     }
 
     initListeners() {
-        document.addEventListener("keydown", this._onKeyDown.bind(this))
+        document.addEventListener("keydown", this._onKeyDown.bind(this));
     }
 
     removeListeners() {
@@ -146,13 +146,10 @@ class ChatsList extends Component {
     }
 
     setChats(chats) {
+
         this._chats = chats;
-
+        this.chatsWrapper.innerHTML = '';
         this.render();
-    }
-
-    get chats() {
-        return this._chats;
     }
 
     generateChatListItem(chat) {
@@ -170,13 +167,25 @@ class ChatsList extends Component {
         return chatListItem
     }
 
+    _onChatClicked({detail}) {
+        this._chats.map(chat => {
+            if (chat.id !== detail.id)
+                chat.elm.selected = false
+        });
+
+        this.emit(APP_EVENTS.CHAT_SELECTED, detail)
+    }
+
     /**
      * render component according to template and attributes
      */
     render() {
 
-        this.chats.map(chat => {
-            this.chatsWrapper.appendChild(this.generateChatListItem(chat))
+        this._chats = this._chats.map(chat => {
+            chat.elm = this.generateChatListItem(chat);
+            chat.elm.on(APP_EVENTS.CHAT_CLICKED, this._onChatClicked.bind(this));
+            this.chatsWrapper.appendChild(chat.elm);
+            return chat
         })
     }
 

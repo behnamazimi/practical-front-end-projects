@@ -70,7 +70,6 @@ class ActiveChat extends Component {
                         width: 2.5em;
                         height: 2.5em;
                         border-radius: 50%;
-                        overflow: hidden;   
                         display: flex;
                         justify-content: center;
                         align-items: center;
@@ -83,6 +82,7 @@ class ActiveChat extends Component {
                     .avatar-container img {
                         max-width: 100%;
                         position: relative;
+                        border-radius: 50%;
                         z-index: 1;
                     }
                     .avatar-container .char-avatar {
@@ -91,14 +91,14 @@ class ActiveChat extends Component {
                     }
                     .online-badge {
                         position: absolute;
-                        right: 10px;
-                        bottom: 4px;
-                        width: 10px;
-                        height: 10px;
+                        right: 4px;
+                        bottom: 0px;
+                        width: 12px;
+                        height: 12px;
                         background: var(--primaryColor);
                         display: inline-block;
                         border-radius: 50%;
-                        border: 1px solid #fff;
+                        border: 2px solid #fff;
                         visibility: hidden;
                         opacity: 0;
                         z-index: 2;
@@ -152,7 +152,7 @@ class ActiveChat extends Component {
         this.initListeners();
     }
 
-    disconnectedCallback() {
+    onUnmount() {
         this.removeListeners();
     }
 

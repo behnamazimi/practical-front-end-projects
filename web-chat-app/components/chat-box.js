@@ -180,25 +180,17 @@ class ChatBox extends Component {
         this.render();
     }
 
-    connectedCallback() {
+    onMount() {
         this.initListeners();
     }
 
-    disconnectedCallback() {
+    onUnmount() {
         this.removeListeners();
     }
 
     attributeChangedCallback(attrName, oldValue, newValue) {
         if (oldValue === newValue)
             return;
-
-        if (attrName === "hidden") {
-            console.log("hidden", newValue, oldValue);
-            // if (newValue)
-            this.attachShadow({mode: "closed"})
-            // else
-            //     this.attachShadow({mode: "open"})
-        }
 
         // re-render component
         this.render();
@@ -217,8 +209,15 @@ class ChatBox extends Component {
         return this.hasAttribute('readonly');
     }
 
-    set activeChat(chat) {
+    setActiveChat(chat) {
+        if (!chat || !chat.id)
+            return;
+
         this._activeChat = chat;
+
+        this.hidden = false;
+        this._chatList.innerHTML = '';
+        this.lastMessage = null;
 
         this.renderChatBoxHeader();
     }
@@ -239,19 +238,22 @@ class ChatBox extends Component {
         return this.hasAttribute("hidden")
     }
 
-
     initListeners() {
-        this.on("new-message", this._onMessageReceive.bind(this));
-        this._newMessageBox.on("new-message", this._onMessageReceive.bind(this))
+        this._newMessageBox.on(APP_EVENTS.AUTHED_USER_NEW_MESSAGE, this._onAuthedMessageReceive.bind(this));
+        this.on(APP_EVENTS.USER_SIGN_IN, this._userSignIn.bind(this));
     }
 
     removeListeners() {
-        this._newMessageBox.off("new-message", this._onMessageReceive.bind(this))
+        this._newMessageBox.off(APP_EVENTS.AUTHED_USER_NEW_MESSAGE, this._onAuthedMessageReceive.bind(this));
+        this.off(APP_EVENTS.USER_SIGN_IN, this._userSignIn.bind(this));
     }
 
-    _onMessageReceive({detail}) {
-        const {sender, message, time} = detail;
-        const isFromUser = sender === window.loggenInUser.id;
+    renderMessage({sender, text, time}) {
+        if (!sender || !text || !time)
+            return;
+
+        const isFromAuthedUser = sender === this._authedUserId;
+
         const isSameSender = this.lastMessage && this.lastMessage.sender === sender;
 
         this.assert(time instanceof Date, "Message time is not a real Date object");
@@ -259,8 +261,8 @@ class ChatBox extends Component {
         const timeToShow = `${time.getHours()}:${time.getMinutes()}`;
 
         const msg = document.createElement("chat-message");
-        msg.setAttribute("text", message);
-        msg.setAttribute("position", isFromUser ? "right" : "left");
+        msg.setAttribute("text", text);
+        msg.setAttribute("position", isFromAuthedUser ? "right" : "left");
         msg.setAttribute("sender", sender);
         msg.setTimeObject(time);
         msg.setAttribute("time", timeToShow);
@@ -270,7 +272,6 @@ class ChatBox extends Component {
         if (this.lastMessage && isSameSender)
             this.lastMessage.isLastInGroup = false;
 
-        console.log(this._isMessageForDifferentDay(time));
         if (!this.lastMessage || this._isMessageForDifferentDay(time)) {
             this._appendDateToChatList(time);
         }
@@ -278,10 +279,24 @@ class ChatBox extends Component {
         this.lastMessage = msg;
         this._chatList.appendChild(msg);
 
-        this._newMessageBox.clear();
+        if (isFromAuthedUser)
+            this._newMessageBox.clear();
 
         this.scrollToEnd();
+    }
 
+    _userSignIn({detail}) {
+        this._authedUserId = detail.id;
+    }
+
+    _onAuthedMessageReceive({detail}) {
+        if (!this.activeChat)
+            return;
+
+        detail.toChat = this.activeChat.id;
+        detail.sender = this._authedUserId;
+        this.renderMessage(detail);
+        this.emit(APP_EVENTS.AUTHED_USER_NEW_MESSAGE, detail);
     }
 
     _isMessageForDifferentDay(time) {

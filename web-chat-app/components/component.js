@@ -7,9 +7,18 @@ class Component extends HTMLElement {
         this._template = template;
         this._shadowMode = shadowMode;
 
-        this.checkAttrs();
-
         this.makeShadow();
+    }
+
+    connectedCallback() {
+        this.checkAttrs();
+        if (this.onMount && typeof this.onMount === "function")
+            this.onMount();
+    }
+
+    disconnectedCallback() {
+        if (this.onUnmount && typeof this.onUnmount === "function")
+            this.onUnmount();
     }
 
     /**

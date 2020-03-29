@@ -129,11 +129,11 @@ class NewMessage extends Component {
         this.render();
     }
 
-    connectedCallback() {
+    onMount() {
         this.initListeners();
     }
 
-    disconnectedCallback() {
+    onUnmount() {
         this.removeListeners();
     }
 
@@ -160,12 +160,12 @@ class NewMessage extends Component {
             return;
         }
 
-        this.emit("new-message", {
-            message: this._textarea.value.trim(),
+        this.emit(APP_EVENTS.AUTHED_USER_NEW_MESSAGE, {
+            text: this._textarea.value.trim(),
             time: new Date(),
-            sender: window.loggenInUser.id
         })
     }
+
 
     get message() {
         return this._textarea.value;

@@ -49,6 +49,7 @@ body {
     display: flex;
     flex-direction: column;
     width: 280px;
+    min-width: 280px;
     position: relative;
     z-index: 2;
 }

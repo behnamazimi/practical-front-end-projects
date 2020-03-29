@@ -1,3 +1,66 @@
+import ChatApp from "./chat-app"
+
+window.loggenInUser = {
+    id: Math.random().toString(32).substr(2, 10),
+    name: "Behnam Azimi",
+    username: "bhnmzm",
+    online: true,
+    lastSeen: "Yesterday",
+    avatar: "https://randomuser.me/api/portraits/men/1.jpg"
+};
+
+const tempChat = {
+    id: Math.random().toString(32).substr(2, 10),
+    name: "Haniyeh Mahboubifar",
+    username: "hanimf",
+    online: true,
+    lastseen: "Yesterday",
+    unreadcount: "0",
+    avatar: "https://randomuser.me/api/portraits/women/1.jpg",
+    messages: []
+};
+
+const app = new ChatApp("chat-web-app");
+app.signin(loggenInUser);
+app.addChat(tempChat);
+app.addChat({...tempChat, name: "test", id: "test"});
+
+app.newMessage({
+    text: getMsgText(),
+    sender: tempChat.id,
+    time: new Date(),
+    toChat: loggenInUser.id
+});
+app.newMessage({
+    text: getMsgText(),
+    sender: loggenInUser.id,
+    toChat: tempChat.id,
+    time: new Date(),
+});
+app.newMessage({
+    text: getMsgText(),
+    sender: tempChat.id,
+    time: new Date(),
+    toChat: loggenInUser.id
+});
+app.newMessage({
+    text: getMsgText(),
+    sender: tempChat.id,
+    time: new Date(),
+    toChat: loggenInUser.id
+});
+
+setTimeout(() => {
+    app.newMessage({
+        text: getMsgText(),
+        sender: tempChat.id,
+        time: new Date(),
+        toChat: loggenInUser.id
+    });
+
+}, 2000);
+
+/*
 window.loggenInUser = {
     id: "3",
     name: "Behnam Azimi",
@@ -17,184 +80,9 @@ const chats = [
         desc: "Received message shows here",
         avatar: "https://randomuser.me/api/portraits/men/10.jpg"
     },
-    {
-        id: "3",
-        title: "Azimi",
-        online: true,
-        lastseen: "Yesterday",
-        unreadcount: "4",
-        desc: "Received message shows here",
-        avatar: "https://randomuser.me/api/portraits/women/10.jpg"
-    },
-    {
-        id: "3",
-        title: "Behnam Azimi",
-        online: true,
-        lastseen: "Yesterday",
-        unreadcount: "4",
-        desc: "Received message shows here",
-        avatar: "https://randomuser.me/api/portraits/men/10.jpg"
-    },
-    {
-        id: "3",
-        title: "Hani",
-        online: true,
-        lastseen: "Yesterday",
-        unreadcount: "4",
-        desc: "Received message shows here",
-        avatar: "https://randomuser.me/api/portraits/women/11.jpg"
-    },
-    {
-        id: "3",
-        title: "Hani",
-        online: true,
-        lastseen: "Yesterday",
-        unreadcount: "4",
-        desc: "Received message shows here",
-        avatar: "https://randomuser.me/api/portraits/women/11.jpg"
-    },
-
-    {
-        id: "3",
-        title: "Behnam Azimi",
-        online: true,
-        lastseen: "Yesterday",
-        unreadcount: "4",
-        desc: "Received message shows here",
-        avatar: "https://randomuser.me/api/portraits/men/10.jpg"
-    },
-    {
-        id: "3",
-        title: "Hani",
-        online: true,
-        lastseen: "Yesterday",
-        unreadcount: "4",
-        desc: "Received message shows here",
-        avatar: "https://randomuser.me/api/portraits/women/11.jpg"
-    },
-
-    {
-        id: "3",
-        title: "Azimi",
-        online: true,
-        lastseen: "Yesterday",
-        unreadcount: "4",
-        desc: "Received message shows here",
-        avatar: "https://randomuser.me/api/portraits/women/10.jpg"
-    },
-    {
-        id: "3",
-        title: "Behnam Azimi",
-        online: true,
-        lastseen: "Yesterday",
-        unreadcount: "4",
-        desc: "Received message shows here",
-        avatar: "https://randomuser.me/api/portraits/men/10.jpg"
-    },
-    {
-        id: "3",
-        title: "Hani",
-        online: true,
-        lastseen: "Yesterday",
-        unreadcount: "4",
-        desc: "Received message shows here",
-        avatar: "https://randomuser.me/api/portraits/women/11.jpg"
-    },
-    {
-        id: "3",
-        title: "Hani",
-        online: true,
-        lastseen: "Yesterday",
-        unreadcount: "4",
-        desc: "Received message shows here",
-        avatar: "https://randomuser.me/api/portraits/women/11.jpg"
-    },
-
-    {
-        id: "3",
-        title: "Behnam Azimi",
-        online: true,
-        lastseen: "Yesterday",
-        unreadcount: "4",
-        desc: "Received message shows here",
-        avatar: "https://randomuser.me/api/portraits/men/10.jpg"
-    },
-    {
-        id: "3",
-        title: "Hani",
-        online: true,
-        lastseen: "Yesterday",
-        unreadcount: "4",
-        desc: "Received message shows here",
-        avatar: "https://randomuser.me/api/portraits/women/11.jpg"
-    },
-
-    {
-        id: "3",
-        title: "Azimi",
-        online: true,
-        lastseen: "Yesterday",
-        unreadcount: "4",
-        desc: "Received message shows here",
-        avatar: "https://randomuser.me/api/portraits/women/10.jpg"
-    },
-    {
-        id: "3",
-        title: "Behnam Azimi",
-        online: true,
-        lastseen: "Yesterday",
-        unreadcount: "4",
-        desc: "Received message shows here",
-        avatar: "https://randomuser.me/api/portraits/men/10.jpg"
-    },
-    {
-        id: "3",
-        title: "Hani",
-        online: true,
-        lastseen: "Yesterday",
-        unreadcount: "4",
-        desc: "Received message shows here",
-        avatar: "https://randomuser.me/api/portraits/women/11.jpg"
-    },
-    {
-        id: "3",
-        title: "Hani",
-        online: true,
-        lastseen: "Yesterday",
-        unreadcount: "4",
-        desc: "Received message shows here",
-        avatar: "https://randomuser.me/api/portraits/women/11.jpg"
-    },
-
-    {
-        id: "3",
-        title: "Behnam Azimi",
-        online: true,
-        lastseen: "Yesterday",
-        unreadcount: "4",
-        desc: "Received message shows here",
-        avatar: "https://randomuser.me/api/portraits/men/10.jpg"
-    },
-    {
-        id: "3",
-        title: "Haniiiiii",
-        online: true,
-        lastseen: "Yesterday",
-        unreadcount: "4",
-        desc: "Received message shows here",
-        avatar: "https://randomuser.me/api/portraits/women/11.jpg"
-    },
 
 ];
 
-const authedUser = document.querySelector("authed-user");
-authedUser.setUser(window.loggenInUser);
-authedUser.hidden = true;
-
-const appBranch = document.querySelector("app-brand");
-appBranch.on("profile-btn-click", () => {
-    authedUser.hidden = !authedUser.hidden
-});
 
 const chatsList = document.querySelector("chats-list");
 chatsList.setChats(chats);
@@ -211,13 +99,14 @@ chatBox.activeChat = window.loggenInUser;
 //             //
 //             // console.log(e.detail);
 //             //
-//             // chatBox.emit("new-message", {
-//             //     message: getMsgText(),
-//             //     sender: "4",
-//             //     time: new Date()
-//             // })
+//             chatBox.emit("new-message", {
+//                 message: getMsgText(),
+//                 sender: "4",
+//                 time: new Date()
+//             })
 //         })
 //     });
+*/
 
 function getMsgText() {
     const lorem = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi."

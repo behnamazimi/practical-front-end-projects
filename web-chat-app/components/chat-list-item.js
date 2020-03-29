@@ -18,11 +18,6 @@ class ChatListItem extends Component {
                 required: true,
                 observe: true
             },
-            username: {
-                type: "string",
-                required: true,
-                observe: true
-            },
             desc: {
                 type: "string",
                 observe: true
@@ -76,6 +71,7 @@ class ChatListItem extends Component {
                         padding: .75em .5rem;
                         position: relative;
                         cursor: pointer;
+                        transition: all .2s;
                     }
                     :host([hidden]) {
                         display: none;
@@ -88,9 +84,11 @@ class ChatListItem extends Component {
                         background: var(--hoverColor);
                     }
                     :host([selected]) {
-                        box-shadow: 0 0 7px 2px rgba(0, 0, 0, 0.1);
+                        box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1);
                         position: relative;
                         z-index: 1;
+                        transition: all .1s;
+                        border-left: 4px solid #3AD07A;
                     }
                     .avatar-container {
                         flex: 0 0 3em;
@@ -224,11 +222,11 @@ class ChatListItem extends Component {
         this.render();
     }
 
-    connectedCallback() {
+    onMount() {
         this.initListeners();
     }
 
-    disconnectedCallback() {
+    onUnmount() {
         this.removeListeners();
     }
 
@@ -242,9 +240,6 @@ class ChatListItem extends Component {
 
     set selected(value) {
         if (value) {
-            // fire selected event
-            this.emit("selected", {id: this.getAttribute("id")});
-
             this.setAttribute('selected', '');
 
         } else {
@@ -254,6 +249,18 @@ class ChatListItem extends Component {
 
     get selected() {
         return this.hasAttribute('selected');
+    }
+
+    incrementUnreadCount() {
+        let count = 0;
+        if (this.getAttribute("unreadcount"))
+            count = parseInt(this.getAttribute("unreadcount"));
+
+        this.setAttribute('unreadcount', count + 1);
+    }
+
+    markAllAsRead() {
+        this.setAttribute('unreadcount', '0');
     }
 
     set unread(value) {
@@ -281,7 +288,10 @@ class ChatListItem extends Component {
             return;
         }
 
-        this.selected = true
+        // fire selected event
+        this.emit(APP_EVENTS.CHAT_CLICKED, {id: this.getAttribute("id")});
+        this.selected = true;
+        this.markAllAsRead();
     }
 
     /**

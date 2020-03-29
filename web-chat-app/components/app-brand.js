@@ -116,11 +116,11 @@ class AppBrand extends Component {
         this._profileBtn = this.shadowRoot.getElementById("profile-btn");
     }
 
-    connectedCallback() {
+    onMount() {
         this.initListeners();
     }
 
-    disconnectedCallback() {
+    onUnmount() {
         this.removeListeners();
     }
 
@@ -133,7 +133,7 @@ class AppBrand extends Component {
     }
 
     _onProfileBtnCLick(e) {
-        this.emit("profile-btn-click")
+        this.emit(APP_EVENTS.PROFILE_BTN_CLICK)
     }
 }
 

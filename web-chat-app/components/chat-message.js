@@ -21,7 +21,7 @@ class ChatMessage extends Component {
                 observe: true
             },
             text: {
-                type: "boolean",
+                type: "string",
                 observe: true
             },
             time: {
@@ -148,11 +148,11 @@ class ChatMessage extends Component {
         this.render();
     }
 
-    connectedCallback() {
+    onMount() {
         this.initListeners();
     }
 
-    disconnectedCallback() {
+    onUnmount() {
         this.removeListeners();
     }
 
@@ -165,6 +165,7 @@ class ChatMessage extends Component {
     }
 
     set text(value) {
+        console.log(value);
         if (value) {
             this.setAttribute('text', value);
         } else {
@@ -211,7 +212,6 @@ class ChatMessage extends Component {
     set isLastInGroup(value) {
         if (value) {
             this.setAttribute('lastingroup', '');
-            console.log(this.previousSibling);
         } else {
             this.removeAttribute('lastingroup');
         }

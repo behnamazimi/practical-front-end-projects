@@ -197,11 +197,11 @@ class AuthedUser extends Component {
         this.render();
     }
 
-    connectedCallback() {
+    onMount() {
         this.initListeners();
     }
 
-    disconnectedCallback() {
+    onUnmount() {
         this.removeListeners();
     }
 
