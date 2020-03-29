@@ -1,6 +1,7 @@
 window.loggenInUser = {
     id: "3",
-    title: "Behnam Azimi",
+    name: "Behnam Azimi",
+    username: "bhnmzm",
     online: true,
     lastSeen: "Yesterday",
     avatar: "https://randomuser.me/api/portraits/men/10.jpg"
@@ -185,6 +186,15 @@ const chats = [
     },
 
 ];
+
+const authedUser = document.querySelector("authed-user");
+authedUser.setUser(window.loggenInUser);
+authedUser.hidden = true;
+
+const appBranch = document.querySelector("app-brand");
+appBranch.on("profile-btn-click", () => {
+    authedUser.hidden = !authedUser.hidden
+});
 
 const chatsList = document.querySelector("chats-list");
 chatsList.setChats(chats);
