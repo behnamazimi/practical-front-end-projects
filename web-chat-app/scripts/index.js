@@ -21,19 +21,29 @@ app.signin(authedUser);
 
 fakeChats.map(fc => app.addChat(fc));
 
-setInterval(() => {
-    const fakeSender = fakeChats[randomNumber(10, 1)];
-    if (!fakeSender)
+let fakeMsgCounter = 1000;
+
+const interval = setInterval(() => {
+
+    if (--fakeMsgCounter === 0) {
+        clearInterval(interval);
         return;
+    }
 
-    // flag with a 20% probability
-    const randomFlag = Math.random() > .8;
+    setTimeout(() => {
+        const fakeSender = fakeChats[randomNumber(10, 1)];
+        if (!fakeSender)
+            return;
 
-    app.newMessage({
-        text: getRandomText(Math.random() > .5),
-        sender: randomFlag ? authedUser.id : fakeSender.id,
-        time: new Date(),
-        toChat: randomFlag ? fakeSender.id : authedUser.id
-    });
+        // flag with a 20% probability
+        const randomFlag = Math.random() > .8;
 
-}, 1500);
+        app.newMessage({
+            text: getRandomText(Math.random() > .5),
+            sender: randomFlag ? authedUser.id : fakeSender.id,
+            time: new Date(),
+            toChat: randomFlag ? fakeSender.id : authedUser.id
+        });
+    }, randomNumber(1000, 5000))
+
+}, 1000);
