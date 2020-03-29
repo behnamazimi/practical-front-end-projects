@@ -138,6 +138,30 @@ class ChatBox extends Component {
                     max-width: 550px;
                     width: 100%;
                 }
+                #scroll-to-bottom {
+                    position: absolute;
+                    right: 1.5rem;
+                    bottom: 1.5rem;
+                    color: var(--primaryColor);
+                    background-color: #fff;
+                    border: none;
+                    outline: none;
+                    border-radius: 50%;
+                    width: 40px;
+                    height: 40px;
+                    box-shadow: 0 0 8px 2px rgba(0,0,0,0.16);
+                    cursor: pointer;
+                    z-index: 10;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 16px;
+                    transform: translateY(100px);
+                    transition: transform .2s ease-in-out;
+                }
+                #scroll-to-bottom.show{
+                    transform: translateY(0px);                    
+                }
                 </style>`)
     }
 
@@ -153,6 +177,12 @@ class ChatBox extends Component {
                     <active-chat></active-chat>
                     <div class="chat-list-wrapper">
                         <div class="scrollable" id="chat-list"></div>
+                        <button id="scroll-to-bottom">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </button>
                     </div>
                     <new-message></new-message>
                 </div>
@@ -175,6 +205,7 @@ class ChatBox extends Component {
         });
 
         this._chatList = this.shadowRoot.getElementById("chat-list");
+        this._scrollToBottomBtn = this.shadowRoot.getElementById("scroll-to-bottom");
 
         // render component
         this.render();
@@ -241,14 +272,18 @@ class ChatBox extends Component {
     initListeners() {
         this._newMessageBox.on(APP_EVENTS.AUTHED_USER_NEW_MESSAGE, this._onAuthedMessageReceive.bind(this));
         this.on(APP_EVENTS.USER_SIGN_IN, this._userSignIn.bind(this));
+        this._scrollToBottomBtn.addEventListener("click", this.scrollToEnd.bind(this));
+        this._chatList.addEventListener("scroll", this.handleScrollToBottomBtnVisibility.bind(this));
     }
 
     removeListeners() {
         this._newMessageBox.off(APP_EVENTS.AUTHED_USER_NEW_MESSAGE, this._onAuthedMessageReceive.bind(this));
         this.off(APP_EVENTS.USER_SIGN_IN, this._userSignIn.bind(this));
+        this._scrollToBottomBtn.removeEventListener("click", this.scrollToEnd.bind(this));
+        this._chatList.removeEventListener("scroll", this.handleScrollToBottomBtnVisibility.bind(this));
     }
 
-    renderMessage({sender, text, time}) {
+    renderMessage({sender, text, time}, forceScrollToEnd = false) {
         if (!sender || !text || !time)
             return;
 
@@ -276,13 +311,18 @@ class ChatBox extends Component {
             this._appendDateToChatList(time);
         }
 
+        const isLastMessageInView = this._chatList.scrollTop >= this._chatList.scrollHeight - this._chatList.clientHeight;
+
         this.lastMessage = msg;
         this._chatList.appendChild(msg);
 
         if (isFromAuthedUser)
             this._newMessageBox.clear();
 
-        this.scrollToEnd();
+        if (isLastMessageInView || forceScrollToEnd)
+            this.scrollToEnd();
+
+        this.handleScrollToBottomBtnVisibility();
     }
 
     _userSignIn({detail}) {
@@ -295,7 +335,7 @@ class ChatBox extends Component {
 
         detail.toChat = this.activeChat.id;
         detail.sender = this._authedUserId;
-        this.renderMessage(detail);
+        this.renderMessage(detail, true);
         this.emit(APP_EVENTS.AUTHED_USER_NEW_MESSAGE, detail);
     }
 
@@ -319,6 +359,14 @@ class ChatBox extends Component {
         dateNode.innerHTML = `<span>${dayTitle}</span>`;
 
         this._chatList.appendChild(dateNode);
+    }
+
+    handleScrollToBottomBtnVisibility(e) {
+        if (this._chatList.scrollTop + 200 < this._chatList.scrollHeight - this._chatList.clientHeight) {
+            this._scrollToBottomBtn.classList.add("show")
+        } else {
+            this._scrollToBottomBtn.classList.remove("show");
+        }
     }
 
     /**

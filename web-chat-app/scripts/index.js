@@ -1,8 +1,9 @@
 import ChatApp from "./chat-app"
 import {chatGenerator, getRandomText, randomNumber} from "./data-factory";
 
+const numberOfChats = 10;
 let fakeChats = [];
-for (let i = 1; i < 10; i++) {
+for (let i = 1; i < numberOfChats; i++) {
     fakeChats.push(chatGenerator(i))
 }
 
@@ -31,7 +32,7 @@ const interval = setInterval(() => {
     }
 
     setTimeout(() => {
-        const fakeSender = fakeChats[randomNumber(10, 1)];
+        const fakeSender = fakeChats[randomNumber(numberOfChats, 1)];
         if (!fakeSender)
             return;
 
@@ -46,4 +47,4 @@ const interval = setInterval(() => {
         });
     }, randomNumber(1000, 5000))
 
-}, 1000);
+}, 500);
