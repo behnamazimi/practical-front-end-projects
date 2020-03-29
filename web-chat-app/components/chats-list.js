@@ -59,7 +59,7 @@ class ChatsList extends Component {
                         overflow: hidden;
                         overflow-y: auto;
                         height: 100%;
-                        margin-right: -12px;
+                        padding: .5em 0;
                     }
                     .search-wrapper {
                         margin-top: .3em;
@@ -158,9 +158,10 @@ class ChatsList extends Component {
     generateChatListItem(chat) {
         const chatListItem = document.createElement("chat-list-item");
         chatListItem.setAttribute("id", chat.id);
-        chatListItem.setAttribute("title", chat.title);
+        chatListItem.setAttribute("title", chat.name);
+        chatListItem.setAttribute("name", chat.name);
         chatListItem.setAttribute("avatar", chat.avatar);
-        chatListItem.setAttribute("desc", chat.desc);
+        chatListItem.setAttribute("desc", chat.desc || chat.username);
         chatListItem.setAttribute("lastseen", chat.lastseen);
         chatListItem.setAttribute("unreadcount", chat.unreadcount);
         if (chat.online)
