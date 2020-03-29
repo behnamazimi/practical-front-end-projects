@@ -154,7 +154,7 @@ class ChatListItem extends Component {
                         display: flex;
                         flex-direction: column-reverse;
                         justify-content: center;
-                        align-items: center;
+                        align-items: flex-end;
                     }
                     #lastseen {
                         font-size: .7em;
