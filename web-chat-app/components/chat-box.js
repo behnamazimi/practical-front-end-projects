@@ -1,5 +1,3 @@
-import Component from "./component";
-
 class ChatBox extends Component {
 
     /**
@@ -187,7 +185,7 @@ class ChatBox extends Component {
                     <new-message></new-message>
                 </div>
                 <div class="chat-placeholder">
-                    <img src="http://localhost:5000/chat-placeholder.svg" alt="chat-placeholder">
+                    <img src="../static/chat-placeholder.svg" alt="chat-placeholder">
                     <h2>Hi there! \n Select a chat to start messaging.</h2>
                     <p>This app is one of the projects that developed under name 
                     <a href="https://github.com/behnamazimi/simple-web-projects" target="_blank">

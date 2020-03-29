@@ -1,5 +1,3 @@
-import Component from "./component";
-
 class NewMessage extends Component {
 
     /**

@@ -1,6 +1,3 @@
-import ChatApp from "./chat-app"
-import {chatGenerator, getRandomText, randomNumber} from "./data-factory";
-
 const numberOfChats = 10;
 let fakeChats = [];
 for (let i = 1; i < numberOfChats; i++) {

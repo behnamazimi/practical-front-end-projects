@@ -1,6 +1,3 @@
-import Component from "./component";
-
-
 class AuthedUser extends Component {
 
     /**

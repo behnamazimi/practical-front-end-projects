@@ -117,5 +117,3 @@ class ChatApp {
             throw new Error(`${error}`)
     }
 }
-
-export default ChatApp

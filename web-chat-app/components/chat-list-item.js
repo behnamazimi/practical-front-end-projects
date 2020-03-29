@@ -1,5 +1,3 @@
-import Component from "./component";
-
 class ChatListItem extends Component {
 
     /**
