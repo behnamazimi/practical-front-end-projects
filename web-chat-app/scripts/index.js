@@ -1,8 +1,8 @@
 import ChatApp from "./chat-app"
-import {chatGenerator, randomNumber} from "./data-factory";
+import {chatGenerator, getRandomText, randomNumber} from "./data-factory";
 
 let fakeChats = [];
-for (let i = 1; i < 50; i++) {
+for (let i = 1; i < 10; i++) {
     fakeChats.push(chatGenerator(i))
 }
 
@@ -21,16 +21,19 @@ app.signin(authedUser);
 
 fakeChats.map(fc => app.addChat(fc));
 
-let a = setInterval(() => {
-    const fakeSender = fakeChats[randomNumber(50, 1)];
+setInterval(() => {
+    const fakeSender = fakeChats[randomNumber(10, 1)];
     if (!fakeSender)
         return;
 
+    // flag with a 20% probability
+    const randomFlag = Math.random() > .8;
+
     app.newMessage({
-        text: app.getRandomText(),
-        sender: fakeSender.id,
+        text: getRandomText(Math.random() > .5),
+        sender: randomFlag ? authedUser.id : fakeSender.id,
         time: new Date(),
-        toChat: authedUser.id
+        toChat: randomFlag ? fakeSender.id : authedUser.id
     });
 
 }, 1500);

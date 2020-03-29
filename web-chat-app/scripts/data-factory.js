@@ -32,3 +32,38 @@ export function chatGenerator(index) {
         avatar: `https://randomuser.me/api/portraits/${index % 3 ? "women" : "men"}/${index + 1}.jpg`,
     }
 }
+
+export function getRandomText(meanLess = false) {
+    if (meanLess) {
+        const lorem = `If the family member doesn’t need hospitalization and can be cared for at home, you should help him or her with basic needs and monitor the symptoms, while also keeping as much distance as possible, according to guidelines issued by the C.D.C. If there’s space, the sick family member should stay in a separate room and use a separate bathroom. If masks are available, both the sick person and the caregiver should wear them when the caregiver enters the room. Make sure not to share any dishes or other household items and to regularly clean surfaces like counters, doorknobs, toilets and tables. Don’t forget to wash your hands frequently. Give yourself grace. “This is not the time to be looking at your parenting manual and expecting yourself to be a top performer,” said Dr. Pooja Lakshmin, M.D., a clinical assistant professor of psychiatry at the George Washington University School of Medicine & Health Sciences. “All of the rules are sort of thrown out the window when every day the information is changing.” You may be trying to work from home with your stir-crazy children, and all your previous rules about screen time may need to get tossed. “Give yourself permission to cut corners so you can all get through unusual circumstances,” said Dr. Alexandra Sacks, M.D., a reproductive psychiatrist in New York.`;
+        const i1 = Math.floor(Math.random() * lorem.length + 1);
+        const i2 = Math.floor(Math.random() * lorem.length + 1);
+        const start = Math.min(i1, i2);
+        const end = Math.min(i2, i1);
+        return lorem.substr(start, end)
+    }
+    let verbs, nouns, adjectives, adverbs, preposition;
+    nouns = ["bird", "clock", "boy", "plastic", "duck", "teacher", "old lady", "professor", "hamster", "dog",
+        "area", "book", "business", "case", "child", "company", "country", "day", "eye",
+        "fact", "family", "government", "group", "hand", "home", "job", "life", "lot"];
+    verbs = ["kicked", "ran", "flew", "dodged", "sliced", "rolled", "died", "breathed", "slept", "killed",
+        "ask", "be", "become", "begin", "call", "can", "come", "could", "do",
+        "feel", "find", "get", "give", "go", "have", "hear", "help", "keep", "know",];
+    adjectives = ["beautiful", "lazy", "professional", "lovely", "dumb", "rough", "soft", "hot", "vibrating", "slimy", "important",
+        "able", "bad", "best", "better", "big", "black", "certain", "clear", "different", "early",
+        "easy", "economic", "federal", "free", "full", "good", "great", "hard", "high", "human"];
+    adverbs = ["slowly", "elegantly", "precisely", "quickly", "sadly", "humbly", "proudly", "shockingly", "calmly", "passionately"];
+    preposition = ["down", "into", "up", "on", "upon", "below", "above", "through", "across", "towards"];
+
+
+    var rand1 = Math.floor(Math.random() * 10);
+    var rand2 = Math.floor(Math.random() * 10);
+    var rand3 = Math.floor(Math.random() * 30);
+    var rand4 = Math.floor(Math.random() * 30);
+    var rand5 = Math.floor(Math.random() * 30);
+    var rand6 = Math.floor(Math.random() * 30);
+    return "The " + adjectives[rand1] + " " + nouns[rand2] + " " + adverbs[rand1] + " " + verbs[rand4] + " because some " + nouns[rand1]
+        + " " + adverbs[rand2] + " " + verbs[rand1] + " " + preposition[rand1] + " a " + adjectives[rand2] + " " + nouns[rand5]
+        + " which, became a " + adjectives[rand3] + ", " + adjectives[rand4] + " " + nouns[rand6] + ".";
+}
+
