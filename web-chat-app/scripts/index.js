@@ -16,22 +16,12 @@ const authedUser = {
     avatar: "https://randomuser.me/api/portraits/men/1.jpg"
 };
 
-const tempChat = {
-    id: Math.random().toString(32).substr(2, 10),
-    name: "Haniyeh Mahboubifar",
-    username: "hanimf",
-    online: true,
-    lastseen: "Today",
-    unreadcount: "0",
-    avatar: "https://randomuser.me/api/portraits/women/53.jpg",
-};
-
 const app = new ChatApp("chat-web-app");
 app.signin(authedUser);
 
 fakeChats.map(fc => app.addChat(fc));
 
-setInterval(() => {
+let a = setInterval(() => {
     const fakeSender = fakeChats[randomNumber(50, 1)];
     if (!fakeSender)
         return;
@@ -42,4 +32,5 @@ setInterval(() => {
         time: new Date(),
         toChat: authedUser.id
     });
-}, 1000);
+
+}, 1500);

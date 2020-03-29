@@ -29,6 +29,6 @@ export function chatGenerator(index) {
         online: Math.random() > .7,
         lastseen,
         unreadcount: "0",
-        avatar: `https://randomuser.me/api/portraits/${index % 2 ? "women" : "men"}/${index + 1}.jpg`,
+        avatar: `https://randomuser.me/api/portraits/${index % 3 ? "women" : "men"}/${index + 1}.jpg`,
     }
 }

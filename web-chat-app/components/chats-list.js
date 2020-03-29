@@ -132,7 +132,8 @@ class ChatsList extends Component {
 
     initListeners() {
         document.addEventListener("keydown", this._onKeyDown.bind(this));
-        this._searchInput.addEventListener("input", this._onSearch.bind(this))
+        this._searchInput.addEventListener("input", this._onSearch.bind(this));
+        this.on(APP_EVENTS.NEW_MESSAGE_RECEIVE, this._onNewMessageReceive.bind(this));
     }
 
     removeListeners() {
@@ -156,8 +157,25 @@ class ChatsList extends Component {
         }, 300);
     }
 
-    setChats(chats) {
+    _onNewMessageReceive({detail}) {
+        if (!detail.sender)
+            return;
 
+        const senderChatIndex = this._chats.findIndex(c => c.id === detail.sender);
+        const senderChat = this._chats.splice(senderChatIndex, 1)[0];
+
+        // update unread message
+        senderChat.unreadcount = (+senderChat.unreadcount || 0) + 1;
+        senderChat.elm.incrementUnreadCount();
+
+        const copy = this.generateChatListItem(senderChat);
+        senderChat.elm.remove();
+        this.chatsWrapper.insertBefore(copy, this.chatsWrapper.firstChild);
+        this._chats.unshift(senderChat);
+
+    }
+
+    setChats(chats) {
         this._chats = chats;
         this.chatsWrapper.innerHTML = '';
         this.render();
@@ -174,6 +192,8 @@ class ChatsList extends Component {
         chatListItem.setAttribute("unreadcount", chat.unreadcount);
         if (chat.online)
             chatListItem.setAttribute("online", '');
+
+        chatListItem.on(APP_EVENTS.CHAT_CLICKED, this._onChatClicked.bind(this));
 
         return chatListItem
     }
@@ -194,7 +214,6 @@ class ChatsList extends Component {
 
         this._chats = this._chats.map(chat => {
             chat.elm = this.generateChatListItem(chat);
-            chat.elm.on(APP_EVENTS.CHAT_CLICKED, this._onChatClicked.bind(this));
             this.chatsWrapper.appendChild(chat.elm);
             return chat
         })

@@ -5,6 +5,7 @@ window.APP_EVENTS = {
     AUTHED_USER_NEW_MESSAGE: "authed-user-new-message",
     USER_SIGN_IN: "user-sign-in",
     SEARCH_IN_CHATS: "search-in-chats",
+    NEW_MESSAGE_RECEIVE: "new-message-receive",
 };
 
 class ChatApp {
@@ -63,16 +64,9 @@ class ChatApp {
             this._componenets.chatBox.renderMessage(msg);
         }
 
-        this.incChatUnreadCount(msg.sender);
+        this._componenets.chatsList.emit(APP_EVENTS.NEW_MESSAGE_RECEIVE, msg);
     }
 
-    incChatUnreadCount(senderId) {
-        const targetChat = this._chats.find(c => c.id === senderId);
-        if (!targetChat)
-            return;
-
-        targetChat.elm.incrementUnreadCount()
-    }
 
     get authedUser() {
         return this._authedUser;
