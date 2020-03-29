@@ -143,9 +143,8 @@ class ChatsList extends Component {
         if (this._searchDebounceFlag)
             clearTimeout(this._searchDebounceFlag);
 
-        const trend = e.target.value;
         this._searchDebounceFlag = setTimeout(() => {
-            this.emit(APP_EVENTS.SEARCH_IN_CHATS, {trend});
+            this.render();
         }, 300);
     }
 
@@ -158,13 +157,14 @@ class ChatsList extends Component {
 
         // update unread message
         senderChat.unreadcount = (+senderChat.unreadcount || 0) + 1;
-        senderChat.elm.incrementUnreadCount();
+        const alreadySelected = senderChat.elm.selected;
 
-        const copy = this.generateChatListItem(senderChat);
         senderChat.elm.remove();
-        this.chatsWrapper.insertBefore(copy, this.chatsWrapper.firstChild);
+        senderChat.elm = this.generateChatListItem(senderChat);
+        senderChat.elm.selected = alreadySelected;
         this._chats.unshift(senderChat);
 
+        this.appendChatToList(senderChat, true);
     }
 
     setChats(chats) {
@@ -193,20 +193,37 @@ class ChatsList extends Component {
     _onChatClicked({detail}) {
         this._chats.map(chat => {
             if (chat.id !== detail.id)
-                chat.elm.selected = false
+                chat.elm.selected = false;
+            else
+                chat.unreadcount = 0;
         });
 
         this.emit(APP_EVENTS.CHAT_SELECTED, detail)
+    }
+
+    appendChatToList(chat, appendFirst = false) {
+        const searchTrend = (this._searchInput.value || '').toLowerCase();
+        if (~chat.name.toLowerCase().indexOf(searchTrend)
+            || ~chat.username.toLowerCase().indexOf(searchTrend)) {
+
+            if (!appendFirst) {
+                this.chatsWrapper.appendChild(chat.elm);
+            } else {
+                this.chatsWrapper.insertBefore(chat.elm, this.chatsWrapper.firstChild);
+            }
+        }
     }
 
     /**
      * render component according to template and attributes
      */
     render() {
-
+        this.chatsWrapper.innerHTML = '';
         this._chats = this._chats.map(chat => {
             chat.elm = this.generateChatListItem(chat);
-            this.chatsWrapper.appendChild(chat.elm);
+
+            this.appendChatToList(chat);
+
             return chat
         })
     }

@@ -20,7 +20,6 @@ class ChatApp {
         this._chats = [];
         this._messages = [];
         this._componenets = {};
-        this._searchInChatsTrend = '';
         this.assignComponents();
 
         this.initListeners();
@@ -38,7 +37,6 @@ class ChatApp {
     initListeners() {
         this._componenets.appBranch.on(APP_EVENTS.PROFILE_BTN_CLICK, this._onProfileBtnClick.bind(this));
         this._componenets.chatsList.on(APP_EVENTS.CHAT_SELECTED, this._onChatSelected.bind(this));
-        this._componenets.chatsList.on(APP_EVENTS.SEARCH_IN_CHATS, this._onSearchInChats.bind(this));
         this._componenets.chatBox.on(APP_EVENTS.AUTHED_USER_NEW_MESSAGE, this._onAuthedUserNewMessages.bind(this));
     }
 
@@ -63,7 +61,6 @@ class ChatApp {
         if (this.activeChat && msg.sender === this.activeChat.id) {
             this._componenets.chatBox.renderMessage(msg);
         }
-
         this._componenets.chatsList.emit(APP_EVENTS.NEW_MESSAGE_RECEIVE, msg);
     }
 
@@ -87,11 +84,6 @@ class ChatApp {
         })
     }
 
-    _onSearchInChats({detail}) {
-        this._searchInChatsTrend = (detail.trend || '').toLocaleString();
-        this.renderChats();
-    }
-
     _onAuthedUserNewMessages({detail}) {
         this._messages.push({...detail, sender: this.authedUser.id})
     }
@@ -100,11 +92,7 @@ class ChatApp {
         if (!this._chats)
             return;
 
-        const filteredChats = this._chats
-            .filter(c => ~c.name.toLowerCase().indexOf(this._searchInChatsTrend)
-                || ~c.username.toLowerCase().indexOf(this._searchInChatsTrend));
-
-        this._componenets.chatsList.setChats(filteredChats)
+        this._componenets.chatsList.setChats(this._chats)
     }
 
     addChat(chat) {
@@ -117,15 +105,6 @@ class ChatApp {
         this._chats.push(chat);
 
         this.renderChats();
-    }
-
-    getRandomText() {
-        const lorem = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi."
-        const i1 = Math.floor(Math.random() * lorem.length + 1);
-        const i2 = Math.floor(Math.random() * lorem.length + 1);
-        const start = Math.min(i1, i2);
-        const end = Math.min(i2, i1);
-        return lorem.substr(start, end)
     }
 
     /**
