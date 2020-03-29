@@ -14,16 +14,27 @@ const tempChat = {
     name: "Haniyeh Mahboubifar",
     username: "hanimf",
     online: true,
-    lastseen: "Yesterday",
+    lastseen: "Today",
     unreadcount: "0",
-    avatar: "https://randomuser.me/api/portraits/women/1.jpg",
+    avatar: "https://randomuser.me/api/portraits/women/53.jpg",
+    messages: []
+};
+
+const tempChat2 = {
+    id: Math.random().toString(32).substr(2, 10),
+    name: "Hani Azimi",
+    username: "hadihamze",
+    online: false,
+    lastseen: "Aug 12, 2019",
+    unreadcount: "0",
+    avatar: "https://randomuser.me/api/portraits/men/34.jpg",
     messages: []
 };
 
 const app = new ChatApp("chat-web-app");
 app.signin(loggenInUser);
 app.addChat(tempChat);
-app.addChat({...tempChat, name: "test", id: "test"});
+app.addChat(tempChat2);
 
 app.newMessage({
     text: getMsgText(),

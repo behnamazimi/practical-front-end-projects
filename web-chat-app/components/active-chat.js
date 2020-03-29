@@ -114,6 +114,23 @@ class ActiveChat extends Component {
                         font-size: 1em;
                         font-weight: bold;
                     }
+                    #more-btn {
+                        background: transparent;
+                        border: none;
+                        outline: none;
+                        cursor: pointer;
+                        color: var(--primaryColor);
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 32px;
+                        height: 28px;
+                        border-radius: 5px;
+                        margin: 0 .3em ;
+                    }
+                    #more-btn:hover {
+                        background-color: #f2f2f2;
+                    }
                 </style>`)
     }
 
@@ -132,7 +149,14 @@ class ActiveChat extends Component {
                 </div>
                 <div id="name"></div>
                 <div class="actions">
-                    More
+                    <button id="more-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1"></circle>
+                            <circle cx="12" cy="5" r="1"></circle>
+                            <circle cx="12" cy="19" r="1"></circle>
+                        </svg>
+                    </button>
                 </div>                
             </template>
             `)

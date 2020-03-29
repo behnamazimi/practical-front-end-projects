@@ -4,6 +4,7 @@ window.APP_EVENTS = {
     CHAT_SELECTED: "chat-selected",
     AUTHED_USER_NEW_MESSAGE: "authed-user-new-message",
     USER_SIGN_IN: "user-sign-in",
+    SEARCH_IN_CHATS: "search-in-chats",
 };
 
 class ChatApp {
@@ -18,6 +19,7 @@ class ChatApp {
         this._chats = [];
         this._messages = [];
         this._componenets = {};
+        this._searchInChatsTrend = '';
         this.assignComponents();
 
         this.initListeners();
@@ -35,6 +37,7 @@ class ChatApp {
     initListeners() {
         this._componenets.appBranch.on(APP_EVENTS.PROFILE_BTN_CLICK, this._onProfileBtnClick.bind(this));
         this._componenets.chatsList.on(APP_EVENTS.CHAT_SELECTED, this._onChatSelected.bind(this));
+        this._componenets.chatsList.on(APP_EVENTS.SEARCH_IN_CHATS, this._onSearchInChats.bind(this));
         this._componenets.chatBox.on(APP_EVENTS.AUTHED_USER_NEW_MESSAGE, this._onAuthedUserNewMessages.bind(this));
     }
 
@@ -90,6 +93,11 @@ class ChatApp {
         })
     }
 
+    _onSearchInChats({detail}) {
+        this._searchInChatsTrend = (detail.trend || '').toLocaleString();
+        this.renderChats();
+    }
+
     _onAuthedUserNewMessages({detail}) {
         this._messages.push({...detail, sender: this.authedUser.id})
     }
@@ -98,7 +106,11 @@ class ChatApp {
         if (!this._chats)
             return;
 
-        this._componenets.chatsList.setChats(this._chats)
+        const filteredChats = this._chats
+            .filter(c => ~c.name.toLowerCase().indexOf(this._searchInChatsTrend)
+                || ~c.username.toLowerCase().indexOf(this._searchInChatsTrend));
+
+        this._componenets.chatsList.setChats(filteredChats)
     }
 
     addChat(chat) {

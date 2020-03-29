@@ -94,7 +94,7 @@ class ChatsList extends Component {
             <template>
                 ${ChatsList.style}
                 <div class="search-wrapper">
-                    <input type="text" id="search-input" placeholder="Search">   
+                    <input type="search" id="search-input" placeholder="Search">   
                 </div>
                 <div class="scrollable">
                     <div id="chats-wrapper"></div>
@@ -110,8 +110,8 @@ class ChatsList extends Component {
         });
 
         this.chatsWrapper = this.shadowRoot.getElementById("chats-wrapper");
-        this._searchInput = this.shadowRoot.getElementById("search-input")
-
+        this._searchInput = this.shadowRoot.getElementById("search-input");
+        this._searchDebounceFlag = null;
     }
 
     onMount() {
@@ -132,6 +132,7 @@ class ChatsList extends Component {
 
     initListeners() {
         document.addEventListener("keydown", this._onKeyDown.bind(this));
+        this._searchInput.addEventListener("input", this._onSearch.bind(this))
     }
 
     removeListeners() {
@@ -143,6 +144,16 @@ class ChatsList extends Component {
             e.preventDefault();
             this._searchInput.focus();
         }
+    }
+
+    _onSearch(e) {
+        if (this._searchDebounceFlag)
+            clearTimeout(this._searchDebounceFlag);
+
+        const trend = e.target.value;
+        this._searchDebounceFlag = setTimeout(() => {
+            this.emit(APP_EVENTS.SEARCH_IN_CHATS, {trend});
+        }, 300);
     }
 
     setChats(chats) {
