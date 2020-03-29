@@ -13,7 +13,12 @@ class ChatListItem extends Component {
                 type: "string",
                 required: true,
             },
-            title: {
+            name: {
+                type: "string",
+                required: true,
+                observe: true
+            },
+            username: {
                 type: "string",
                 required: true,
                 observe: true
@@ -79,8 +84,7 @@ class ChatListItem extends Component {
                         box-sizing: border-box;
                         user-select: none;                        
                     }
-                    :host(:hover),
-                    :host(:hover) .item-meta{
+                    :host(:hover) {
                         background: var(--hoverColor);
                     }
                     :host([selected]) {
@@ -134,7 +138,7 @@ class ChatListItem extends Component {
                         flex: 0 1 100%;
                         position: relative;
                     }
-                    #title {
+                    #name {
                         margin: 0 0 .3em 0;
                         font-size: 1em;
                     }
@@ -153,23 +157,23 @@ class ChatListItem extends Component {
                         right: 0;
                         top: 0;
                         display: flex;
+                        flex-direction: column-reverse;
                         justify-content: center;
                         align-items: center;
-                        background: #fff;                    
                     }
                     #lastseen {
                         font-size: .7em;
                         opacity: .5;
-                        margin-right: 1em;
+                        margin-top: .65em;
                     }
                     #unreadcount {
                         background: var(--primaryColor);
-                        width: 22px;
-                        height: 22px;
+                        width: 18px;
+                        height: 18px;
                         border-radius: 50%;
                         text-align: center;
                         color: #fff;
-                        font-size: .8em;
+                        font-size: .7em;
                         display: flex;
                         justify-content: center;
                         align-items: center;
@@ -199,7 +203,7 @@ class ChatListItem extends Component {
                     <span class="char-avatar"></span>
                 </div>
                 <div class="item-details">
-                        <h3 id="title"></h3>
+                        <h3 id="name"></h3>
                         <p id="desc"></p>
                         <div class="item-meta">
                             <span id="lastseen"></span>
@@ -291,11 +295,11 @@ class ChatListItem extends Component {
         }
 
         // check the existence of avatar
-        // fetch first char of title to show if avatar not passed
+        // fetch first char of name to show if avatar not passed
         if (!this.getAttribute("avatar")) {
-            // put first char of title when avatar not passed
-            const title = (this.getAttribute("title") || "").toUpperCase();
-            this.shadowRoot.querySelector(".char-avatar").innerText = title.substr(0, 1);
+            // put first char of name when avatar not passed
+            const name = (this.getAttribute("name") || "").toUpperCase();
+            this.shadowRoot.querySelector(".char-avatar").innerText = name.substr(0, 1);
         }
 
         // loop over attributes and set all
