@@ -10,11 +10,11 @@ function randomDate() {
     return date;
 }
 
-export function randomNumber(max, min = 0) {
+function randomNumber(max, min = 0) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
-export function chatGenerator(index) {
+function chatGenerator(index) {
     const name = names[index];
     let lastseen = randomDate().toLocaleDateString().replace(/\//g, ".");
     if (index % 3 === 0)
@@ -33,11 +33,11 @@ export function chatGenerator(index) {
     }
 }
 
-export function getRandomText(meanLess = false) {
+function getRandomText(meanLess = false) {
     if (meanLess) {
         const lorem = `If the family member doesn’t need hospitalization and can be cared for at home, you should help him or her with basic needs and monitor the symptoms, while also keeping as much distance as possible, according to guidelines issued by the C.D.C. If there’s space, the sick family member should stay in a separate room and use a separate bathroom. If masks are available, both the sick person and the caregiver should wear them when the caregiver enters the room. Make sure not to share any dishes or other household items and to regularly clean surfaces like counters, doorknobs, toilets and tables. Don’t forget to wash your hands frequently.`;
-        const i1 = Math.floor(Math.random() * lorem.length + 1);
-        const i2 = Math.floor(Math.random() * lorem.length + 1);
+        const i1 = randomNumber(lorem.length, 6);
+        const i2 = randomNumber(lorem.length, 6);
         const start = Math.min(i1, i2);
         const end = Math.min(i2, i1);
         return lorem.substr(start, end)
