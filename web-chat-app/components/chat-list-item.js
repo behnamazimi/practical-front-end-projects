@@ -71,7 +71,6 @@ class ChatListItem extends Component {
                         padding: .75em .5rem;
                         position: relative;
                         cursor: pointer;
-                        transition: all .2s;
                     }
                     :host([hidden]) {
                         display: none;
@@ -87,8 +86,6 @@ class ChatListItem extends Component {
                         box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1);
                         position: relative;
                         z-index: 1;
-                        transition: all .1s;
-                        border-left: 4px solid #3AD07A;
                     }
                     .avatar-container {
                         flex: 0 0 3em;
