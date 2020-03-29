@@ -1,0 +1,56 @@
+/** Simple Reset - START */
+html {
+    box-sizing: border-box;
+    font-size: 16px;
+    overflow-x: hidden;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+body, h1, h2, h3, h4, h5, h6, p, ol, ul {
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/** Global - START */
+
+body {
+    font-family: 'Lato', sans-serif;
+    height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
+}
+
+#chat-web-app {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    flex-direction: row;
+}
+
+#chat-web-app .sidebar {
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, .14);
+    display: flex;
+    flex-direction: column;
+    width: 280px;
+    min-width: 280px;
+    position: relative;
+    z-index: 2;
+}
+
