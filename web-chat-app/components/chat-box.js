@@ -8,7 +8,7 @@ class ChatBox extends Component {
      */
     static get attrTypes() {
         return {
-            activeChat: {
+            hidden: {
                 type: "boolean",
                 observe: true
             },
@@ -43,8 +43,14 @@ class ChatBox extends Component {
                     height: 100%;
                     max-height: 100%;
                     flex-grow: 1;
+                    transition: all .2s;
+                    position: relative;
                 }
-                :host([hidden]) {
+                :host([hidden]) .chat-box-inner {
+                    visibility: hidden;
+                    opacity: 0;
+                }
+                :host(:not([hidden])) .chat-placeholder {
                     display: none;
                 }
                 * {
@@ -100,6 +106,38 @@ class ChatBox extends Component {
                     background: rgba(0,0,0,.2);
                     color: #fff;
                 }
+                .chat-placeholder {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    width: 100%;
+                    height: 100%;
+                    padding: 2em;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: #fdfdfd;
+                    text-align: center;
+                    color: #666;
+                }
+                .chat-placeholder img {
+                    max-width: 500px;
+                    margin-bottom: 1rem;
+                }
+                .chat-placeholder h2{
+                    font-size: calc(.51vh + 2vw + .1vmin);
+                    white-space: pre-wrap;
+                    font-weight: 500;
+                }
+                .chat-placeholder p {
+                    opacity: .7;
+                    line-height: 26px;
+                    font-size: 16px;
+                    font-weight: 300;
+                    max-width: 550px;
+                    width: 100%;
+                }
                 </style>`)
     }
 
@@ -114,11 +152,17 @@ class ChatBox extends Component {
                 <div class="chat-box-inner">
                     <active-chat></active-chat>
                     <div class="chat-list-wrapper">
-                        <div class="scrollable" id="chat-list">
-                            
-                        </div>
+                        <div class="scrollable" id="chat-list"></div>
                     </div>
                     <new-message></new-message>
+                </div>
+                <div class="chat-placeholder">
+                    <img src="http://localhost:5000/chat-placeholder.svg" alt="chat-placeholder">
+                    <h2>Hi there! \n Select a chat to start messaging.</h2>
+                    <p>This app is one of the projects that developed under name 
+                    <a href="https://github.com/behnamazimi/simple-web-projects" target="_blank">
+                    <strong>simple web projects</strong></a> for educational purposes. 
+                    This project developed with <strong>Web Components</strong> without any third-party libs.</p>
                 </div>
             </template>
             `)
@@ -148,6 +192,14 @@ class ChatBox extends Component {
         if (oldValue === newValue)
             return;
 
+        if (attrName === "hidden") {
+            console.log("hidden", newValue, oldValue);
+            // if (newValue)
+            this.attachShadow({mode: "closed"})
+            // else
+            //     this.attachShadow({mode: "open"})
+        }
+
         // re-render component
         this.render();
     }
@@ -174,6 +226,19 @@ class ChatBox extends Component {
     get activeChat() {
         return this._activeChat;
     }
+
+    set hidden(value) {
+        if (value) {
+            this.setAttribute("hidden", '');
+        } else {
+            this.removeAttribute("hidden");
+        }
+    }
+
+    get hidden() {
+        return this.hasAttribute("hidden")
+    }
+
 
     initListeners() {
         this.on("new-message", this._onMessageReceive.bind(this));
@@ -255,7 +320,7 @@ class ChatBox extends Component {
         this.assert(activeChatNode, "The active-chat node not found in chat-box");
 
         activeChatNode.setAttribute("id", this._activeChat.id);
-        activeChatNode.setAttribute("title", this._activeChat.title);
+        activeChatNode.setAttribute("name", this._activeChat.name);
         activeChatNode.setAttribute("avatar", this._activeChat.avatar || "");
         if (this._activeChat.online)
             activeChatNode.setAttribute("online", '');

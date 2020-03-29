@@ -61,6 +61,27 @@ class ChatsList extends Component {
                         height: 100%;
                         margin-right: -12px;
                     }
+                    .search-wrapper {
+                        margin-top: .3em;
+                        padding: .5rem;
+                    }
+                    #search-input {
+                        border: 1px solid #e0e0e0;
+                        background-color: #f9f9f9;
+                        height: 36px;
+                        border-radius: 25px;
+                        width: 100%;
+                        outline: none;
+                        padding: .2em 1em;
+                        font-family: 'Lato', sans-serif;
+                        color: #555;
+                    }
+                    #search-input:focus {
+                        box-shadow: 0 0 3px 1px #3ad07a;
+                    }
+                    #search-input::placeholder {
+                        opacity: .5;
+                    }
                 </style>`)
     }
 
@@ -72,6 +93,9 @@ class ChatsList extends Component {
         return (`
             <template>
                 ${ChatsList.style}
+                <div class="search-wrapper">
+                    <input type="text" id="search-input" placeholder="Search">   
+                </div>
                 <div class="scrollable">
                     <div id="chats-wrapper"></div>
                 </div>  
@@ -85,7 +109,8 @@ class ChatsList extends Component {
             template: ChatsList.template
         });
 
-        this.chatsWrapper = this.shadowRoot.getElementById("chats-wrapper")
+        this.chatsWrapper = this.shadowRoot.getElementById("chats-wrapper");
+        this._searchInput = this.shadowRoot.getElementById("search-input")
 
     }
 
@@ -106,9 +131,18 @@ class ChatsList extends Component {
     }
 
     initListeners() {
+        document.addEventListener("keydown", this._onKeyDown.bind(this))
     }
 
     removeListeners() {
+        document.removeEventListener("keydown", this._onKeyDown.bind(this))
+    }
+
+    _onKeyDown(e) {
+        if (e.ctrlKey && e.key === "f") {
+            e.preventDefault();
+            this._searchInput.focus();
+        }
     }
 
     setChats(chats) {

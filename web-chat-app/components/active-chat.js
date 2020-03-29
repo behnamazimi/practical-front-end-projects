@@ -13,7 +13,7 @@ class ActiveChat extends Component {
                 type: "string",
                 observe: true
             },
-            title: {
+            name: {
                 type: "string",
                 observe: true
             },
@@ -107,7 +107,7 @@ class ActiveChat extends Component {
                         visibility: visible;
                         opacity: 1;
                     }                    
-                    #title {
+                    #name {
                         flex: 0 1 100%;
                         position: relative;
                         margin: 0 0 .3em 0;
@@ -130,7 +130,7 @@ class ActiveChat extends Component {
                     <img src="" id="avatar">
                     <span class="char-avatar"></span>
                 </div>
-                <div id="title"></div>
+                <div id="name"></div>
                 <div class="actions">
                     More
                 </div>                
@@ -176,11 +176,11 @@ class ActiveChat extends Component {
     render() {
 
         // check the existence of avatar
-        // fetch first char of title to show if avatar not passed
+        // fetch first char of name to show if avatar not passed
         if (!this.getAttribute("avatar")) {
-            // put first char of title when avatar not passed
-            const title = (this.getAttribute("title") || "").toUpperCase();
-            this.shadowRoot.querySelector(".char-avatar").innerText = title.substr(0, 1);
+            // put first char of name when avatar not passed
+            const name = (this.getAttribute("name") || "").toUpperCase();
+            this.shadowRoot.querySelector(".char-avatar").innerText = name.substr(0, 1);
         }
 
         // loop over attributes and set all
@@ -190,7 +190,7 @@ class ActiveChat extends Component {
                 continue;
 
             switch (attr.name) {
-                case "title":
+                case "name":
                     target.innerText = attr.value;
                     break;
                 case "avatar":
