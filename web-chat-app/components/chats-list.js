@@ -122,14 +122,6 @@ class ChatsList extends Component {
         this.removeListeners();
     }
 
-    attributeChangedCallback(attrName, oldValue, newValue) {
-        if (oldValue === newValue)
-            return;
-
-        // re-render component
-        this.render();
-    }
-
     initListeners() {
         document.addEventListener("keydown", this._onKeyDown.bind(this));
         this._searchInput.addEventListener("input", this._onSearch.bind(this));
