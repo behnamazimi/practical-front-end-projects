@@ -194,26 +194,13 @@ class AuthedUser extends Component {
         this.render();
     }
 
-    onMount() {
-        this.initListeners();
-    }
-
-    onUnmount() {
-        this.removeListeners();
-    }
-
+    // call on attributes changed
     attributeChangedCallback(attrName, oldValue, newValue) {
         if (oldValue === newValue)
             return;
 
         // re-render component
         this.render();
-    }
-
-    initListeners() {
-    }
-
-    removeListeners() {
     }
 
     setUser(user) {
@@ -225,6 +212,10 @@ class AuthedUser extends Component {
         this.setAttribute("avatar", user.avatar);
     }
 
+    /**
+     * reflect the hidden attr on HTML tag
+     * @param value
+     */
     set hidden(value) {
         if (value)
             this.setAttribute("hidden", '');
@@ -267,7 +258,7 @@ class AuthedUser extends Component {
 
         }
     }
-
 }
 
+// define auth-user tag name
 customElements.define(AuthedUser.tagName, AuthedUser);

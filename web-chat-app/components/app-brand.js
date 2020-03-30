@@ -113,25 +113,39 @@ class AppBrand extends Component {
         this._profileBtn = this.shadowRoot.getElementById("profile-btn");
     }
 
+    // call on mounting
     onMount() {
         this.initListeners();
     }
 
+    // call on un-mounting
     onUnmount() {
         this.removeListeners();
     }
 
+    /**
+     * Initialize required listeners
+     */
     initListeners() {
         this._profileBtn.addEventListener("click", this._onProfileBtnCLick.bind(this))
     }
 
+    /**
+     * remove added listeners
+     */
     removeListeners() {
         this._profileBtn.removeEventListener("click", this._onProfileBtnCLick.bind(this))
     }
 
+    /**
+     * handle profile button click
+     * @param e
+     * @private
+     */
     _onProfileBtnCLick(e) {
         this.emit(APP_EVENTS.PROFILE_BTN_CLICK)
     }
 }
 
+// define app-brand tag name
 customElements.define(AppBrand.tagName, AppBrand);

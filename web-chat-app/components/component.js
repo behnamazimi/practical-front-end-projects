@@ -1,3 +1,6 @@
+/**
+ * Main component class that other components extends from it
+ */
 class Component extends HTMLElement {
 
     constructor({attrTypes, template, shadowMode = "open"}) {
@@ -7,16 +10,28 @@ class Component extends HTMLElement {
         this._template = template;
         this._shadowMode = shadowMode;
 
+        // his method attach template to root if exists
         this.makeShadow();
     }
 
+    /**
+     * this method fire when component attached to DOM
+     */
     connectedCallback() {
+        // Check attributes types for each component
         this.checkAttrs();
+        // and call onMount method
+        // onMount is the only method that call inside connectedCallback
         if (this.onMount && typeof this.onMount === "function")
             this.onMount();
     }
 
+    /**
+     * This method fire when component removed from DOM
+     */
     disconnectedCallback() {
+        // call onMount method of component.
+        // onUnmount is the only method that call inside disconnectedCallback
         if (this.onUnmount && typeof this.onUnmount === "function")
             this.onUnmount();
     }

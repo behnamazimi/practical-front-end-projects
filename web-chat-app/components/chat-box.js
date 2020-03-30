@@ -209,10 +209,12 @@ class ChatBox extends Component {
         this.render();
     }
 
+    // call on mounting
     onMount() {
         this.initListeners();
     }
 
+    // call on un-mounting
     onUnmount() {
         this.removeListeners();
     }
@@ -267,6 +269,9 @@ class ChatBox extends Component {
         return this.hasAttribute("hidden")
     }
 
+    /**
+     * Initialize required listeners
+     */
     initListeners() {
         this._newMessageBox.on(APP_EVENTS.AUTHED_USER_NEW_MESSAGE, this._onAuthedMessageReceive.bind(this));
         this.on(APP_EVENTS.USER_SIGN_IN, this._userSignIn.bind(this));
@@ -274,6 +279,9 @@ class ChatBox extends Component {
         this._chatList.addEventListener("scroll", this.handleScrollToBottomBtnVisibility.bind(this));
     }
 
+    /**
+     * remove added listeners
+     */
     removeListeners() {
         this._newMessageBox.off(APP_EVENTS.AUTHED_USER_NEW_MESSAGE, this._onAuthedMessageReceive.bind(this));
         this.off(APP_EVENTS.USER_SIGN_IN, this._userSignIn.bind(this));
@@ -402,4 +410,5 @@ class ChatBox extends Component {
 
 }
 
+// define chat-box tag name
 customElements.define(ChatBox.tagName, ChatBox);
