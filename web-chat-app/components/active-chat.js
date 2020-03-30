@@ -169,26 +169,13 @@ class ActiveChat extends Component {
         this.render();
     }
 
-    connectedCallback() {
-        this.initListeners();
-    }
-
-    onUnmount() {
-        this.removeListeners();
-    }
-
+    // call on attributes changed
     attributeChangedCallback(attrName, oldValue, newValue) {
         if (oldValue === newValue)
             return;
 
         // re-render component
         this.render();
-    }
-
-    initListeners() {
-    }
-
-    removeListeners() {
     }
 
     /**
@@ -224,4 +211,5 @@ class ActiveChat extends Component {
 
 }
 
+// define active-chat tag name
 customElements.define(ActiveChat.tagName, ActiveChat);
