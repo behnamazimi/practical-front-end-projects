@@ -19,6 +19,7 @@ There is 6 developed projects that you can review now.
   - [Othello Board Game](#othello-board-game-view-online)
   - [Quiz App](#quiz-app-view-online)
   - [Simple Range Slider](#simple-range-slider-view-online)
+  - [Web Chat App](#web-chat-app)
 
 ### Custom Video Player ([View Online](https://behnamazimi.github.io/simple-web-projects/custom-video-player/))
 
@@ -83,6 +84,18 @@ A simple implementation of a small range slider with pure Javascript.
 - Prototypal Object-Oriented Programming
 - DOM events handling
 - CSS variables
+
+### Web Chat App ([View Online](https://behnamazimi.github.io/simple-web-projects/web-chat-app/))
+
+This project is a real messaging app that developed with pure javascript without third-party libs. We focused on the Web Components in this project and give it a real component structure. All chats, messages, data are fake and generated with a data-factory. I hope It would be useful.
+
+**Special topics covered:**
+
+- Web Components
+- Object-Oriented Programming
+- Event handling
+- DOM controlling
+- CSS flex
 
 ### Running locally
 
