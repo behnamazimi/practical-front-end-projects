@@ -219,6 +219,7 @@ class ChatBox extends Component {
         this.removeListeners();
     }
 
+    // call on attributes changed
     attributeChangedCallback(attrName, oldValue, newValue) {
         if (oldValue === newValue)
             return;
@@ -227,6 +228,10 @@ class ChatBox extends Component {
         this.render();
     }
 
+    /**
+     * reflect the readOnly attr on HTML tag
+     * @param value
+     */
     set readOnly(value) {
         if (value) {
             this.setAttribute('readonly', '');
@@ -240,23 +245,40 @@ class ChatBox extends Component {
         return this.hasAttribute('readonly');
     }
 
+    /**
+     * use this to set active chat of chatBox
+     * @param chat
+     */
     setActiveChat(chat) {
+        // if chat is not valid do nothing
         if (!chat || !chat.id)
             return;
 
         this._activeChat = chat;
 
+        // make chatBox visibility visible anyway
+        // clear the chats lis
+        // and clear the lastMessage flag
         this.hidden = false;
         this._chatList.innerHTML = '';
         this.lastMessage = null;
 
+        // render the chatBox header with activeChat
         this.renderChatBoxHeader();
     }
 
+    /**
+     * active chat getter
+     * @returns {*|{id}}
+     */
     get activeChat() {
         return this._activeChat;
     }
 
+    /**
+     * reflect the hidden attr on HTML tag
+     * @param value
+     */
     set hidden(value) {
         if (value) {
             this.setAttribute("hidden", '');
@@ -273,10 +295,14 @@ class ChatBox extends Component {
      * Initialize required listeners
      */
     initListeners() {
-        this._newMessageBox.on(APP_EVENTS.AUTHED_USER_NEW_MESSAGE, this._onAuthedMessageReceive.bind(this));
+        // listen for user sign-in
         this.on(APP_EVENTS.USER_SIGN_IN, this._userSignIn.bind(this));
+        // listen for new messages that send from authed user
+        this._newMessageBox.on(APP_EVENTS.AUTHED_USER_NEW_MESSAGE, this._onAuthedMessageReceive.bind(this));
+
+        // control the visibility and the behavior of scrollToBottom button in chats list
+        this._chatList.addEventListener("scroll", this.checkScrollToBottomBtnVisibility.bind(this));
         this._scrollToBottomBtn.addEventListener("click", this.scrollToEnd.bind(this));
-        this._chatList.addEventListener("scroll", this.handleScrollToBottomBtnVisibility.bind(this));
     }
 
     /**
@@ -286,21 +312,28 @@ class ChatBox extends Component {
         this._newMessageBox.off(APP_EVENTS.AUTHED_USER_NEW_MESSAGE, this._onAuthedMessageReceive.bind(this));
         this.off(APP_EVENTS.USER_SIGN_IN, this._userSignIn.bind(this));
         this._scrollToBottomBtn.removeEventListener("click", this.scrollToEnd.bind(this));
-        this._chatList.removeEventListener("scroll", this.handleScrollToBottomBtnVisibility.bind(this));
+        this._chatList.removeEventListener("scroll", this.checkScrollToBottomBtnVisibility.bind(this));
     }
 
+    /**
+     * Render message object and add to chats-box
+     * @param sender
+     * @param text
+     * @param time
+     * @param forceScrollToEnd
+     */
     renderMessage({sender, text, time}, forceScrollToEnd = false) {
-        if (!sender || !text || !time)
+        // if the message is invalid do nothing
+        if (!sender || !text || !time || !(time instanceof Date))
             return;
 
         const isFromAuthedUser = sender === this._authedUserId;
-
         const isSameSender = this.lastMessage && this.lastMessage.sender === sender;
 
-        this.assert(time instanceof Date, "Message time is not a real Date object");
-
+        // get time string to show in message bubble
         const timeToShow = `${time.getHours()}:${time.getMinutes()}`;
 
+        // create component element and set attributes
         const msg = document.createElement("chat-message");
         msg.setAttribute("text", text);
         msg.setAttribute("position", isFromAuthedUser ? "right" : "left");
@@ -310,31 +343,50 @@ class ChatBox extends Component {
         msg.setAttribute("title", time.toLocaleString());
         msg.isLastInGroup = true;
 
+        // check if the message is the last one that sender has been sent
+        // it's just for styling bubbles
         if (this.lastMessage && isSameSender)
             this.lastMessage.isLastInGroup = false;
 
+        // render the day date and add to chat-box if needs
         if (!this.lastMessage || this._isMessageForDifferentDay(time)) {
             this._appendDateToChatList(time);
         }
 
+        // check if the user not scrolled top
+        // and the last message in chatBox is observable
         const isLastMessageInView = this._chatList.scrollTop >= this._chatList.scrollHeight - this._chatList.clientHeight;
 
+        // set lastMessage flat and append createdElement to chatList
         this.lastMessage = msg;
         this._chatList.appendChild(msg);
 
+        // clear the newMessage input box if the sender is the authedUser
         if (isFromAuthedUser)
             this._newMessageBox.clear();
 
         if (isLastMessageInView || forceScrollToEnd)
             this.scrollToEnd();
 
-        this.handleScrollToBottomBtnVisibility();
+        // check the viability of scrollToBottom button
+        this.checkScrollToBottomBtnVisibility();
     }
 
+    /**
+     * fire when a user signed in and set the this._authedUserId
+     * @param detail
+     * @private
+     */
     _userSignIn({detail}) {
         this._authedUserId = detail.id;
     }
 
+    /**
+     * fire when a signed user send a message
+     * this will render the message and emit it to parent
+     * @param detail
+     * @private
+     */
     _onAuthedMessageReceive({detail}) {
         if (!this.activeChat)
             return;
@@ -345,6 +397,12 @@ class ChatBox extends Component {
         this.emit(APP_EVENTS.AUTHED_USER_NEW_MESSAGE, detail);
     }
 
+    /**
+     * compare the time of the last received message with this._lastMessage flag
+     * @param time
+     * @returns {boolean}
+     * @private
+     */
     _isMessageForDifferentDay(time) {
         if (!this.lastMessage || !time)
             return false;
@@ -352,6 +410,12 @@ class ChatBox extends Component {
         return time.toDateString() !== this.lastMessage.timeObject.toDateString();
     }
 
+    /**
+     * this generate the day title and a chat-day element put the time on element
+     * and append it to chat-list
+     * @param time
+     * @private
+     */
     _appendDateToChatList(time) {
         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         this.assert(time, "Message time not passed");
@@ -367,7 +431,12 @@ class ChatBox extends Component {
         this._chatList.appendChild(dateNode);
     }
 
-    handleScrollToBottomBtnVisibility(e) {
+    /**
+     * check the scroll height and scrollTop of chat-list
+     * and toggle the visibility of the scrollToBottom button
+     * @param e
+     */
+    checkScrollToBottomBtnVisibility(e) {
         if (this._chatList.scrollTop + 200 < this._chatList.scrollHeight - this._chatList.clientHeight) {
             this._scrollToBottomBtn.classList.add("show")
         } else {
@@ -384,6 +453,9 @@ class ChatBox extends Component {
         })
     }
 
+    /**
+     * render the activeChat component of the chatBox using this._activeChat
+     */
     renderChatBoxHeader() {
         const activeChatNode = this.shadowRoot.querySelector("active-chat");
         this.assert(activeChatNode, "The active-chat node not found in chat-box");
@@ -397,14 +469,19 @@ class ChatBox extends Component {
             activeChatNode.removeAttribute("online");
     }
 
+    /**
+     * render component details
+     */
     render() {
 
-        this._newMessageBox = this.shadowRoot.querySelector("new-message");
-
+        // remove newMessageBox component if
+        // the chatBox is readOnly for logged in user
         if (this.readOnly) {
+            this._newMessageBox = this.shadowRoot.querySelector("new-message");
             this._newMessageBox.remove();
         }
 
+        // scroll to the end of the chat-list
         this.scrollToEnd();
     }
 
