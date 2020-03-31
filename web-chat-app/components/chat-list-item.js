@@ -216,14 +216,17 @@ class ChatListItem extends Component {
         this.render();
     }
 
+    // call on mounting
     onMount() {
         this.initListeners();
     }
 
+    // call on un-mounting
     onUnmount() {
         this.removeListeners();
     }
 
+    // call on attributes changed
     attributeChangedCallback(attrName, oldValue, newValue) {
         if (oldValue === newValue)
             return;
@@ -232,6 +235,11 @@ class ChatListItem extends Component {
         this.render();
     }
 
+
+    /**
+     * reflect the selected attr on HTML tag
+     * @param value
+     */
     set selected(value) {
         if (value) {
             this.setAttribute('selected', '');

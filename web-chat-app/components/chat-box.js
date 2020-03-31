@@ -62,7 +62,7 @@ class ChatBox extends Component {
                 }
                 .chat-box-inner .chat-list-wrapper {
                     position: relative;
-                    background: #3ad07a1f url(../static/chat-box-bg.png);
+                    background: #3ad07a1f url(./static/chat-box-bg.png);
                     flex-grow: 1;
                     display: flex;
                     flex-direction: column;
@@ -185,7 +185,7 @@ class ChatBox extends Component {
                     <new-message></new-message>
                 </div>
                 <div class="chat-placeholder">
-                    <img src="../static/chat-placeholder.svg" alt="chat-placeholder">
+                    <img src="./static/chat-placeholder.svg" alt="chat-placeholder">
                     <h2>Hi there! \n Select a chat to start messaging.</h2>
                     <p>This app is one of the projects that developed under name 
                     <a href="https://github.com/behnamazimi/simple-web-projects" target="_blank">
@@ -204,9 +204,6 @@ class ChatBox extends Component {
 
         this._chatList = this.shadowRoot.getElementById("chat-list");
         this._scrollToBottomBtn = this.shadowRoot.getElementById("scroll-to-bottom");
-
-        // render component
-        this.render();
     }
 
     // call on mounting
@@ -224,8 +221,8 @@ class ChatBox extends Component {
         if (oldValue === newValue)
             return;
 
-        // re-render component
-        this.render();
+        if (attrName === "readonly")
+            this.checkNewMessageBoxVisibility();
     }
 
     /**
@@ -470,9 +467,9 @@ class ChatBox extends Component {
     }
 
     /**
-     * render component details
+     * check the new message box visibility
      */
-    render() {
+    checkNewMessageBoxVisibility() {
 
         // remove newMessageBox component if
         // the chatBox is readOnly for logged in user
@@ -481,8 +478,6 @@ class ChatBox extends Component {
             this._newMessageBox.remove();
         }
 
-        // scroll to the end of the chat-list
-        this.scrollToEnd();
     }
 
 }
