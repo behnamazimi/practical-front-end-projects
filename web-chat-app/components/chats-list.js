@@ -174,7 +174,6 @@ class ChatsList extends Component {
         if (!detail.sender)
             return;
 
-
         // actually here we find the target chat and
         // remove it's element from chats-list DOM,
         // update the unread messages count,
