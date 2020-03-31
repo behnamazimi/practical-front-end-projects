@@ -25,8 +25,8 @@ fakeChats.map(fc => app.addChat(fc));
 
 
 // below code is just for simulating message receive
-// here we send 70 messages in different times ro app
-let fakeMsgCounter = 70;
+// here we send 100 messages in different times ro app
+let fakeMsgCounter = 100;
 const interval = setInterval(() => {
 
     if (--fakeMsgCounter === 0) {
