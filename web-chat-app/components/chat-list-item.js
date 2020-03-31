@@ -360,4 +360,5 @@ class ChatListItem extends Component {
 
 }
 
+// define chat-list-item tag name
 customElements.define(ChatListItem.tagName, ChatListItem);

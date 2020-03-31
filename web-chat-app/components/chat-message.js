@@ -142,18 +142,9 @@ class ChatMessage extends Component {
             template: ChatMessage.template
         });
 
-        // render component
-        this.render();
     }
 
-    onMount() {
-        this.initListeners();
-    }
-
-    onUnmount() {
-        this.removeListeners();
-    }
-
+    // call on attributes changed
     attributeChangedCallback(attrName, oldValue, newValue) {
         if (oldValue === newValue)
             return;
@@ -162,8 +153,11 @@ class ChatMessage extends Component {
         this.render();
     }
 
+    /**
+     * reflect the text attr on HTML tag
+     * @param value
+     */
     set text(value) {
-        console.log(value);
         if (value) {
             this.setAttribute('text', value);
         } else {
@@ -183,6 +177,10 @@ class ChatMessage extends Component {
         return this._timeObject;
     }
 
+    /**
+     * reflect the time attr on HTML tag
+     * @param value
+     */
     set time(value) {
         if (value) {
             this.setAttribute('time', value);
@@ -195,6 +193,10 @@ class ChatMessage extends Component {
         return this.getAttribute('time');
     }
 
+    /**
+     * reflect the sender attr on HTML tag
+     * @param value
+     */
     set sender(value) {
         if (value) {
             this.setAttribute('sender', value);
@@ -207,6 +209,10 @@ class ChatMessage extends Component {
         return this.getAttribute('sender');
     }
 
+    /**
+     * reflect the islastingroup attr on HTML tag
+     * @param value
+     */
     set isLastInGroup(value) {
         if (value) {
             this.setAttribute('lastingroup', '');
@@ -219,27 +225,15 @@ class ChatMessage extends Component {
         return this.hasAttribute('lastingroup');
     }
 
-    initListeners() {
-        this.on("add-chat", this._onChatAdd)
-    }
-
-    removeListeners() {
-        this.off("add-chat", this._onChatAdd)
-    }
-
-    _onChatAdd(e) {
-        const n = document.createElement("h1");
-        n.innerText = e.detail.text;
-        this._chatList.appendChild(n);
-        this.scrollToEnd();
-    }
-
+    /**
+     * render message by attributes
+     */
     render() {
-
         this.shadowRoot.getElementById("text").innerHTML = this.text;
         this.shadowRoot.getElementById("time").innerHTML = this.time;
     }
 
 }
 
+// define chat-message tag name
 customElements.define(ChatMessage.tagName, ChatMessage);

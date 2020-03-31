@@ -52,4 +52,4 @@ const interval = setInterval(() => {
         // new message sending time can be dynamic, between 1s and 5s
     }, randomNumber(1000, 5000))
 
-}, 500);
+}, 1500);

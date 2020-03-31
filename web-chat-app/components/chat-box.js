@@ -203,6 +203,7 @@ class ChatBox extends Component {
         });
 
         this._chatList = this.shadowRoot.getElementById("chat-list");
+        this._newMessageBox = this.shadowRoot.querySelector("new-message");
         this._scrollToBottomBtn = this.shadowRoot.getElementById("scroll-to-bottom");
     }
 
@@ -474,7 +475,6 @@ class ChatBox extends Component {
         // remove newMessageBox component if
         // the chatBox is readOnly for logged in user
         if (this.readOnly) {
-            this._newMessageBox = this.shadowRoot.querySelector("new-message");
             this._newMessageBox.remove();
         }
 
