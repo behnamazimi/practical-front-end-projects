@@ -235,7 +235,6 @@ class ChatListItem extends Component {
         this.render();
     }
 
-
     /**
      * reflect the selected attr on HTML tag
      * @param value
@@ -283,6 +282,21 @@ class ChatListItem extends Component {
 
     get unread() {
         return this.hasAttribute('unread');
+    }
+
+    /**
+     * reflect the online attr on HTML tag
+     * @param value
+     */
+    set online(value) {
+        if (value)
+            this.setAttribute('online', '');
+        else
+            this.removeAttribute('online');
+    }
+
+    get online() {
+        return this.hasAttribute('online');
     }
 
     /**
