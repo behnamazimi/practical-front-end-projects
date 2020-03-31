@@ -12,7 +12,7 @@ A collection of simple web projects developed for enthusiasts and beginners. The
 
 ### Projects
 
-There is 6 developed projects that you can review now.
+There are 7 developed projects that you can review now.
   - [Custom Video Player](#custom-video-player-view-online)
   - [Lovely Movies](#lovely-movies-view-online)
   - [Note App](#note-app-view-online)
