@@ -124,33 +124,55 @@ class NewMessage extends Component {
             template: NewMessage.template
         });
 
-        this.render();
+        this._sendButton = this.shadowRoot.getElementById("send-btn");
+        this._textarea = this.shadowRoot.getElementById("new-message-input");
+
     }
 
+    // call on mounting
     onMount() {
         this.initListeners();
     }
 
+    // call on un-mounting
     onUnmount() {
         this.removeListeners();
     }
 
+    /**
+     * Initialize required listeners
+     */
     initListeners() {
         this.addEventListener("keydown", this._onKeyPress.bind(this));
         this._sendButton.addEventListener("click", this._onSend.bind(this));
     }
 
+    /**
+     * remove added listeners
+     */
     removeListeners() {
         this.removeEventListener("keydown", this._onKeyPress.bind(this));
         this._sendButton.removeEventListener("click", this._onSend.bind(this));
     }
 
+    /**
+     * fires when a key pressed and handle the Ctrl+Enter press
+     * if the user pressed Ctrl+Enter keys, this calls the send method
+     * @param e
+     * @private
+     */
     _onKeyPress(e) {
         if (e.ctrlKey && e.key.toLowerCase() === "enter") {
             this._onSend();
         }
     }
 
+    /**
+     * fires when you want to send a new message,
+     * when the textarea has a valid value, this
+     * emit the message details to the parent component
+     * @private
+     */
     _onSend() {
 
         if (!this._textarea.value) {
@@ -164,22 +186,19 @@ class NewMessage extends Component {
         })
     }
 
-
+    // getter for the value of textarea
     get message() {
         return this._textarea.value;
     }
 
+    /**
+     * this will clear the content of the textarea and puts focus on it
+     */
     clear() {
         this._textarea.value = "";
         this._textarea.focus();
     }
-
-    render() {
-        this._sendButton = this.shadowRoot.getElementById("send-btn");
-        this._textarea = this.shadowRoot.getElementById("new-message-input");
-
-    }
-
+    
 }
 
 customElements.define(NewMessage.tagName, NewMessage);

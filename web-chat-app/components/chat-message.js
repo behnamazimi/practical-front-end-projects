@@ -142,6 +142,9 @@ class ChatMessage extends Component {
             template: ChatMessage.template
         });
 
+        this._textElement = this.shadowRoot.getElementById("text");
+        this._timeElement = this.shadowRoot.getElementById("time");
+
     }
 
     // call on attributes changed
@@ -229,8 +232,8 @@ class ChatMessage extends Component {
      * render message by attributes
      */
     render() {
-        this.shadowRoot.getElementById("text").innerHTML = this.text;
-        this.shadowRoot.getElementById("time").innerHTML = this.time;
+        this._textElement.innerHTML = this.text;
+        this._timeElement.innerHTML = this.time;
     }
 
 }
