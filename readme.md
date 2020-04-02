@@ -12,7 +12,7 @@ A collection of simple web projects developed for enthusiasts and beginners. The
 
 ### Projects
 
-There is 6 developed projects that you can review now.
+There are 7 developed projects that you can review now.
   - [Custom Video Player](#custom-video-player-view-online)
   - [Lovely Movies](#lovely-movies-view-online)
   - [Note App](#note-app-view-online)
@@ -21,7 +21,7 @@ There is 6 developed projects that you can review now.
   - [Simple Range Slider](#simple-range-slider-view-online)
   - [Web Chat App](#web-chat-app)
 
-### Custom Video Player ([View Online](https://behnamazimi.github.io/simple-web-projects/custom-video-player/))
+### Custom Video Player ([View Online](https://behnamazimi.github.io/simple-web-projects/web-chat-app/))
 
 In this project I customized the video controls and designed them manually. Focus on handling the video node and how to implement custom behavior for it.
 
