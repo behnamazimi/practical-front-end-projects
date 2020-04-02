@@ -4,7 +4,7 @@ A collection of simple web projects developed for enthusiasts and beginners. The
 
 **Notes:**
 
-- Webpack, gulp or another bundler was not used.
+- Webpack, gulp or another module bundler was not used.
 - Third party libraries were not used.
 - Codes only supported by modern browsers.
 - Projects just are for educational purposes.
@@ -21,7 +21,7 @@ There are 7 developed projects that you can review now.
   - [Simple Range Slider](#simple-range-slider-view-online)
   - [Web Chat App](#web-chat-app)
 
-### Custom Video Player ([View Online](https://behnamazimi.github.io/simple-web-projects/web-chat-app/))
+### Custom Video Player ([View Online](https://behnamazimi.github.io/simple-web-projects/custom-video-player/))
 
 In this project I customized the video controls and designed them manually. Focus on handling the video node and how to implement custom behavior for it.
 
