@@ -1,6 +1,6 @@
-## Simple Web Projects with Pure Javascript
+## Practical Front-End Projects with Pure Javascript, CSS, and HTML
 
-A collection of simple web projects developed for enthusiasts and beginners. The main purpose is education and all the codes are open for everyone that needs it.
+A collection of practical front-end projects developed for enthusiasts and beginners. The main purpose is education and all the codes are open for everyone that needs it.
 
 **Notes:**
 
@@ -20,6 +20,7 @@ There are 7 developed projects that you can review now.
   - [Quiz App](#quiz-app-view-online)
   - [Simple Range Slider](#simple-range-slider-view-online)
   - [Web Chat App](#web-chat-app)
+  - [Canvas Wallpaper](#canvas-wallpaper)
 
 ### Custom Video Player ([View Online](https://behnamazimi.github.io/simple-web-projects/custom-video-player/))
 
@@ -96,6 +97,16 @@ This project is a real messaging app that developed with pure javascript without
 - Event handling
 - DOM controlling
 - CSS flex
+
+### Canvas Wallpaper ([View Online](https://behnamazimi.github.io/simple-web-projects/canvas-wallpaper/))
+
+This is a practical canvas tutorial, a animated wallpaper with circles that moves on it. The code is full documented and easy to read.
+
+**Special topics covered:**
+
+- HTML Canvas
+- Coding strategies
+- Mathematical operations
 
 ### Running locally
 
