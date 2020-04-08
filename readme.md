@@ -13,12 +13,12 @@ A collection of practical front-end projects developed for enthusiasts and begin
 ### Projects
 
 There are 7 developed projects that you can review now.
-  - [Custom Video Player](#custom-video-player-view-online)
-  - [Lovely Movies](#lovely-movies-view-online)
-  - [Note App](#note-app-view-online)
-  - [Othello Board Game](#othello-board-game-view-online)
-  - [Quiz App](#quiz-app-view-online)
-  - [Simple Range Slider](#simple-range-slider-view-online)
+  - [Custom Video Player](#custom-video-player)
+  - [Lovely Movies](#lovely-movies)
+  - [Note App](#note-app)
+  - [Othello Board Game](#othello-board-game)
+  - [Quiz App](#quiz-app)
+  - [Simple Range Slider](#simple-range-slider)
   - [Web Chat App](#web-chat-app)
   - [Canvas Wallpaper](#canvas-wallpaper)
 
