@@ -22,9 +22,11 @@ There are 7 developed projects that you can review now.
   - [Web Chat App](#web-chat-app)
   - [Canvas Wallpaper](#canvas-wallpaper)
 
-### Custom Video Player ([View Online](https://behnamazimi.github.io/simple-web-projects/custom-video-player/))
+### Custom Video Player 
 
 In this project I customized the video controls and designed them manually. Focus on handling the video node and how to implement custom behavior for it.
+
+**[Online Demo](https://behnamazimi.github.io/simple-web-projects/custom-video-player/)**
 
 **Special topics covered:**
 
@@ -32,9 +34,11 @@ In this project I customized the video controls and designed them manually. Focu
 - Fullscreen handling
 - CSS variables
 
-### Lovely Movies ([View Online](https://behnamazimi.github.io/simple-web-projects/lovely-movies/))
+### Lovely Movies 
 
-A simple movie search website
+A simple movie search website.
+
+**[Online Demo](https://behnamazimi.github.io/simple-web-projects/lovely-movies/)**
 
 **Special topics covered:**
 
@@ -43,9 +47,11 @@ A simple movie search website
 - Usage of `position: static;` in CSS
 - Using CSS variables
 
-### Note App ([View Online](https://behnamazimi.github.io/simple-web-projects/notes-app/))
+### Note App 
 
 A practical note web app to handle categorized notes. There are notes that can have a category for. you can search in notes and edit or remove those.
+
+**[Online Demo](https://behnamazimi.github.io/simple-web-projects/notes-app/)**
 
 **Special topics covered:**
 
@@ -54,9 +60,11 @@ A practical note web app to handle categorized notes. There are notes that can h
 - Layouting with CSS grid system
 - localStorage usage
 
-### Othello Board Game ([View Online](https://behnamazimi.github.io/simple-web-projects/othello-board-game/))
+### Othello Board Game 
 
 Famous strategy game Othello, known as Reversi, implemented in pure Javascript.
+
+**[Online Demo](https://behnamazimi.github.io/simple-web-projects/othello-board-game/)**
 
 **Special topics covered:**
 
@@ -66,9 +74,11 @@ Famous strategy game Othello, known as Reversi, implemented in pure Javascript.
 - Event handling
 - Error handling
 
-### Quiz App ([View Online](https://behnamazimi.github.io/simple-web-projects/quiz-app/))
+### Quiz App
 
 Simulating a quiz in web app.
+
+**[Online Demo](https://behnamazimi.github.io/simple-web-projects/quiz-app/)**
 
 **Special topics covered:**
 
@@ -76,9 +86,11 @@ Simulating a quiz in web app.
 - Creating and handling DOM elements
 - CSS animation
 
-### Simple Range Slider ([View Online](https://behnamazimi.github.io/simple-web-projects/simple-range-slider/))
+### Simple Range Slider 
 
 A simple implementation of a small range slider with pure Javascript.
+
+**[Online Demo](https://behnamazimi.github.io/simple-web-projects/simple-range-slider/)**
 
 **Special topics covered:**
 
@@ -86,9 +98,11 @@ A simple implementation of a small range slider with pure Javascript.
 - DOM events handling
 - CSS variables
 
-### Web Chat App ([View Online](https://behnamazimi.github.io/simple-web-projects/web-chat-app/))
+### Web Chat App 
 
 This project is a real messaging app that developed with pure javascript without third-party libs. We focused on the Web Components in this project and give it a real component structure. All chats, messages, data are fake and generated with a data-factory. I hope It would be useful.
+
+**[Online Demo](https://behnamazimi.github.io/simple-web-projects/web-chat-app/)**
 
 **Special topics covered:**
 
@@ -98,9 +112,12 @@ This project is a real messaging app that developed with pure javascript without
 - DOM controlling
 - CSS flex
 
-### Canvas Wallpaper ([View Online](https://behnamazimi.github.io/simple-web-projects/canvas-wallpaper/))
+### Canvas Wallpaper 
 
 This is a practical canvas tutorial, a animated wallpaper with circles that moves on it. The code is full documented and easy to read.
+
+**[Online Demo](https://behnamazimi.github.io/simple-web-projects/canvas-wallpaper/)**
+
 
 **Special topics covered:**
 
