@@ -12,7 +12,7 @@ A collection of practical front-end projects developed for enthusiasts and begin
 
 ### Projects
 
-There are 7 developed projects that you can review now.
+There are 8 developed projects that you can review now.
   - [Custom Video Player](#custom-video-player)
   - [Lovely Movies](#lovely-movies)
   - [Note App](#note-app)
