@@ -1,23 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;700&display=swap');
+
 :root {
     --hover-width: 99%;
     --other-width: 1%;
+    --font-family-sans-serif: 'Work Sans', sans-serif;
 }
 
 html,
-body,
-a {
+body {
+    font-family: var(--font-family-sans-serif);
     padding: 0;
     margin: 0;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     width: 100%;
     height: 100%;
     overflow-x: hidden;
-    text-decoration: none;
     box-sizing: border-box;
 }
 
-h1 {
+h2 {
     font-size: 4rem;
+    font-weight: 300;
     color: #fff;
     position: absolute;
     left: 50%;
@@ -25,6 +27,10 @@ h1 {
     transform: translate(-50%, -50%);
     white-space: nowrap;
     z-index: 1;
+    text-transform: uppercase;
+}
+h2 strong {
+    font-weight: 700;
 }
 
 .container {
@@ -59,16 +65,6 @@ h1 {
 
 .split.right {
     right: 0;
-    background-size: cover;
-    background-position: fixed;
-}
-
-h1 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
 }
 
 .split.left,
@@ -79,7 +75,7 @@ h1 {
 .split.left *,
 .split.right * {
     opacity: 0;
-    transition:1000ms all ease-out;
+    transition: 1000ms all ease-out;
 }
 
 .hover-left .left {
@@ -89,6 +85,7 @@ h1 {
 .hover-left .left * {
     opacity: 1;
 }
+
 .hover-left .right {
     width: var(--other-width);
 }
@@ -99,17 +96,14 @@ h1 {
 
 .hover-right .right * {
     opacity: 1;
-    transition: ;
 }
 
 .hover-right .left {
     width: var(--other-width);
 }
 
-.hover-right .left:before {}
-
 @media(max-width: 800px) {
-    h1 {
+    h2 {
         font-size: 2rem;
     }
 }
@@ -118,7 +112,7 @@ h1 {
     position: absolute;
     bottom: 20px;
     right: 20px;
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.8);
     border: 2px solid rgba(0, 0, 0, 0.4);
     border-radius: 5px;
     color: black;
