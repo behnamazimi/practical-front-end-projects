@@ -317,12 +317,13 @@ class ChatBox extends Component {
      * Render message object and add to chats-box
      * @param sender
      * @param text
+     * @param audio
      * @param time
      * @param forceScrollToEnd
      */
-    renderMessage({sender, text, time}, forceScrollToEnd = false) {
+    renderMessage({sender, text, audio, time}, forceScrollToEnd = false) {
         // if the message is invalid do nothing
-        if (!sender || !text || !time || !(time instanceof Date))
+        if (!sender || (!text && !audio) || !time || !(time instanceof Date))
             return;
 
         const isFromAuthedUser = sender === this._authedUserId;
@@ -333,7 +334,13 @@ class ChatBox extends Component {
 
         // create component element and set attributes
         const msg = document.createElement("chat-message");
-        msg.setAttribute("text", text);
+
+        if (text)
+            msg.text = text;
+
+        if (audio)
+            msg.audio = audio;
+
         msg.setAttribute("position", isFromAuthedUser ? "right" : "left");
         msg.setAttribute("sender", sender);
         msg.setTimeObject(time);

@@ -22,6 +22,10 @@ class ChatMessage extends Component {
                 type: "string",
                 observe: true
             },
+            audio: {
+                type: "string",
+                observe: true
+            },
             time: {
                 type: "string",
                 observe: true
@@ -119,6 +123,34 @@ class ChatMessage extends Component {
                     right: .5em;
                     bottom: .3em;
                 }
+                #audio-play {
+                    background-color: transparent;
+                    border-radius: 50%;
+                    border: 1px solid #fff;
+                    color: #fff;
+                    width: 32px;
+                    height: 32px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    outline: none;
+                    cursor: pointer;
+                }
+                #audio-play svg {
+                    margin-left: 2px;
+                }
+                #audio-play .pause-icon{
+                    display: none;
+                }
+                #audio-play.playing .play-icon{
+                    display: none;
+                }
+                #audio-play.playing .pause-icon{
+                    display: inline-block;
+                    margin-left: 0;
+                }
+                
+               
                 </style>`)
     }
 
@@ -131,6 +163,19 @@ class ChatMessage extends Component {
             <template>
                 ${ChatMessage.style}
                 <p id="text"></p>
+                <button id="audio-play">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="play-icon">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="pause-icon">
+                            <rect x="6" y="4" width="4" height="16"></rect>
+                            <rect x="14" y="4" width="4" height="16"></rect>
+                        </svg>
+                </button>
                 <span id="time"></span>
             </template>
             `)
@@ -144,7 +189,16 @@ class ChatMessage extends Component {
 
         this._textElement = this.shadowRoot.getElementById("text");
         this._timeElement = this.shadowRoot.getElementById("time");
+        this._audioPlayBtn = this.shadowRoot.getElementById("audio-play");
 
+    }
+
+    onMount() {
+        this._audioPlayBtn.addEventListener("click", this._onAudioPlayBtnClick.bind(this))
+    }
+
+    onUnmount() {
+        this._audioPlayBtn.removeEventListener("click", this._onAudioPlayBtnClick.bind(this))
     }
 
     // call on attributes changed
@@ -170,6 +224,34 @@ class ChatMessage extends Component {
 
     get text() {
         return this.getAttribute('text');
+    }
+
+    /**
+     * reflect the audio attr on HTML tag
+     * @param value
+     */
+    set audio(value) {
+        if (value) {
+            this.setAttribute('audio', value);
+            this._audioElement = new Audio(value);
+
+            const onPause = () => {
+                this._audioPlayBtn.classList.remove("playing");
+            };
+
+            const onPlay = () => {
+                this._audioPlayBtn.classList.add("playing");
+            };
+            this._audioElement.onended = onPause;
+            this._audioElement.onpause = onPause;
+            this._audioElement.onplay = onPlay;
+        } else {
+            this.removeAttribute('audio');
+        }
+    }
+
+    get audio() {
+        return this.getAttribute('audio');
     }
 
     setTimeObject(value) {
@@ -228,12 +310,24 @@ class ChatMessage extends Component {
         return this.hasAttribute('lastingroup');
     }
 
+    _onAudioPlayBtnClick() {
+        if (!this._audioElement)
+            return;
+
+        if (this._audioElement.paused) {
+            this._audioElement.play();
+        } else {
+            this._audioElement.pause();
+        }
+    }
+
     /**
      * render message by attributes
      */
     render() {
         this._textElement.innerHTML = this.text;
         this._timeElement.innerHTML = this.time;
+        this._audioPlayBtn.style.display = this.audio ? "flex" : "none";
     }
 
 }
