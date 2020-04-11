@@ -1,16 +1,18 @@
 ## Practical Front-End Projects with Pure Javascript, CSS, and HTML
 
-A collection of practical front-end projects developed for enthusiasts and beginners. The main purpose is to learn and experiment new features.
+A collection of practical front-end projects developed for enthusiasts and beginners. The main purpose is education and all the codes are open for everyone that needs it.
 
 **Notes:**
 
-- Webpack, gulp or any another bundler has not been used.
-- This Projects are only using pure technologies and third-party libraries has not used.
-- Codes are mostly supported by modern browsers.
-- These project are mostly experimental and for educational purposes.
+- Webpack, gulp or another module bundler was not used.
+- Third party libraries were not used.
+- Codes only supported by modern browsers.
+- Projects just are for educational purposes.
 
 
-### Table of Contents
+### Projects
+
+There are 8 developed projects that you can review now.
   - [Custom Video Player](#custom-video-player)
   - [Lovely Movies](#lovely-movies)
   - [Note App](#note-app)
@@ -19,7 +21,6 @@ A collection of practical front-end projects developed for enthusiasts and begin
   - [Simple Range Slider](#simple-range-slider)
   - [Web Chat App](#web-chat-app)
   - [Canvas Wallpaper](#canvas-wallpaper)
-  - [Split Screen Design](#split-screen-design)
 
 ### Custom Video Player 
 
@@ -124,28 +125,10 @@ This is a practical canvas tutorial, a animated wallpaper with circles that move
 - Coding strategies
 - Mathematical operations
 
-### Split Screen Design
-
-A Simple and Modern Design Concept which Allows Putting Content in a Splitted Container
-
-**[Online Demo](https://behnamazimi.github.io/simple-web-projects/canvas-wallpaper/)**
-
-
-**Special topics covered:**
-
-- CSS
-  - pseudo-class
-  - variables
-  - transitions
-  - relative & absolute positioning
-  - google fonts implementation
-- Javascript
-  - (Dom manipulation)
-
 ### Running locally
 
-It's so simple. Clone or download the repository, open project directory and run `index.html` in your browser. As I mentioned, there is no need bundler and all scripts have been injected in the HTML.
+It's so simple. Clone or download the repository, open project directory and open `index.html` in your browser. As I mentioned above, there is not any bundler and all scripts have been injected in the HTML.
 
 #### New projects are being prepared
 
-I'll try to make this repo very useful. So, I really looking forward to your comments.
+I try to make this repo very useful. So, I really looking forward to your help and your criticism.
