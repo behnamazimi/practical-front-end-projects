@@ -1,0 +1,126 @@
+:root {
+    --hover-width: 99%;
+    --other-width: 1%;
+}
+
+html,
+body,
+a {
+    padding: 0;
+    margin: 0;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+h1 {
+    font-size: 4rem;
+    color: #fff;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    z-index: 1;
+}
+
+.container {
+    background: url('../static/img/bg-bw.jpg') no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.split {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.split.left:before {
+    content: "";
+    position: absolute;
+    background: url('../static/img/bg-colored.jpg') no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.split.right {
+    right: 0;
+    background-size: cover;
+    background-position: fixed;
+}
+
+h1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+.split.left,
+.split.right {
+    transition: 1000ms all ease-in-out;
+}
+
+.split.left *,
+.split.right * {
+    opacity: 0;
+    transition:1000ms all ease-out;
+}
+
+.hover-left .left {
+    width: var(--hover-width);
+}
+
+.hover-left .left * {
+    opacity: 1;
+}
+.hover-left .right {
+    width: var(--other-width);
+}
+
+.hover-right .right {
+    width: var(--hover-width);
+}
+
+.hover-right .right * {
+    opacity: 1;
+    transition: ;
+}
+
+.hover-right .left {
+    width: var(--other-width);
+}
+
+.hover-right .left:before {}
+
+@media(max-width: 800px) {
+    h1 {
+        font-size: 2rem;
+    }
+}
+
+.credit {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.4);
+    border: 2px solid rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+    color: black;
+    padding: 0.5rem 1rem;
+}
