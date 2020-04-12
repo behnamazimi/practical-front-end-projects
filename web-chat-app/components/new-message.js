@@ -66,6 +66,7 @@ class NewMessage extends Component {
                     opacity: .5;
                 }
                 .send-btn {
+                    position: relative;
                     background: transparent;
                     border: none;
                     outline: none;
@@ -76,11 +77,34 @@ class NewMessage extends Component {
                     justify-content: center;
                     align-items: center;
                 }
-                .send-btn:focus,
-                .send-btn:hover {
+                .send-btn:not(.recording):focus,
+                .send-btn:not(.recording):hover {
                     cursor: pointer;
                     background: #f2f2f2;
                     border-radius: 4px;
+                }
+                .send-btn:before,
+                .send-btn:after {
+                    content: "";
+                    display: block;
+                    width: 0px;
+                    height: 0px;
+                    background: rgba(58,208,122,0.2);
+                    border-radius: 50%;
+                    position: absolute;
+                    z-index: -1;
+                    opacity: 0;
+                }     
+                .send-btn:after {
+                    background: rgba(58,208,122,0.25);
+                }
+                .send-btn.recording:before {
+                    display: block;
+                    animation: ripple 1s infinite ease-out forwards;
+                }
+                .send-btn.recording:after {
+                    display: block;
+                    animation: ripple 1s -.25s infinite ease-out forwards;
                 }
                 .actions-wrapper {
                     display: flex;
@@ -90,6 +114,23 @@ class NewMessage extends Component {
                 }
                 #text-send-btn {
                     display: none;
+                }
+                @keyframes ripple {
+                    0% {
+                       width: 0px;
+                       height: 0px; 
+                       opacity: 0;
+                    } 
+                    60% {
+                       width: 60px;
+                       height: 60px;
+                       opacity: 1; 
+                    }
+                    100% {
+                       width: 80px;
+                       height: 80px;
+                       opacity: 0; 
+                    }
                 }
                 </style>`)
     }
@@ -140,11 +181,17 @@ class NewMessage extends Component {
         this._soundRecordBtn = this.shadowRoot.getElementById("sound-record-btn");
         this._textarea = this.shadowRoot.getElementById("new-message-input");
 
+        // check if audio device is exists and make mic button visible
         this.setMicBtnVisibility(Recorder.isMicAvailable());
 
+        // create recorder instance to control recording audio message
         this._recorder = new Recorder();
     }
 
+    /**
+     * toggle microphone button visibility
+     * @param showMic
+     */
     setMicBtnVisibility(showMic) {
         this._soundRecordBtn.style.display = showMic ? "flex" : "none";
         this._textSendButton.style.display = showMic ? "none" : "flex";
@@ -168,7 +215,9 @@ class NewMessage extends Component {
         this._textarea.addEventListener("input", this._onType.bind(this));
         this._textSendButton.addEventListener("click", this._onTextSend.bind(this));
         this._soundRecordBtn.addEventListener("mousedown", this._onRecordStart.bind(this));
+        this._soundRecordBtn.addEventListener("touchstart", this._onRecordStart.bind(this));
         this._soundRecordBtn.addEventListener("mouseup", this._onRecordStop.bind(this));
+        this._soundRecordBtn.addEventListener("touchend", this._onRecordStop.bind(this));
     }
 
     /**
@@ -179,7 +228,10 @@ class NewMessage extends Component {
         this._textarea.removeEventListener("input", this._onType.bind(this));
         this._textSendButton.removeEventListener("click", this._onTextSend.bind(this));
         this._soundRecordBtn.removeEventListener("mousedown", this._onRecordStart.bind(this));
+        this._soundRecordBtn.removeEventListener("touchstart", this._onRecordStart.bind(this));
         this._soundRecordBtn.removeEventListener("mouseup", this._onRecordStop.bind(this));
+        this._soundRecordBtn.removeEventListener("touchend", this._onRecordStop.bind(this));
+
     }
 
     /**
@@ -194,6 +246,12 @@ class NewMessage extends Component {
         }
     }
 
+    /**
+     * fires when the value of textarea changes,
+     * to toggle the visibility of text message sending button
+     * @param e
+     * @private
+     */
     _onType(e) {
         this.setMicBtnVisibility(!e.target.value);
     }
@@ -217,15 +275,29 @@ class NewMessage extends Component {
         })
     }
 
+    /**
+     * fires when mic btn pressed and hold, it means to start the recording
+     * @private
+     */
     _onRecordStart() {
+        // add "recording" class to record btn to start animation around the btn
+        this._soundRecordBtn.classList.add("recording");
         this._recorder.start();
     }
 
+    /**
+     * fires when mic btn released, it means to stop the recording
+     * @returns {Promise<void>}
+     * @private
+     */
     async _onRecordStop() {
-        let {audio, audioUrl} = await this._recorder.stop();
+        // remove "recording" class to record btn to stop btn animation
+        this._soundRecordBtn.classList.remove("recording");
 
+        // generate the audioObj of recording and pass it as new message to parent component
+        let audio = await this._recorder.stop();
         this.emit(APP_EVENTS.AUTHED_USER_NEW_MESSAGE, {
-            audio: audioUrl,
+            audio,
             time: new Date(),
         })
     }
@@ -242,6 +314,7 @@ class NewMessage extends Component {
         this._textarea.value = "";
         this._textarea.focus();
 
+        // check if audio device is exists and make mic button visible
         this.setMicBtnVisibility(Recorder.isMicAvailable())
     }
 
