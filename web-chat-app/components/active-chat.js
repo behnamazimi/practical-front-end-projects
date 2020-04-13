@@ -128,6 +128,25 @@ class ActiveChat extends Component {
                     #more-btn:hover {
                         background-color: #f2f2f2;
                     }
+                    #back-btn {
+                        background: transparent;
+                        outline: none;
+                        border: none;
+                        margin-right: .5rem;
+                        cursor: pointer;
+                        color: var(--primaryColor);
+                        border-radius: 4px;
+                        height: 100%;
+                        display: none;
+                    }
+                    #back-btn:hover {
+                        background-color: var(--hoverColor);
+                    }
+                    @media screen and (max-width: 564px) {
+                        #back-btn {
+                            display: inline-block;
+                        }
+                    }
                 </style>`)
     }
 
@@ -139,6 +158,13 @@ class ActiveChat extends Component {
         return (`
             <template>
                 ${ActiveChat.style}
+                <button id="back-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>                
+                </button>
                 <div class="avatar-container">
                     <span class="online-badge"></span>
                     <img src="" id="avatar">
@@ -165,6 +191,8 @@ class ActiveChat extends Component {
             template: ActiveChat.template
         });
 
+        this._backBtn = this.shadowRoot.getElementById("back-btn");
+
         // render component
         this.render();
     }
@@ -176,6 +204,22 @@ class ActiveChat extends Component {
 
         // re-render component
         this.render();
+    }
+
+    onMount() {
+        this._backBtn.addEventListener("click", this._onBackBtnClicked.bind(this))
+    }
+
+    onUnmount() {
+        this._backBtn.removeEventListener("click", this._onBackBtnClicked.bind(this))
+    }
+
+    /**
+     * fires when back btn clicked
+     * @private
+     */
+    _onBackBtnClicked(){
+        this.emit(APP_EVENTS.CHAT_BOX_BACK_CLICKED);
     }
 
     /**

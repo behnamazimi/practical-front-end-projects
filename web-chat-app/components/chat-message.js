@@ -82,6 +82,12 @@ class ChatMessage extends Component {
                     color: #fff;
                     box-shadow: -1px 1px 3px 0 rgba(0, 0, 0, 0.14);
                 }
+                @media screen and (max-width: 768px) {
+                    :host([position=left]),
+                    :host([position=right]) {
+                        min-width: 80%;
+                    }
+                }
                 :host([position=left]) {
                     margin-left: .5rem;
                     margin-right: auto;

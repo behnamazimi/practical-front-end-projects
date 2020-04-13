@@ -41,7 +41,6 @@ class ChatBox extends Component {
                     height: 100%;
                     max-height: 100%;
                     flex-grow: 1;
-                    transition: all .2s;
                     position: relative;
                 }
                 :host([hidden]) .chat-box-inner {
@@ -160,6 +159,11 @@ class ChatBox extends Component {
                 #scroll-to-bottom.show{
                     transform: translateY(0px);                    
                 }
+                @media screen and (max-width: 564px) {
+                    .chat-placeholder {
+                        display: none;
+                    }
+                }
                 </style>`)
     }
 
@@ -205,6 +209,7 @@ class ChatBox extends Component {
         this._chatList = this.shadowRoot.getElementById("chat-list");
         this._newMessageBox = this.shadowRoot.querySelector("new-message");
         this._scrollToBottomBtn = this.shadowRoot.getElementById("scroll-to-bottom");
+        this._activeChatElm = this.shadowRoot.querySelector("active-chat");
     }
 
     // call on mounting
@@ -301,6 +306,8 @@ class ChatBox extends Component {
         // control the visibility and the behavior of scrollToBottom button in chats list
         this._chatList.addEventListener("scroll", this.checkScrollToBottomBtnVisibility.bind(this));
         this._scrollToBottomBtn.addEventListener("click", this.scrollToEnd.bind(this));
+
+        this._activeChatElm.on(APP_EVENTS.CHAT_BOX_BACK_CLICKED, this._onBackBtnClicked.bind(this));
     }
 
     /**
@@ -384,6 +391,17 @@ class ChatBox extends Component {
      */
     _userSignIn({detail}) {
         this._authedUserId = detail.id;
+    }
+
+    /**
+     * fires when back btn clicked in active-chat component
+     * @private
+     */
+    _onBackBtnClicked() {
+        this.hidden = true;
+
+        // send action to parent
+        this.emit(APP_EVENTS.CHAT_BOX_BACK_CLICKED)
     }
 
     /**

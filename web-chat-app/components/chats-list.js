@@ -109,6 +109,8 @@ class ChatsList extends Component {
         this.chatsWrapper = this.shadowRoot.getElementById("chats-wrapper");
         this._searchInput = this.shadowRoot.getElementById("search-input");
         this._searchDebounceFlag = null;
+        this._selectedChat = null;
+
     }
 
     // call on mounting
@@ -128,6 +130,7 @@ class ChatsList extends Component {
         document.addEventListener("keydown", this._onKeyDown.bind(this));
         this._searchInput.addEventListener("input", this._onSearch.bind(this));
         this.on(APP_EVENTS.NEW_MESSAGE_RECEIVE, this._onNewMessageReceive.bind(this));
+        this.on(APP_EVENTS.DESELECT_SELECTED_CHAT, this._onChatDeselect.bind(this));
     }
 
     /**
@@ -238,18 +241,36 @@ class ChatsList extends Component {
     }
 
     /**
+     * this method calls when component received a message to clear selection
+     * @private
+     */
+    _onChatDeselect() {
+        if (!this._selectedChat)
+            return;
+
+        this._selectedChat.elm.selected = false;
+        this._selectedChat = null;
+
+        this.render();
+    }
+
+    /**
      * fires when a chat-item-list has been clicked
      * @param detail
      * @private
      */
     _onChatClicked({detail}) {
+
+        this._selectedChat = null;
         // we loop over chats to reset unread message counter
         // of clicked chat and remove selection of other chats
         this._chats.map(chat => {
-            if (chat.id !== detail.id)
+            if (chat.id !== detail.id) {
                 chat.elm.selected = false;
-            else
+                this._selectedChat = chat;
+            } else {
                 chat.unreadcount = 0;
+            }
         });
 
         // send the clicked chat-item details to parent component

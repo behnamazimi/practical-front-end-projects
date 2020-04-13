@@ -54,3 +54,23 @@ body {
     z-index: 2;
 }
 
+@media screen and (max-width: 564px) {
+    #chat-web-app .sidebar {
+        min-width: 100%;
+        background-color: #fff;
+        z-index: 3;
+    }
+
+    chat-box {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        background: #fff;
+        width: 100%;
+    }
+
+    chat-box:not([hidden]) {
+        z-index: 5;
+    }
+}

@@ -8,6 +8,8 @@ window.APP_EVENTS = {
     USER_SIGN_IN: "user-sign-in",
     SEARCH_IN_CHATS: "search-in-chats",
     NEW_MESSAGE_RECEIVE: "new-message-receive",
+    CHAT_BOX_BACK_CLICKED: "chat-box-back-clicked",
+    DESELECT_SELECTED_CHAT: "deselect-selected-chat",
 };
 
 /**
@@ -61,6 +63,7 @@ class ChatApp {
         this._componenets.appBranch.on(APP_EVENTS.PROFILE_BTN_CLICK, this._onProfileBtnClick.bind(this));
         this._componenets.chatsList.on(APP_EVENTS.CHAT_SELECTED, this._onChatSelected.bind(this));
         this._componenets.chatBox.on(APP_EVENTS.AUTHED_USER_NEW_MESSAGE, this._onAuthedUserNewMessages.bind(this));
+        this._componenets.chatBox.on(APP_EVENTS.CHAT_BOX_BACK_CLICKED, this._onChatBoxBack.bind(this));
     }
 
     /**
@@ -158,6 +161,14 @@ class ChatApp {
         // add sender property to message and
         // push it to the messages pool
         this._messages.push({...detail, sender: this.authedUser.id})
+    }
+
+    /**
+     * fires when back btn clicked in chat-box
+     * @private
+     */
+    _onChatBoxBack() {
+        this._componenets.chatsList.emit(APP_EVENTS.DESELECT_SELECTED_CHAT);
     }
 
     /**
