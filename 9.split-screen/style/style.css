@@ -59,8 +59,6 @@ h1 {
 
 .split.right {
     right: 0;
-    background-size: cover;
-    background-position: fixed;
 }
 
 h1 {
@@ -105,8 +103,6 @@ h1 {
 .hover-right .left {
     width: var(--other-width);
 }
-
-.hover-right .left:before {}
 
 @media(max-width: 800px) {
     h1 {
