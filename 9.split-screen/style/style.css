@@ -61,14 +61,6 @@ h1 {
     right: 0;
 }
 
-h1 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
-}
-
 .split.left,
 .split.right {
     transition: 1000ms all ease-in-out;
