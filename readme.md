@@ -145,4 +145,4 @@ It's so simple. Clone or download the repository, open project directory and ope
 
 #### New projects are being prepared
 
-I try to make this repo very useful. So, I really looking forward to your help and your criticism.
+I'll try to make this repo very useful. So, I really looking forward to your help and comments to make this better.
