@@ -95,6 +95,7 @@ h2 strong {
 }
 
 .hover-right .right * {
+  opacity: 1;
 }
 
 .hover-right .left {
