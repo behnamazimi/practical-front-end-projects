@@ -30,6 +30,9 @@ h2 {
   white-space: nowrap;
   z-index: 1;
 }
+h2 strong {
+    font-weight: 800;
+}
 
 .container {
   background: url("../static/img/bg-bw.jpg") no-repeat;
