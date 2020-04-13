@@ -89,6 +89,10 @@ class ChatMessage extends Component {
                     color: #444;
                     box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.14);
                 }
+                :host([position=left]) .audio-control #audio-play {
+                    border: 1px solid #3ad07a;
+                    color: #3ad07a;
+                }
                 :host([lastingroup]) {
                     margin-bottom: 1em;
                 }
