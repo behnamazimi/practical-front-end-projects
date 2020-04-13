@@ -1,18 +1,18 @@
 ## Practical Front-End Projects with Pure Javascript, CSS, and HTML
 
-A collection of practical front-end projects developed for enthusiasts and beginners. The main purpose is education and all the codes are open for everyone that needs it.
+A collection of practical, easy to use front-end related projects for enthusiasts and beginners. The main purpose is to learn. The codes are free and always will be.
 
 **Notes:**
 
-- Webpack, gulp or another module bundler was not used.
-- Third party libraries were not used.
-- Codes only supported by modern browsers.
-- Projects just are for educational purposes.
+- Webpack, gulp or any another bundler has not been used.
+- Third-party libraries were not used.
+- Codes are mostly supported by modern browsers.
+- Projects are only for educational purposes.
 
 
 ### Projects
 
-There are 8 developed projects that you can review now.
+There are 9 developed projects that you can review now.
   - [Custom Video Player](#custom-video-player)
   - [Lovely Movies](#lovely-movies)
   - [Note App](#note-app)
@@ -21,6 +21,7 @@ There are 8 developed projects that you can review now.
   - [Simple Range Slider](#simple-range-slider)
   - [Web Chat App](#web-chat-app)
   - [Canvas Wallpaper](#canvas-wallpaper)
+  - [Split Screen](#split-screen)
 
 ### Custom Video Player 
 
@@ -124,6 +125,19 @@ This is a practical canvas tutorial, a animated wallpaper with circles that move
 - HTML Canvas
 - Coding strategies
 - Mathematical operations
+
+### Split Screen
+
+A modern design concept to showcase content in a container with two splitted sections which will resize on mouse over
+
+**Special topics covered:**
+
+- CSS
+  - variable
+  - relative and absolute positioning
+  - use of pseudo classes
+- JavaScript
+  - DOM manipulation
 
 ### Running locally
 
