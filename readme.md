@@ -119,7 +119,6 @@ This is a practical canvas tutorial, a animated wallpaper with circles that move
 
 **[Online Demo](https://behnamazimi.github.io/simple-web-projects/canvas-wallpaper/)**
 
-
 **Special topics covered:**
 
 - HTML Canvas
