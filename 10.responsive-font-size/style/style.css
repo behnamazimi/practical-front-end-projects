@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;800&display=swap');
+
+:root {
+  --body-bg: #FFF8E1;
+  --title-color: #FF8F00;
+}
+html, body, h1, h2, h3 {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Open Sans", sans-serif;
+}
+body {
+  background-color: var(--body-bg);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+}
+.page-title {
+  margin: 2rem 0;
+  text-align: center;
+}
+.card {
+  width: 800px;
+  max-width: 100rem;
+  padding: 1rem;
+  background-color: white;
+  box-shadow: 0 2px 8px 1px rgba(0,0,0,0.15);
+  margin: 0 auto;
+}
+.card-title {
+  color: var(--title-color);
+  text-transform: capitalize;
+  font-size: max(2.85vw, 1.5rem);
+}
+p {
+  font-size: min(2vw, 1rem);
+}
