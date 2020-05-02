@@ -22,6 +22,7 @@ There are 9 developed projects that you can review now.
   - [Web Chat App](#web-chat-app)
   - [Canvas Wallpaper](#canvas-wallpaper)
   - [Split Screen](#split-screen)
+  - [Escape Loading Animation](#escape-loading-animation---css)
 
 ### Custom Video Player 
 
@@ -139,6 +140,18 @@ A modern design concept to showcase content in a container with two splitted sec
   - use of pseudo classes
 - JavaScript
   - DOM manipulation
+  
+### Escape Loading Animation - CSS
+
+Cool loading animation with pure CSS. Animation contains sliding and floating boxes, designed by [Vitaly Silkin](https://dribbble.com/shots/4268258-Evitare-loader).
+
+**[Online Demo](https://behnamazimi.github.io/simple-web-projects/css-excape-loading-animation//)**
+
+**Special topics covered:**
+
+- CSS
+  - Keyframe animations
+  - Transform and transform origin
 
 ### Running locally
 
