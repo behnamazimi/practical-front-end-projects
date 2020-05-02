@@ -145,7 +145,7 @@ A modern design concept to showcase content in a container with two splitted sec
 
 Cool loading animation with pure CSS. Animation contains sliding and floating boxes, designed by [Vitaly Silkin](https://dribbble.com/shots/4268258-Evitare-loader).
 
-**[Online Demo](https://behnamazimi.github.io/simple-web-projects/css-excape-loading-animation//)**
+**[Online Demo](https://behnamazimi.github.io/simple-web-projects/css-escape-loading-animation/)**
 
 **Special topics covered:**
 
