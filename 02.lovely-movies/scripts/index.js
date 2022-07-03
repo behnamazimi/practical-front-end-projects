@@ -64,6 +64,8 @@ function searchInMovies(e) {
         // reset page number on each search
         CURRENT_PAGE = 1;
 
+        trend = trend.trim()
+
         getMoviesAndParse(trend, CURRENT_PAGE)
 
     }, 300)
