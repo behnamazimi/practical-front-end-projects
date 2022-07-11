@@ -147,6 +147,12 @@ Cool loading animation with pure CSS. Animation contains sliding and floating bo
 
 **[Online Demo](https://behnamazimi.github.io/simple-web-projects/css-escape-loading-animation/)**
 
+### Pokemon Generator - Vanilla JS
+
+A fun little project which uses Poke API to fetch the neccesary information about different pokemons and displays their abilities.
+
+**[Online Demo](https://adit0507.github.io/Pokemon-Card-Generator/)**
+
 **Special topics covered:**
 
 - CSS
