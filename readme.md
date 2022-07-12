@@ -157,6 +157,7 @@ A fun little project which uses Poke API to fetch the neccesary information abou
 
 - CSS
   - Fetch API
+  - URL for fetching: https://pokeapi.co/api/v2/pokemon/
   - Keyframe animations
   - Transform and transform origin
 
