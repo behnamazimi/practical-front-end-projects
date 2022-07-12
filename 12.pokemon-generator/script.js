@@ -37,7 +37,7 @@ let getPokemonData = () => {
 
 let generateCard = (data) => {
   //Get necessary data and assign to variables
-  console.log(data);
+  // console.log(data);
   const hp = data.stats[0].base_stat;
   const imgSrc = data.sprites.other.dream_world.front_default;
   const PokemonName = data.name[0].toUpperCase() + data.name.slice(1);
