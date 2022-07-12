@@ -156,6 +156,7 @@ A fun little project which uses Poke API to fetch the neccesary information abou
 **Special topics covered:**
 
 - CSS
+  - Fetch API
   - Keyframe animations
   - Transform and transform origin
 
