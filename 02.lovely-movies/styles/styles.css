@@ -36,7 +36,6 @@ body {
     color: #f4f4f4;
     min-height: 100vh;
     font-family: 'Lato', sans-serif;
-
     --header-height: 70px;
     --footer-height: 0px;
     --result-grid-column: 5;
@@ -74,6 +73,9 @@ body.loading .loader {
     align-items: center;
     box-shadow: 0 1px 10px 2px rgba(0, 0, 0, 0.3);
     height: 70px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
 }
 
 .main-header__branding {
