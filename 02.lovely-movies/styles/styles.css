@@ -75,7 +75,7 @@ body.loading .loader {
     box-shadow: 0 1px 10px 2px rgba(0, 0, 0, 0.3);
     height: 70px;
     width: 100%;
-    position: fixed;
+    position: sticky;
     top: 0;
     z-index: 5;
 
@@ -124,7 +124,6 @@ body.loading .loader {
 /** Main Content - START **/
 
 main.content {
-    margin-top: 70px;
     padding: 2rem 1rem 0 1rem;
     display: flex;
     min-height: calc(100% - var(--header-height, 70px) - var(--footer-height, 0px));
