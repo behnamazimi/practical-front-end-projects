@@ -6,6 +6,8 @@ const searchInput = document.getElementById("search");
 const searchTrendSpan = document.getElementById("search-trend");
 const pageNumberSpan = document.getElementById("page-number");
 const nextBtn = document.getElementById("next-btn");
+const nav=document.querySelector(".main-header")
+
 
 let SEARCH_DEBOUNCE_FLAG = null;
 let CURRENT_PAGE = 1;
@@ -234,3 +236,20 @@ function showMovieInDetails(movieObj, targetItem) {
 
     detailsWrapper.append(detailsElm);
 }
+
+
+
+
+//Fixed Navigation
+
+const coords=nav.getBoundingClientRect()
+window.addEventListener("scroll",function(){
+
+if(window.scrollY>coords.top){
+    nav.classList.add("sticky");
+    
+}else{
+    nav.classList.remove("sticky")
+}
+})
+
