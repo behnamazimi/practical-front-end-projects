@@ -154,6 +154,7 @@ main.content {
     font-size: 16px;
     cursor: pointer;
     margin-bottom: 1rem;
+    float : right;
 }
 
 .content__result__list {
