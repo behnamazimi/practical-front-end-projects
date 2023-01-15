@@ -4,6 +4,8 @@ A collection of practical, easy to use front-end related projects for enthusiast
 
 **Notes:**
 
+alaa ahmed
+
 - Webpack, gulp or any another bundler has not been used.
 - Third-party libraries were not used.
 - Codes are mostly supported by modern browsers.
