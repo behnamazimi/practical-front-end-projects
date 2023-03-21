@@ -99,7 +99,7 @@ A simple implementation of a small range slider with pure Javascript.
 - Prototypal Object-Oriented Programming
 - DOM events handling
 - CSS variables
-
+<h1>THIS EMMA </h1>
 ### Web Chat App 
 
 This project is a real messaging app that developed with pure javascript without third-party libs. We focused on the Web Components in this project and give it a real component structure. All chats, messages, data are fake and generated with a data-factory. I hope It would be useful.
