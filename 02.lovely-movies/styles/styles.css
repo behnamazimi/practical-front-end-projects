@@ -104,13 +104,13 @@ body.loading .loader {
 
 .main-header__search input[type="search"] {
     background: #262626;
-    min-width: 240px;
+    min-width: 256px;
     padding: .5rem 1.3rem;
-    border-radius: 5px;
+    border-radius: 6px;
     border: none;
     outline: none;
     color: #999;
-    font-size: 14px;
+    font-size: 17px;
 }
 
 .main-header__search input[type="search"]::-webkit-search-cancel-button {
