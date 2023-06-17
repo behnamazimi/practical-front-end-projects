@@ -1,7 +1,9 @@
 * {
     box-sizing: border-box;
 }
-
+body{
+    background-image: linear-gradient(to right, Blue,red,yellow);
+}
 .m-video {
     position: relative;
     display: flex;
@@ -24,12 +26,16 @@
 
 .m-video input[type="range"] {
     height: 4px;
-    -webkit-appearance: none;
+    
     outline: none;
     background: transparent;
     overflow: hidden;
     cursor: pointer;
     border-radius: 4px;
+    -webkit-appearance: none;
+-moz-appearance: none;
+appearance: none;
+
 }
 
 .m-video .v-controls {
