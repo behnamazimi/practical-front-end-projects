@@ -300,8 +300,11 @@ main.content {
 }
 
 .movie-item:not(.--in-details):hover {
-    transition: all .3s;
-    transform: translateY(-3px);
+    transition: transform .5s ease;
+    transform: translateY(-10px);
+  
+        /* transform: translateY(-10px); */
+     
 }
 
 .movie-item.--in-details {
