@@ -86,7 +86,7 @@ function addNewCircle() {
     // in below array has colors and offset of gradient.
     const possibleGradients = [
         [
-            [0, "rgba(238,31,148,0.14)"],
+            [0, "rgba(240,31,148,0.14)"],
             [1, "rgba(238,31,148,0)"]
         ],
         [
@@ -129,7 +129,7 @@ let addingInterval = setInterval(() => {
 
     setTimeout(() => {
         addNewCircle();
-    }, rndNum(700, 2000));
+    }, rndNum(700, 1000));
 
 }, 300);
 
