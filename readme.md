@@ -159,10 +159,34 @@ Cool loading animation with pure CSS. Animation contains sliding and floating bo
   - Keyframe animations
   - Transform and transform origin
 
-### Running locally
+## Running Locally
 
-It's so simple. Clone or download the repository, open project directory and open `index.html` in your browser. As I mentioned above, there is not any bundler and all scripts have been injected in the HTML.
+Running the projects locally is a breeze. Just follow these simple steps:
 
-#### New projects are being prepared
+1. Clone or download the repository to your local machine.
+2. Open the project directory.
+3. Launch the `index.html` file in your preferred browser.
 
-I'll try to make this repo very useful. So, I really looking forward to your help and comments to make this better.
+Since there are no bundlers used in this repository, all scripts have been directly injected into the HTML files. This allows for a straightforward setup and easy execution of the projects.
+
+## New Projects in the Pipeline
+
+We are working on adding new projects to this repository. Your input and feedback are highly appreciated, as they help us improve the repository and enhance its usefulness.
+
+We eagerly look forward to your contributions, suggestions, and comments to make this repository a thriving hub of practical front-end projects. Together, we can create an exceptional resource for aspiring developers.
+
+## Contribute
+
+We warmly welcome contributions to this project! As it is specifically designed for beginners and serves educational purposes, we encourage you to contribute by suggesting useful changes or even submitting new projects. Don't hesitate, even if it's your first time contributing to an open-source project!
+
+Here's a simple guide on how you can get involved:
+
+1. **Fork the repository**: Start by forking the repository to your GitHub account. This will create a copy of the project under your account, allowing you to make changes.
+
+2. **Make your changes**: Create a new branch in your forked repository and make the desired changes. You can suggest improvements, fix bugs, add new features, or even introduce entirely new projects that align with the educational focus.
+
+3. **Submit a pull request**: Once you are satisfied with your changes, submit a pull request on this repository. This will notify the project maintainers about your proposed changes. We will review your submission, provide feedback, and collaborate with you to ensure the quality and relevance of your contribution.
+
+Remember, this is a friendly and inclusive community. We appreciate all contributions, regardless of your level of experience. Feel free to ask questions and seek guidance along the way. 
+
+Thank you for your interest in making this repository even better. Together, we can create an invaluable resource for beginners in the world of front-end development!
