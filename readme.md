@@ -18,7 +18,7 @@ We hope you find these practical front-end projects helpful and enjoyable as you
 
 ### Projects
 
-There are 9 developed projects that you can review now.
+There are 10 developed projects that you can review now.
   - [Custom Video Player](#custom-video-player)
   - [Lovely Movies](#lovely-movies)
   - [Note App](#note-app)
@@ -29,6 +29,7 @@ There are 9 developed projects that you can review now.
   - [Canvas Wallpaper](#canvas-wallpaper)
   - [Split Screen](#split-screen)
   - [Escape Loading Animation](#escape-loading-animation---css)
+  - [Image Slider 3D](#image-slider-3d)
 
 ### Custom Video Player 
 
@@ -158,6 +159,20 @@ Cool loading animation with pure CSS. Animation contains sliding and floating bo
 - CSS
   - Keyframe animations
   - Transform and transform origin
+
+### Image Slider 3D 
+
+It is an image slider with 3D animation that changes slides automatically based on a duration time. By hovering the mouse on slides, the animation will be paused.
+
+**[Online Demo](https://behnamazimi.github.io/simple-web-projects/image-slider-3d/)**
+
+**Special topics covered:**
+
+- Adding data to the slider by map method
+- CSS
+  - Keyframe animation with 3D effect
+  - Making dynamic animation keyframe 
+  - Handling dynamic animation timing 
 
 ## Running Locally
 
