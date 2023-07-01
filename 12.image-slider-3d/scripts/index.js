@@ -19,37 +19,30 @@ const imagesCount = imagesData.length;
 const animationTimePerImage = 3;
 
 // Using the map method to fill the slider(slider is ul element)
-imagesData.map((img, index) => {
-	const li = document.createElement("li");
+imagesData.forEach((img, index) => {
+	const liElm = document.createElement("li");
+	const animationIndex = index - imagesCount;
 
-	// Adding a custom animation to each image by a function
-	li.style.animationName = dynamicAnimationHandler(imagesCount);
+        // Adding animation details to slide item
+	liElm.style.animationName = dynamicAnimationHandler(imagesCount);
+	liElm.style.animationDuration = `${animationTimePerImage * imagesCount}s`;
+	liElm.style.animationDelay = `${animationTimePerImage * animationIndex}s`;
 
-	// Adding a runtime duration to each image
-	li.style.animationDuration = `${animationTimePerImage * imagesCount}s`;
-
-	// Adding a delay time to each image depends on the image's id
-	li.style.animationDelay = `${animationTimePerImage * (index - imagesCount)}s`;
-
-	// Initial images position depends on the image's id(The first image has no styles)
 	if (index === 1) {
-		// This is the seconde image
-		li.style.transform = "translateX(240px) translateZ(-240px) rotateY(-45deg)";
+		liElm.style.transform = "translateX(240px) translateZ(-240px) rotateY(-45deg)";
 	} else if (index === imagesCount - 1) {
-		// This is the last image
-		li.style.transform = "translateX(-240px) translateZ(-240px) rotateY(45deg)";
+		liElm.style.transform = "translateX(-240px) translateZ(-240px) rotateY(45deg)";
 	} else {
-		// These are rest of the images
-		li.style.transform = "translateZ(-500px)";
+		liElm.style.transform = "translateZ(-500px)";
 	}
 
-	const imageElement = `
-				            <img src=./static/images/${img.imageName} alt=${img.alt} />
-				          `;
+         // Create and append image element to slide item
+	const imageElement = document.createElement("img");
+	imageElement.src = `./static/images/${img.imageName}`;
+	imageElement.alt = img.alt;
+	liElm.appendChild(imageElement);
 
-	li.innerHTML = imageElement;
-
-	slider.appendChild(li);
+	slider.appendChild(liElm);
 });
 
 // This function appends a custom stylesheet(including a dynamic keyframe) to the DOM and returns a suitable name
