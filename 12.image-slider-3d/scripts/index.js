@@ -75,12 +75,12 @@ function dynamicAnimationHandler(imagesCount) {
 			transform: translateX(0);
 	}`;
 
-	// Create an empty stylesheet element and append it to the DOM
-	const styleSheet = document.createElement("style");
+	// Create an empty style element and append it to the DOM
+	const styleElement = document.createElement("style");
 	document.head.appendChild(styleSheet);
 
 	// Inserting the animation values to the stylesheet
-	styleSheet.sheet.insertRule(`@keyframes ${animationName} {${animationBody}}`, styleSheet.length);
+	styleElement.sheet.insertRule(`@keyframes ${animationName} {${animationBody}}`, styleElement.length);
 
 	return animationName;
 }
