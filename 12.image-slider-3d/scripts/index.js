@@ -77,7 +77,7 @@ function dynamicAnimationHandler(imagesCount) {
 
 	// Create an empty style element and append it to the DOM
 	const styleElement = document.createElement("style");
-	document.head.appendChild(styleSheet);
+	document.head.appendChild(styleElement);
 
 	// Inserting the animation values to the stylesheet
 	styleElement.sheet.insertRule(`@keyframes ${animationName} {${animationBody}}`, styleElement.length);
