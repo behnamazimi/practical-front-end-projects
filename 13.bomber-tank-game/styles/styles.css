@@ -1,0 +1,239 @@
+@font-face {
+	font-family: "Zolina";
+	src: url("../static/fonts/Zolina-Medium.ttf");
+	font-display: swap;
+}
+
+:root {
+	--color-black-9: rgba(0, 0, 0, 0.9);
+	--color-black-5: rgba(0, 0, 0, 0.5);
+	--color-whitesmoke: whitesmoke;
+	--color-deepskyblue: deepskyblue;
+	--color-lightgreen: lightgreen;
+	--color-yellow: yellow;
+	--color-red: red;
+}
+
+body {
+	max-height: 100vh;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	background-image: url(../static/images/bg.jpg);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	font-family: monospace, sans-serif;
+	cursor: default;
+	user-select: none;
+}
+
+/*--------------------------------- Tutorial Modal Section: */
+#tutorial-section {
+	position: fixed;
+	top: 50%;
+	transform: translateY(-50%);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	gap: 0.5rem;
+	width: 90%;
+	padding: 0.5rem;
+	border: 2px dashed var(--color-deepskyblue);
+	border-radius: 1rem;
+	background-color: var(--color-black-9);
+	z-index: 10;
+}
+
+#tutorial-text {
+	color: var(--color-whitesmoke);
+}
+
+#tutorial-btn {
+	margin-bottom: 0.5rem;
+	padding: 0.25rem 0.5rem;
+	font-size: 1rem;
+	font-weight: bold;
+	border: none;
+	border-radius: 0.5rem;
+	background-color: var(--color-deepskyblue);
+	cursor: pointer;
+}
+
+/*--------------------------------- Banner Section: */
+.title {
+	position: absolute;
+	top: -3.5rem;
+	padding: 0;
+	font-size: 3.5rem;
+	font-weight: bold;
+	font-family: "Zolina";
+	color: var(--color-whitesmoke);
+	overflow: hidden;
+}
+
+/*--------------------------------- Level Section: */
+.level-section {
+	width: 10rem;
+	position: absolute;
+	top: 5rem;
+	left: 1rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	gap: 1rem;
+	padding: 0.5rem;
+	padding-bottom: 1.5rem;
+	border: 2px solid var(--color-whitesmoke);
+	border-radius: 1rem;
+	background-color: var(--color-black-5);
+}
+
+.level-section h2 {
+	margin-bottom: auto;
+	font-size: 1.5rem;
+	color: var(--color-whitesmoke);
+}
+
+.level-btn {
+	padding: 0.25rem 0.5rem;
+	font-size: 1rem;
+	outline: none;
+	border: none;
+	border-radius: 0.5rem;
+	font-family: monospace, sans-serif;
+	cursor: pointer;
+}
+
+.easy-btn {
+	background-color: var(--color-lightgreen);
+}
+.normal-btn {
+	background-color: var(--color-yellow);
+}
+.hard-btn {
+	background-color: var(--color-red);
+}
+
+.results {
+	font-size: 1.5rem;
+	color: var(--color-whitesmoke);
+}
+
+/*--------------------------------- Mainboard Section: */
+.game-board {
+	display: flex;
+	flex-wrap: wrap;
+	margin-top: 1rem;
+	margin-left: 12rem;
+	padding: 0.25rem;
+	border: 2px solid var(--color-whitesmoke);
+	border-radius: 0.25rem;
+	background-color: var(--color-black-5);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	transform: scale(0.8);
+}
+
+.game-board div {
+	box-sizing: border-box;
+	background-position: center;
+	background-repeat: no-repeat;
+	border: none;
+}
+
+/*--------------------------------- Effects Section: */
+.enemy {
+	background-image: url(../static/images/enemy.png);
+}
+
+.tank {
+	background-image: url(../static/images/tank.png);
+}
+
+.bullet {
+	background-image: url(../static/images/bullet.png);
+}
+
+.explosion {
+	background-image: url(../static/images/explosion.png);
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+	#tutorial-section {
+		width: 80%;
+	}
+
+	.level-section {
+		width: 11rem;
+	}
+
+	.level-section h2 {
+		font-size: 1.75rem;
+	}
+
+	.level-btn {
+		font-size: 1.25rem;
+	}
+
+	.results {
+		font-size: 1.75rem;
+	}
+
+	.game-board {
+		margin-top: 2rem;
+		margin-left: 13rem;
+		transform: scale(0.85);
+	}
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+	#tutorial-section {
+		width: 70%;
+	}
+
+	.level-section {
+		width: 13rem;
+	}
+
+	.level-section h2 {
+		font-size: 2rem;
+	}
+
+	.level-btn {
+		font-size: 1.5rem;
+	}
+
+	.game-board {
+		margin-top: 3rem;
+		margin-left: 5rem;
+		transform: scale(0.9);
+	}
+}
+
+/* X-Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+	#tutorial-section {
+		width: 60%;
+	}
+
+	.level-section {
+		width: 15rem;
+	}
+
+	.game-board {
+		margin-top: 5rem;
+		margin-left: 0;
+		transform: scale(1);
+	}
+}
