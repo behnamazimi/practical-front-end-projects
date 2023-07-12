@@ -39,7 +39,7 @@ class Sound {
 // Build objects from the Sound class with a proper sound source for different parts of the game
 const backgroundSound = new Sound("static/sounds/bgSound.mp3", true);
 const startSound = new Sound("static/sounds/start.mp3");
-const enemiesSound = new Sound("static/sounds/invadersMove.mp3");
+const enemiesSound = new Sound("static/sounds/enemyMove.mp3");
 const shootSound = new Sound("static/sounds/shoot.mp3");
 const explodeSound = new Sound("static/sounds/explode.mp3");
 const winSound = new Sound("static/sounds/win.mp3");

@@ -18,7 +18,7 @@ We hope you find these practical front-end projects helpful and enjoyable as you
 
 ### Projects
 
-There are 10 developed projects that you can review now.
+There are 13 developed projects that you can review now.
   - [Custom Video Player](#custom-video-player)
   - [Lovely Movies](#lovely-movies)
   - [Note App](#note-app)
@@ -30,6 +30,7 @@ There are 10 developed projects that you can review now.
   - [Split Screen](#split-screen)
   - [Escape Loading Animation](#escape-loading-animation---css)
   - [Image Slider 3D](#image-slider-3d)
+  - [Bomber Tank Game](#bomber-tank-game)
 
 ### Custom Video Player 
 
@@ -172,7 +173,20 @@ It is an image slider with 3D animation that changes slides automatically based 
 - CSS
   - Keyframe animation with 3D effect
   - Making dynamic animation keyframe 
-  - Handling dynamic animation timing 
+  - Handling dynamic animation timing
+
+  ### Bomber Tank Game 
+
+It is a 2D game with animations and sound effects. Users can select a level to start the game.
+
+**[Online Demo](https://behnamazimi.github.io/simple-web-projects/bomber-tank-game/)**
+
+**Special topics covered:**
+
+- Working with array methods and the spread operator
+- DOM manipulation to show animations effect
+- Playing a sound effect when a button was pressed
+- Responsive gameboard by the mediaqueries
 
 ## Running Locally
 
