@@ -1,6 +1,29 @@
 # Practical Front-End Projects with Pure Javascript, CSS, and HTML
 
-Welcome to the Practical Front-End Projects repository! This collection offers a range of practical and user-friendly projects for front-end enthusiasts and beginners. The primary objective of this repository is to facilitate learning. All the code samples provided are free and will always remain so.
+> Welcome to the Practical Front-End Projects repository!
+
+> This repository contains a range of practical and user-friendly projects for front-end enthusiasts and beginners. The primary objective of this repository is to facilitate learning.
+
+> All the code samples provided are free and will always remain so.
+
+## Table of contents
+1. [Key Features](readme.md##Key-Features)
+2. [Educational Purpose](readme.md##Educational-Purpose)
+3. [Projects](readme.md##Projects)
+    - [Custom Video Player](readme.md###custom-video-player)
+    - [Lovely Movies](readme.md###lovely-movies)
+    - [Note App](readme.md###note-app)
+    - [Othello Board Game](readme.md###othello-board-game)
+    - [Quiz App](readme.md###quiz-app)
+    - [Simple Range Slider](readme.md###simple-range-slider)
+    - [Web Chat App](readme.md###web-chat-app)
+    - [Canvas Wallpaper](readme.md###canvas-wallpaper)
+    - [Split Screen](readme.md###split-screen)
+    - [Escape Loading Animation](readme.md###escape-loading-animation---css)
+    - [Image Slider 3D](readme.md###image-slider-3d)
+4. [Running Locally](readme.md##Running-Locally)
+5. [New Projects in the Pipeline](readme.md##New-Projects-in-the-Pipeline)
+6. [Contribute](readme.md##Contribute)
 
 ## Key Features
 
@@ -16,22 +39,8 @@ Please note that the projects included in this repository are intended solely fo
 
 We hope you find these practical front-end projects helpful and enjoyable as you embark on your journey to becoming a proficient front-end developer. Happy coding!
 
-### Projects
-
-There are 10 developed projects that you can review now.
-  - [Custom Video Player](#custom-video-player)
-  - [Lovely Movies](#lovely-movies)
-  - [Note App](#note-app)
-  - [Othello Board Game](#othello-board-game)
-  - [Quiz App](#quiz-app)
-  - [Simple Range Slider](#simple-range-slider)
-  - [Web Chat App](#web-chat-app)
-  - [Canvas Wallpaper](#canvas-wallpaper)
-  - [Split Screen](#split-screen)
-  - [Escape Loading Animation](#escape-loading-animation---css)
-  - [Image Slider 3D](#image-slider-3d)
-
-### Custom Video Player 
+## Projects
+### 1. Custom Video Player 
 
 In this project I customized the video controls and designed them manually. Focus on handling the video node and how to implement custom behavior for it.
 
@@ -43,7 +52,7 @@ In this project I customized the video controls and designed them manually. Focu
 - Fullscreen handling
 - CSS variables
 
-### Lovely Movies 
+### 2. Lovely Movies 
 
 A simple movie search website.
 
@@ -56,7 +65,7 @@ A simple movie search website.
 - Usage of `position: static;` in CSS
 - Using CSS variables
 
-### Note App 
+### 3. Note App 
 
 A practical note web app to handle categorized notes. There are notes that can have a category for. you can search in notes and edit or remove those.
 
@@ -69,7 +78,7 @@ A practical note web app to handle categorized notes. There are notes that can h
 - Layouting with CSS grid system
 - localStorage usage
 
-### Othello Board Game 
+### 4. Othello Board Game 
 
 Famous strategy game Othello, known as Reversi, implemented in pure Javascript.
 
@@ -83,7 +92,7 @@ Famous strategy game Othello, known as Reversi, implemented in pure Javascript.
 - Event handling
 - Error handling
 
-### Quiz App
+### 5. Quiz App
 
 Simulating a quiz in web app.
 
@@ -95,7 +104,7 @@ Simulating a quiz in web app.
 - Creating and handling DOM elements
 - CSS animation
 
-### Simple Range Slider 
+### 6. Simple Range Slider 
 
 A simple implementation of a small range slider with pure Javascript.
 
@@ -107,7 +116,7 @@ A simple implementation of a small range slider with pure Javascript.
 - DOM events handling
 - CSS variables
 
-### Web Chat App 
+### 7. Web Chat App 
 
 This project is a real messaging app that developed with pure javascript without third-party libs. We focused on the Web Components in this project and give it a real component structure. All chats, messages, data are fake and generated with a data-factory. I hope It would be useful.
 
@@ -121,7 +130,7 @@ This project is a real messaging app that developed with pure javascript without
 - DOM controlling
 - CSS flex
 
-### Canvas Wallpaper 
+### 8. Canvas Wallpaper 
 
 This is a practical canvas tutorial, a animated wallpaper with circles that moves on it. The code is full documented and easy to read.
 
@@ -133,7 +142,7 @@ This is a practical canvas tutorial, a animated wallpaper with circles that move
 - Coding strategies
 - Mathematical operations
 
-### Split Screen
+### 9. Split Screen
 
 A modern design concept to showcase content in a container with two splitted sections which will resize on mouse over
 
@@ -148,7 +157,7 @@ A modern design concept to showcase content in a container with two splitted sec
 - JavaScript
   - DOM manipulation
   
-### Escape Loading Animation - CSS
+### 10. Escape Loading Animation - CSS
 
 Cool loading animation with pure CSS. Animation contains sliding and floating boxes, designed by [Vitaly Silkin](https://dribbble.com/shots/4268258-Evitare-loader).
 
@@ -160,7 +169,7 @@ Cool loading animation with pure CSS. Animation contains sliding and floating bo
   - Keyframe animations
   - Transform and transform origin
 
-### Image Slider 3D 
+### 11. Image Slider 3D 
 
 It is an image slider with 3D animation that changes slides automatically based on a duration time. By hovering the mouse on slides, the animation will be paused.
 
@@ -202,6 +211,6 @@ Here's a simple guide on how you can get involved:
 
 3. **Submit a pull request**: Once you are satisfied with your changes, submit a pull request on this repository. This will notify the project maintainers about your proposed changes. We will review your submission, provide feedback, and collaborate with you to ensure the quality and relevance of your contribution.
 
-Remember, this is a friendly and inclusive community. We appreciate all contributions, regardless of your level of experience. Feel free to ask questions and seek guidance along the way. 
+> Remember, this is a friendly and inclusive community. We appreciate all contributions, regardless of your level of experience. Feel free to ask questions and seek guidance along the way. 
 
 Thank you for your interest in making this repository even better. Together, we can create an invaluable resource for beginners in the world of front-end development!
