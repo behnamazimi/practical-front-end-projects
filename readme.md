@@ -7,7 +7,7 @@
 > All the code samples provided are free and will always remain so.
 
 ## Table of contents
-1. [Key Features](https://github.com/behnamazimi/practical-front-end-projects/blob/master/readme.md#key-features)
+1. [Key Features](#key-features)
 2. [Educational Purpose](readme.md##Educational-Purpose)
 3. [Projects](readme.md##Projects)
     - [Custom Video Player](readme.md###1-custom-video-player)
