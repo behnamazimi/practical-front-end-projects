@@ -1,6 +1,8 @@
 * {
     box-sizing: border-box;
+    
 }
+
 
 .m-video {
     position: relative;
@@ -211,4 +213,24 @@
     text-align: center;
     width: 58px;
     display: inline-block;
+}
+
+
+#project-header{
+    display:flex;
+    text-align:center;
+    justify-content: center;
+    align-items:center;
+
+    border:solid;
+    color:red;
+    height:60px;
+    width:500px;
+    margin-left:35%;
+    
+}
+
+#video-player-project-div{
+    display:flex;
+    flex-direction:column;  
 }
