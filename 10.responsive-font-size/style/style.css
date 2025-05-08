@@ -1,39 +1,58 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;800&display=swap');
 
+/* Define CSS variables for theme colors */
 :root {
   --body-bg: #FFF8E1;
   --title-color: #FF8F00;
 }
-html, body, h1, h2, h3 {
+
+/* Reset margin, padding, and box-sizing for common elements */
+html, body, h1, h2, h3, p {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
+
+/* Style the body with background and layout */
 body {
   background-color: var(--body-bg);
   height: 100vh;
   display: flex;
   align-items: center;
   padding: 0 2rem;
+  /* Added optional font smoothing for better text rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* Style for page title sections */
 .page-title {
   margin: 2rem 0;
   text-align: center;
 }
+
+/* Style for card containers */
 .card {
   width: 800px;
   max-width: 100rem;
   padding: 1rem;
-  background-color: white;
-  box-shadow: 0 2px 8px 1px rgba(0,0,0,0.15);
+  background-color: #fff; /* Changed to hex for consistency */
+  box-shadow: 0 2px 8px 1px rgba(0, 0, 0, 0.15);
   margin: 0 auto;
+  
+  /* Optional: add border-radius for smoother corners */
+  border-radius: 8px;
 }
+
+/* Style for card titles */
 .card-title {
   color: var(--title-color);
   text-transform: capitalize;
   font-size: max(2.85vw, 1.5rem);
 }
+
+/* Style for paragraphs */
 p {
   font-size: min(2vw, 1rem);
 }
