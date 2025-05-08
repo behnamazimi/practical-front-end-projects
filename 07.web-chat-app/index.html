@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/styles.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Removed 'shrink-to-fit=no' as it's not a standard viewport property -->
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles/styles.css" />
     <title>Web Chat App</title>
 </head>
 <body>
@@ -18,10 +19,10 @@
     <chat-box hidden></chat-box>
 </div>
 
+<!-- Scripts arranged in a logical order: dependencies first, then main scripts -->
 <script src="components/component.js"></script>
 <script src="scripts/recorder.js"></script>
 <script src="scripts/data-factory.js"></script>
-<script src="scripts/chat-app.js"></script>
 <script src="components/authed-user.js"></script>
 <script src="components/app-brand.js"></script>
 <script src="components/chats-list.js"></script>
@@ -31,5 +32,6 @@
 <script src="components/chat-box.js"></script>
 <script src="components/chat-list-item.js"></script>
 <script src="scripts/index.js"></script>
+
 </body>
 </html>
