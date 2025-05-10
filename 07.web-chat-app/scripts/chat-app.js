@@ -1,207 +1,187 @@
-// connection between components is with events and
-// this const object is for keeping all event types in one place to easy access
+// Centralized event types for easy access and consistency
 window.APP_EVENTS = {
-    PROFILE_BTN_CLICK: "profile-btn-click",
-    CHAT_CLICKED: "chat-clicked",
-    CHAT_SELECTED: "chat-selected",
-    AUTHED_USER_NEW_MESSAGE: "authed-user-new-message",
-    USER_SIGN_IN: "user-sign-in",
-    SEARCH_IN_CHATS: "search-in-chats",
-    NEW_MESSAGE_RECEIVE: "new-message-receive",
-    CHAT_BOX_BACK_CLICKED: "chat-box-back-clicked",
-    DESELECT_SELECTED_CHAT: "deselect-selected-chat",
+  PROFILE_BTN_CLICK: "profile-btn-click",
+  CHAT_CLICKED: "chat-clicked",
+  CHAT_SELECTED: "chat-selected",
+  AUTHED_USER_NEW_MESSAGE: "authed-user-new-message",
+  USER_SIGN_IN: "user-sign-in",
+  SEARCH_IN_CHATS: "search-in-chats",
+  NEW_MESSAGE_RECEIVE: "new-message-receive",
+  CHAT_BOX_BACK_CLICKED: "chat-box-back-clicked",
+  DESELECT_SELECTED_CHAT: "deselect-selected-chat",
 };
 
 /**
- * This class controls the whole app
+ * Main class controlling the entire chat application
  */
 class ChatApp {
+  /**
+   * @param {string} appId - ID of the container element for the app
+   */
+  constructor(appId) {
+    this.assert(appId, "App container ID not provided.");
+    this._appContainer = document.getElementById(appId);
+    this.assert(this._appContainer, `Container with id "${appId}" not found.`);
 
-    /**
-     * this receive the id of container of app and get it
-     * the container is required to run app
-     * @param appId
-     */
-    constructor(appId) {
-        // check the existence of appId
-        this.assert(appId, "app container id not passed.");
-        this._app = document.getElementById(appId);
-        // check the existence of container
-        this.assert(this._app, `Container with id "${appId}" not found. `);
+    this._authedUser = null;
+    this._chats = [];
+    this._messages = [];
+    this._components = {};
 
-        this._authedUser = null;
-        this._chats = [];
-        this._messages = [];
-        this._componenets = {};
+    this.assignComponents();
+    this.initListeners();
+    this.sendChatsToList();
+  }
 
-        // find and assign required app-components
-        this.assignComponents();
+  /**
+   * Assign main components from the DOM for easier access
+   */
+  assignComponents() {
+    this._components.authedUser = document.querySelector("authed-user");
+    this._components.appBranch = document.querySelector("app-brand");
+    this._components.chatsList = document.querySelector("chats-list");
+    this._components.chatBox = document.querySelector("chat-box");
+  }
 
-        // initialize listeners
-        this.initListeners();
+  /**
+   * Initialize event listeners for key components
+   */
+  initListeners() {
+    this._components.appBranch.on(APP_EVENTS.PROFILE_BTN_CLICK, this._onProfileBtnClick.bind(this));
+    this._components.chatsList.on(APP_EVENTS.CHAT_SELECTED, this._onChatSelected.bind(this));
+    this._components.chatBox.on(APP_EVENTS.AUTHED_USER_NEW_MESSAGE, this._onAuthedUserNewMessages.bind(this));
+    this._components.chatBox.on(APP_EVENTS.CHAT_BOX_BACK_CLICKED, this._onChatBoxBack.bind(this));
+  }
 
-        // render the existed chats
-        this.sendChatsToList();
+  /**
+   * Sign in a user and set up the UI accordingly
+   * @param {Object} user - User object with at least an 'id'
+   */
+  signin(user) {
+    this.assert(user && user.id, "Invalid user object");
+    this._authedUser = user;
+
+    this._components.authedUser.setUser(this._authedUser);
+    this._components.authedUser.hidden = true;
+
+    this._components.chatBox.emit(APP_EVENTS.USER_SIGN_IN, { id: user.id });
+  }
+
+  /**
+   * Handle incoming message
+   * @param {Object} msg - Message object with time, sender, text, toChat
+   */
+  newMessage(msg) {
+    this.assert(msg && msg.time && msg.sender && msg.text && msg.toChat, "Invalid message object.");
+
+    this._messages.push(msg);
+
+    // If the message belongs to the active chat, render it
+    if (this.activeChat && msg.sender === this.activeChat.id) {
+      this._components.chatBox.renderMessage(msg);
     }
 
-    /**
-     * Find main components and assign it to this._components property
-     * It's just for remove duplication, after this, we access all components
-     * in this._components without re-select from DOM and just
-     */
-    assignComponents() {
-        this._componenets.authedUser = document.querySelector("authed-user");
-        this._componenets.appBranch = document.querySelector("app-brand");
-        this._componenets.chatsList = document.querySelector("chats-list");
-        this._componenets.chatBox = document.querySelector("chat-box");
+    // Notify chats list about new message
+    this._components.chatsList.emit(APP_EVENTS.NEW_MESSAGE_RECEIVE, msg);
+  }
+
+  /**
+   * Getter for the authenticated user
+   * @returns {Object}
+   */
+  get authedUser() {
+    return this._authedUser;
+  }
+
+  /**
+   * Toggle profile section visibility
+   * @private
+   */
+  _onProfileBtnClick() {
+    this._components.authedUser.hidden = !this._components.authedUser.hidden;
+  }
+
+  /**
+   * Handle chat selection
+   * @param {Object} event - Event with detail containing chat ID
+   * @private
+   */
+  _onChatSelected({ detail }) {
+    const chatId = detail.id;
+
+    // Filter messages belonging to selected chat
+    const chatMessages = this._messages.filter(
+      (m) => m.sender === chatId || m.toChat === chatId
+    );
+
+    // Find chat object by ID
+    this.activeChat = this._chats.find((c) => c.id === chatId);
+
+    if (!this.activeChat) return;
+
+    // If chat box is already showing this chat, scroll to end
+    if (
+      this._components.chatBox.activeChat &&
+      this._components.chatBox.activeChat.id === this.activeChat.id
+    ) {
+      this._components.chatBox.scrollToEnd();
+      return;
     }
 
-    /**
-     * This method is for initializing required events
-     */
-    initListeners() {
-        this._componenets.appBranch.on(APP_EVENTS.PROFILE_BTN_CLICK, this._onProfileBtnClick.bind(this));
-        this._componenets.chatsList.on(APP_EVENTS.CHAT_SELECTED, this._onChatSelected.bind(this));
-        this._componenets.chatBox.on(APP_EVENTS.AUTHED_USER_NEW_MESSAGE, this._onAuthedUserNewMessages.bind(this));
-        this._componenets.chatBox.on(APP_EVENTS.CHAT_BOX_BACK_CLICKED, this._onChatBoxBack.bind(this));
-    }
+    // Mark all messages as read for this chat
+    this.activeChat.elm.markAllAsRead();
 
-    /**
-     * To simulate sign-in, use this method.
-     * Logged in user object should pass to this.
-     * @param user
-     */
-    signin(user) {
-        // check the validity of user object
-        this.assert(user && user.id, "Invalid user object");
-        this._authedUser = user;
+    // Set active chat in chatBox component
+    this._components.chatBox.setActiveChat(this.activeChat);
 
-        // after sign-in we need to set active user on authedUser component
-        // and make it hidden by default
-        // and tell the chatBox component that a user is signed-in
-        this._componenets.authedUser.setUser(this._authedUser);
-        this._componenets.authedUser.hidden = true;
-        this._componenets.chatBox.emit(APP_EVENTS.USER_SIGN_IN, {id: user.id});
-    }
+    // Render all messages for this chat
+    chatMessages.forEach((msg) => {
+      this._components.chatBox.renderMessage(msg);
+    });
+  }
 
-    /**
-     * use this method to send message to app
-     * @param msg {{time: Date, sender: String, text: String, toChat: String}}
-     */
-    newMessage(msg) {
-        // check the validity of received msg object
-        this.assert(msg && msg.time && msg.sender && msg.text && msg.toChat,
-            `Invalid message object.`);
+  /**
+   * Handle new message from signed-in user
+   * @param {Object} event - Event with detail containing message info
+   * @private
+   */
+  _onAuthedUserNewMessages({ detail }) {
+    this._messages.push({ ...detail, sender: this.authedUser.id });
+  }
 
-        // push to messages pool
-        this._messages.push(msg);
+  /**
+   * Handle the back button in the chat box
+   * @private
+   */
+  _onChatBoxBack() {
+    this._components.chatsList.emit(APP_EVENTS.DESELECT_SELECTED_CHAT);
+  }
 
-        // we need to check the sender of new message, if it send by logged in
-        // user we should tell chatBox to render the message too.
-        if (this.activeChat && msg.sender === this.activeChat.id) {
-            this._componenets.chatBox.renderMessage(msg);
-        }
-        // also we need to send received message to chatsList component
-        this._componenets.chatsList.emit(APP_EVENTS.NEW_MESSAGE_RECEIVE, msg);
-    }
+  /**
+   * Send the current list of chats to the chat list component
+   */
+  sendChatsToList() {
+    if (!this._chats) return;
+    this._components.chatsList.setChats(this._chats);
+  }
 
-    /**
-     * getter for this._authedUser
-     * @returns {Object}
-     */
-    get authedUser() {
-        return this._authedUser;
-    }
+  /**
+   * Add a new chat to the app
+   * @param {Object} chat - Chat object with at least an 'id'
+   */
+  addChat(chat) {
+    this.assert(chat && chat.id, "Invalid chat object.");
+    this._chats.push(chat);
+    this.sendChatsToList();
+  }
 
-    /**
-     * handle profile section visibility on profile-btn click
-     * @private
-     */
-    _onProfileBtnClick() {
-        // toggle the visibility of authedUser component
-        this._componenets.authedUser.hidden = !this._componenets.authedUser.hidden
-    }
-
-    /**
-     * this method fire when a chat selected.
-     * it find the messages of target chat and send those to chatBox to render
-     * @param detail
-     * @private
-     */
-    _onChatSelected({detail}) {
-        // find all messages of selected chat
-        const chatMessaged = this._messages.filter(m => m.sender === detail.id || m.toChat === detail.id);
-
-        // set selected chat as activeChat of whole app
-        this.activeChat = this._chats.find(c => c.id === detail.id);
-
-        // if the chatBox if open for activeChat, scroll content to end
-        if (this._componenets.chatBox.activeChat && this._componenets.chatBox.activeChat.id === this.activeChat.id) {
-            this._componenets.chatBox.scrollToEnd();
-            return;
-        }
-
-        // mark all messages as read and remove unread badge for selected chat
-        this.activeChat.elm.markAllAsRead();
-        // change the current chat of chatBox component
-        this._componenets.chatBox.setActiveChat(this.activeChat);
-
-        // send all messages of target chat to render in chatBox
-        chatMessaged.map(msg => {
-            this._componenets.chatBox.renderMessage(msg)
-        })
-    }
-
-    /**
-     * this method fire when a new message from signed in user sent to a chat
-     * @param detail
-     * @private
-     */
-    _onAuthedUserNewMessages({detail}) {
-        // add sender property to message and
-        // push it to the messages pool
-        this._messages.push({...detail, sender: this.authedUser.id})
-    }
-
-    /**
-     * fires when back btn clicked in chat-box
-     * @private
-     */
-    _onChatBoxBack() {
-        this._componenets.chatsList.emit(APP_EVENTS.DESELECT_SELECTED_CHAT);
-    }
-
-    /**
-     * send chats to chatList
-     */
-    sendChatsToList() {
-        if (!this._chats)
-            return;
-
-        this._componenets.chatsList.setChats(this._chats)
-    }
-
-    /**
-     * use this method to add new chat to whole app
-     * @param chat
-     */
-    addChat(chat) {
-        // check the validity of chat object
-        this.assert(chat && chat.id, `Invalid chat object.`);
-
-        // update chats array
-        this._chats.push(chat);
-
-        this.sendChatsToList();
-    }
-
-    /**
-     * to check condition and fire event if its false
-     * @param condition
-     * @param error
-     */
-    assert(condition, error) {
-        if (!condition)
-            throw new Error(`${error}`)
-    }
+  /**
+   * Assertion helper
+   * @param {boolean} condition
+   * @param {string} message
+   * @private
+   */
+  assert(condition, message) {
+    if (!condition) throw new Error(message);
+  }
 }
