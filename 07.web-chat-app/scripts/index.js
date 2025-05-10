@@ -1,55 +1,48 @@
-const numberOfChats = 10;
+const NUMBER_OF_CHATS = 10;
 let fakeChats = [];
-// generate an array of fake chats to show in app
-for (let i = 1; i < numberOfChats; i++) {
-    fakeChats.push(chatGenerator(i))
+
+// Generate an array of fake chats to show in the app
+for (let i = 1; i <= NUMBER_OF_CHATS; i++) {
+    fakeChats.push(chatGenerator(i));
 }
 
-// this is the signed-in user object
+// Signed-in user object
 const authedUser = {
     id: '12',
-    name: "Behnam Azimi",
-    username: "bhnmzm",
+    name: 'Behnam Azimi',
+    username: 'bhnmzm',
     online: true,
-    lastSeen: "Today",
-    avatar: "https://randomuser.me/api/portraits/men/1.jpg"
+    lastSeen: 'Today',
+    avatar: 'https://randomuser.me/api/portraits/men/1.jpg'
 };
 
-// create instance of ChatApp,
-// this is the line that run application
-const app = new ChatApp("chat-web-app");
+// Initialize the chat application
+const app = new ChatApp('chat-web-app');
 app.signin(authedUser);
 
-// add all generated chats to app one-by-one
-fakeChats.map(fc => app.addChat(fc));
+// Add all generated chats to the app
+fakeChats.forEach(chat => app.addChat(chat));
 
-
-// below code is just for simulating message receive
-// here we send 100 messages in different times ro app
-let fakeMsgCounter = 100;
-const interval = setInterval(() => {
-
-    if (--fakeMsgCounter === 0) {
-        clearInterval(interval);
+// Simulate receiving messages - send 100 messages at random intervals
+let remainingMessages = 100;
+const messageInterval = setInterval(() => {
+    if (--remainingMessages === 0) {
+        clearInterval(messageInterval);
         return;
     }
 
     setTimeout(() => {
-        const fakeSender = fakeChats[randomNumber(numberOfChats, 1)];
-        if (!fakeSender)
-            return;
+        const senderChat = fakeChats[randomNumber(1, NUMBER_OF_CHATS)];
+        if (!senderChat) return;
 
-        // flag with a 20% probability
-        const randomFlag = Math.random() > .8;
+        // 20% chance to flag the message
+        const isFlagged = Math.random() > 0.8;
 
         app.newMessage({
-            text: getRandomText(Math.random() > .5),
-            sender: randomFlag ? authedUser.id : fakeSender.id,
+            text: getRandomText(Math.random() > 0.5),
+            sender: isFlagged ? authedUser.id : senderChat.id,
             time: new Date(),
-            toChat: randomFlag ? fakeSender.id : authedUser.id
+            toChat: isFlagged ? senderChat.id : authedUser.id
         });
-
-        // new message sending time can be dynamic, between 1s and 5s
-    }, randomNumber(1000, 5000))
-
+    }, randomNumber(1000, 5000));
 }, 1500);

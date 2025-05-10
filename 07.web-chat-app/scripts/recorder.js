@@ -1,162 +1,132 @@
 /**
- * this class control the recording functionality.
- * it's enough to create an instance of this and call start()
- * to start recording and stop() to put the end to the recording.
+ * Class to handle audio recording functionality.
+ * Instantiate and call start() to begin recording, stop() to end.
  */
 class Recorder {
+  constructor() {
+    this._mediaRecorder = null;
+    this._audioChunks = [];
+    this._audio = null;
+    this._init();
+  }
 
-    constructor() {
-        this._recorder = null;
-        this._audioChunks = [];
+  /**
+   * Initialize the media recorder by requesting microphone access.
+   */
+  _init() {
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
-        this.init();
+    if (navigator.getUserMedia) {
+      navigator.getUserMedia({ audio: true }, (stream) => {
+        this._mediaRecorder = new MediaRecorder(stream);
+        this._mediaRecorder.addEventListener("dataavailable", (e) => {
+          this._audioChunks.push(e.data);
+        });
+      }, () => {
+        throw new Error("Microphone access denied or not available.");
+      });
+    } else {
+      throw new Error("Your browser does not support getUserMedia API.");
     }
+  }
 
-    /**
-     * initial the recorder and create a new instance of MediaRecorder.
-     */
-    init() {
-        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-        if (navigator.getUserMedia) {
-            navigator.getUserMedia({audio: true}, (stream) => {
+  /**
+   * Start recording audio.
+   */
+  start() {
+    if (!this._mediaRecorder) return;
+    this._audioChunks = [];
+    this._mediaRecorder.start();
+  }
 
-                this._recorder = new MediaRecorder(stream);
+  /**
+   * Stop recording and return an object with audio and duration.
+   * @returns {Promise<{audio: HTMLAudioElement, duration: string, audioUrl: string}>}
+   */
+  stop() {
+    return new Promise((resolve) => {
+      if (!this._mediaRecorder) resolve();
 
-                //  we need to listen for data available for the recorder and update the audio chunk
-                this._recorder.addEventListener("dataavailable", (e) => {
-                    this._audioChunks.push(e.data)
-                });
+      this._mediaRecorder.addEventListener("stop", async () => {
+        const blob = new Blob(this._audioChunks);
+        const url = URL.createObjectURL(blob);
+        this._audio = new Audio(url);
+        const duration = await this._calculateDuration(blob);
+        resolve({ audio: this._audio, duration, audioUrl: url });
+      });
 
-            }, () => {
-                throw new Error("Use Media not found.")
-            });
-        } else {
-            throw new Error("Use Media not found.")
-        }
+      this._mediaRecorder.stop();
+    });
+  }
+
+  /**
+   * Calculate the duration of the recorded audio.
+   * @param {Blob} blob
+   * @returns {Promise<string>} - Duration in mm:ss format
+   */
+  _calculateDuration(blob) {
+    return new Promise((resolve) => {
+      const file = new File([blob], "audio.mp3");
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        audioContext.decodeAudioData(e.target.result).then((buffer) => {
+          const durationSec = buffer.duration;
+          const minutes = Math.floor(durationSec / 60);
+          const seconds = Math.floor(durationSec % 60);
+          const minStr = minutes < 10 ? `0${minutes}` : `${minutes}`;
+          const secStr = seconds < 10 ? `0${seconds}` : `${seconds}`;
+          resolve(`${minStr}:${secStr}`);
+        });
+      };
+
+      reader.readAsArrayBuffer(file);
+    });
+  }
+
+  /**
+   * Getter for the recorded audio element.
+   * @returns {HTMLAudioElement}
+   */
+  get audio() {
+    return this._audio;
+  }
+
+  /**
+   * Static method to check if microphone is available.
+   * @returns {boolean}
+   */
+  static isMicAvailable() {
+    // Note: This method won't reliably detect mic availability synchronously.
+    // For actual detection, consider attempting a getUserMedia request.
+    let available = false;
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+    if (navigator.getUserMedia) {
+      navigator.getUserMedia({ audio: true }, () => {
+        available = true;
+      }, () => {
+        available = false;
+      });
     }
+    return available;
+  }
 
-    /**
-     * call start method of recorder
-     */
-    start() {
-        if (!this._recorder)
-            return;
+  /**
+   * Converts seconds to a mm:ss or hh:mm:ss string.
+   * @param {number} seconds
+   * @returns {string}
+   */
+  static secToTimeStr(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    const secs = Math.floor(seconds % 60);
 
-        this._audioChunks = [];
-        this._recorder.start();
-    }
+    const hoursStr = hours > 0 ? `${hours < 10 ? '0' : ''}${hours}:` : '';
+    const minsStr = `${mins < 10 ? '0' : ''}${mins}`;
+    const secsStr = `${secs < 10 ? '0' : ''}${secs}`;
 
-    /**
-     * call the stop method of recorder and generate the audio object and resolve it
-     * @returns {Promise<unknown>}
-     */
-    stop() {
-        return new Promise((resolve) => {
-
-            // to create audio, we should listen for stop event of recorder
-            this._recorder.addEventListener("stop", async () => {
-
-                // to create the audio, we should make its Blob first
-                // and then create a object URL for it and pass it to the Audio API
-                const audioBlob = new Blob(this._audioChunks);
-                const audioUrl = URL.createObjectURL(audioBlob);
-                this._audio = new Audio(audioUrl);
-
-                // calc the duration of audio
-                const duration = await this.findDuration(audioBlob);
-
-                resolve({audio: this._audio, duration, audioUrl})
-            });
-
-            // stop the recording
-            this._recorder.stop();
-        })
-    }
-
-    /**
-     * find duration of recorded audio
-     * @param blob
-     * @returns {Promise<unknown>}
-     */
-    findDuration(blob) {
-        return new Promise((resolve) => {
-            const file = new File([blob], "audio.mp3");
-            let reader = new FileReader();
-            reader.onload = (e) => {
-                let audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-                // Asynchronously decode audio file data contained in an ArrayBuffer.
-                audioContext.decodeAudioData(e.target.result, function (buffer) {
-                    let floatDuration = buffer.duration;
-
-                    let dMin = Math.floor(floatDuration / 60);
-                    let dSec = Math.floor(floatDuration % 60);
-
-                    if (dMin < 10)
-                        dMin = "0" + dMin;
-
-                    if (dSec < 10)
-                        dSec = "0" + dSec;
-
-                    resolve(`${dMin}:${dSec}`)
-                });
-            };
-
-            reader.readAsArrayBuffer(file);
-        })
-    }
-
-    /**
-     * getter for audio objec
-     * @returns {HTMLAudioElement}
-     */
-    get audio() {
-        return this._audio;
-    }
-
-    /**
-     * check if the audio device is available
-     * @returns {boolean}
-     */
-    static isMicAvailable() {
-        let isAvailable = true;
-        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-        if (navigator.getUserMedia) {
-            navigator.getUserMedia({audio: true}, (stream) => {
-                isAvailable = true;
-            }, () => {
-                isAvailable = false;
-            });
-        }
-
-        return isAvailable;
-    }
-
-    /**
-     * Convert numbers in second to time string like 00:00
-     *
-     * @param seconds
-     * @returns {string}
-     */
-    static secToTimeStr(seconds) {
-        let timeInHour = Math.floor(seconds / 3600);
-        let timeInMin = Math.floor((seconds % 3600) / 60);
-        let timeInSec = Math.floor(seconds % 60);
-
-        if (timeInHour < 10)
-            timeInHour = `0${timeInHour}`;
-
-        if (timeInMin < 10)
-            timeInMin = `0${timeInMin}`;
-
-        if (timeInSec < 10)
-            timeInSec = `0${timeInSec}`;
-
-        let timeStr = `${timeInMin}:${timeInSec}`;
-        if (parseInt(timeInHour))
-            timeStr = `${timeInHour}:${timeStr}`;
-
-        return timeStr;
-    }
-
+    return hours > 0 ? `${hoursStr}${minsStr}:${secsStr}` : `${minsStr}:${secsStr}`;
+  }
 }
