@@ -1,6 +1,6 @@
 # Practical Front-End Projects with Pure Javascript, CSS, and HTML
 
-> Welcome to the Practical Front-End Projects repository!
+> Welcome to the SHYAM Practical Front-End Projects repository!
 
 > This repository contains a range of practical and user-friendly projects for front-end enthusiasts and beginners. The primary objective of this repository is to facilitate learning.
 
