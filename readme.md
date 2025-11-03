@@ -1,5 +1,7 @@
 # Practical Front-End Projects with Pure Javascript, CSS, and HTML
 
+### [Live Demo](https://behnamazimi.github.io/simple-web-projects/all-apps/)
+
 > Welcome to the Practical Front-End Projects repository!
 
 > This repository contains a range of practical and user-friendly projects for front-end enthusiasts and beginners. The primary objective of this repository is to facilitate learning.
@@ -7,20 +9,21 @@
 > All the code samples provided are free and will always remain so.
 
 ## Table of contents
+
 1. [Key Features](#key-features)
 2. [Educational Purpose](#Educational-Purpose)
 3. [Projects](#Projects)
-    - [Custom Video Player](#1-custom-video-player)
-    - [Lovely Movies](#2-lovely-movies)
-    - [Note App](#3-note-app)
-    - [Othello Board Game](#4-othello-board-game)
-    - [Quiz App](#5-quiz-app)
-    - [Simple Range Slider](#6-simple-range-slider)
-    - [Web Chat App](#7-web-chat-app)
-    - [Canvas Wallpaper](#8-canvas-wallpaper)
-    - [Split Screen](#9-split-screen)
-    - [Escape Loading Animation](#10-escape-loading-animation---css)
-    - [Image Slider 3D](#11-image-slider-3d)
+   - [Custom Video Player](#1-custom-video-player)
+   - [Lovely Movies](#2-lovely-movies)
+   - [Note App](#3-note-app)
+   - [Othello Board Game](#4-othello-board-game)
+   - [Quiz App](#5-quiz-app)
+   - [Simple Range Slider](#6-simple-range-slider)
+   - [Web Chat App](#7-web-chat-app)
+   - [Canvas Wallpaper](#8-canvas-wallpaper)
+   - [Split Screen](#9-split-screen)
+   - [Escape Loading Animation](#10-escape-loading-animation---css)
+   - [Image Slider 3D](#11-image-slider-3d)
 4. [Running Locally](#Running-Locally)
 5. [New Projects in the Pipeline](#New-Projects-in-the-Pipeline)
 6. [Contribute](#Contribute)
@@ -40,7 +43,8 @@ Please note that the projects included in this repository are intended solely fo
 We hope you find these practical front-end projects helpful and enjoyable as you embark on your journey to becoming a proficient front-end developer. Happy coding!
 
 ## Projects
-### 1. Custom Video Player 
+
+### 1. Custom Video Player
 
 In this project I customized the video controls and designed them manually. Focus on handling the video node and how to implement custom behavior for it.
 
@@ -52,7 +56,7 @@ In this project I customized the video controls and designed them manually. Focu
 - Fullscreen handling
 - CSS variables
 
-### 2. Lovely Movies 
+### 2. Lovely Movies
 
 A simple movie search website.
 
@@ -65,7 +69,7 @@ A simple movie search website.
 - Usage of `position: static;` in CSS
 - Using CSS variables
 
-### 3. Note App 
+### 3. Note App
 
 A practical note web app to handle categorized notes. There are notes that can have a category for. you can search in notes and edit or remove those.
 
@@ -78,7 +82,7 @@ A practical note web app to handle categorized notes. There are notes that can h
 - Layouting with CSS grid system
 - localStorage usage
 
-### 4. Othello Board Game 
+### 4. Othello Board Game
 
 Famous strategy game Othello, known as Reversi, implemented in pure Javascript.
 
@@ -104,7 +108,7 @@ Simulating a quiz in web app.
 - Creating and handling DOM elements
 - CSS animation
 
-### 6. Simple Range Slider 
+### 6. Simple Range Slider
 
 A simple implementation of a small range slider with pure Javascript.
 
@@ -116,7 +120,7 @@ A simple implementation of a small range slider with pure Javascript.
 - DOM events handling
 - CSS variables
 
-### 7. Web Chat App 
+### 7. Web Chat App
 
 This project is a real messaging app that developed with pure javascript without third-party libs. We focused on the Web Components in this project and give it a real component structure. All chats, messages, data are fake and generated with a data-factory. I hope It would be useful.
 
@@ -130,7 +134,7 @@ This project is a real messaging app that developed with pure javascript without
 - DOM controlling
 - CSS flex
 
-### 8. Canvas Wallpaper 
+### 8. Canvas Wallpaper
 
 This is a practical canvas tutorial, a animated wallpaper with circles that moves on it. The code is full documented and easy to read.
 
@@ -156,7 +160,7 @@ A modern design concept to showcase content in a container with two splitted sec
   - use of pseudo classes
 - JavaScript
   - DOM manipulation
-  
+
 ### 10. Escape Loading Animation - CSS
 
 Cool loading animation with pure CSS. Animation contains sliding and floating boxes, designed by [Vitaly Silkin](https://dribbble.com/shots/4268258-Evitare-loader).
@@ -169,7 +173,7 @@ Cool loading animation with pure CSS. Animation contains sliding and floating bo
   - Keyframe animations
   - Transform and transform origin
 
-### 11. Image Slider 3D 
+### 11. Image Slider 3D
 
 It is an image slider with 3D animation that changes slides automatically based on a duration time. By hovering the mouse on slides, the animation will be paused.
 
@@ -180,8 +184,8 @@ It is an image slider with 3D animation that changes slides automatically based 
 - Adding data to the slider by map method
 - CSS
   - Keyframe animation with 3D effect
-  - Making dynamic animation keyframe 
-  - Handling dynamic animation timing 
+  - Making dynamic animation keyframe
+  - Handling dynamic animation timing
 
 ## Running Locally
 
@@ -209,8 +213,10 @@ Here's a simple guide on how you can get involved:
 
 2. **Make your changes**: Create a new branch in your forked repository and make the desired changes. You can suggest improvements, fix bugs, add new features, or even introduce entirely new projects that align with the educational focus.
 
+When you add a new app to the repository, make sure to include it in the `all-apps/script/scripts.js` file. This ensures that the app appears on the all-apps landing page and is searchable.
+
 3. **Submit a pull request**: Once you are satisfied with your changes, submit a pull request on this repository. This will notify the project maintainers about your proposed changes. We will review your submission, provide feedback, and collaborate with you to ensure the quality and relevance of your contribution.
 
-> Remember, this is a friendly and inclusive community. We appreciate all contributions, regardless of your level of experience. Feel free to ask questions and seek guidance along the way. 
+> Remember, this is a friendly and inclusive community. We appreciate all contributions, regardless of your level of experience. Feel free to ask questions and seek guidance along the way.
 
 Thank you for your interest in making this repository even better. Together, we can create an invaluable resource for beginners in the world of front-end development!
