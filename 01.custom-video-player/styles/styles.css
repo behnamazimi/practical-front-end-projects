@@ -1,5 +1,14 @@
 * {
     box-sizing: border-box;
+    font-family: 'Courier New';
+}
+
+h1 {
+    text-align: center;
+}
+
+body {
+    background-color: rgb(238, 237, 237);
 }
 
 .m-video {
