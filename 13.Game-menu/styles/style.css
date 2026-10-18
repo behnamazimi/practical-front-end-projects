@@ -82,7 +82,7 @@ footer{
 
 h1{
     font-family: "Press Start 2P";
-    font-size: 36px;
+    font-size: 250%;
     color: #ffff;
     text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
 }
@@ -100,4 +100,34 @@ p{
 .message{
     font-family: "Press Start 2P";
     font-size: 100%;
+}
+
+#playContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: auto;
+    justify-content: center;
+    gap: 10px;
+    width: 200%;
+}
+
+#pMessage{
+    font-family: "Press Start 2P";
+    font-size: 200%;
+    color: #ffff;
+    text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+    text-align: center;
+    text-align-last: center;
+}
+
+#stopBtn{
+    position: top 30%;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-family: "Press Start 2P";
+    font-size: 24px;
+    padding: 10px 20px;
+    cursor: pointer;
 }
