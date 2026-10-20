@@ -1,0 +1,133 @@
+ .press-start-2p-regular {
+  font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+  font-style: normal;
+ }
+
+*{
+    margin:  0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body{
+    height: 100%;
+}
+
+body{
+    background-image: url(BG_Grey.jpg);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap:20px;
+    flex: 1;
+}
+
+header {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.menu {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 200px;
+}
+
+.container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 200px;
+}
+
+.btn{
+    position: relative;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-family: "Press Start 2P";
+    font-size: 24px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.btn:hover{
+    align-items: center;
+    transform: scale(1.2) perspective(1px);
+    transition: all 0.3s ease;
+    color: #ff0000;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+footer{
+    margin-top: 0px;
+    padding: 5px;
+}
+
+h1{
+    font-family: "Press Start 2P";
+    font-size: 250%;
+    color: #ffff;
+    text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+}
+
+p{
+    font-family: "Press Start 2P";
+    font-size: 12px;
+}
+
+#quitBtn:click{
+    background-color: transparent;
+    color: transparent;
+}
+
+.message{
+    font-family: "Press Start 2P";
+    font-size: 100%;
+}
+
+#playContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: auto;
+    justify-content: center;
+    gap: 10px;
+    width: 200%;
+}
+
+#pMessage{
+    font-family: "Press Start 2P";
+    font-size: 200%;
+    color: #ffff;
+    text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+    text-align: center;
+    text-align-last: center;
+}
+
+#stopBtn{
+    position: top 30%;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-family: "Press Start 2P";
+    font-size: 24px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
