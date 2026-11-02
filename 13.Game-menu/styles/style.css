@@ -161,3 +161,49 @@ p{
     margin-top: 20px;
     line-height: 1.6;
 }
+
+#opContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    justify-content: center;
+    gap: 20px;
+    height: 100%;
+    width: 300%;
+    background-color: rgba(128, 128, 128, 0.5);
+    border: 5px solid #000000;
+}
+#soundContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    justify-content: center;
+    gap: 20px;
+    width: 300%;
+}
+
+#soundBtn.btn:hover{
+    align-items: center;
+    transform: scale(1.2) perspective(1px);
+    transition: all 0.3s ease;
+    color: #000000;
+}
+
+#difficultyContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    justify-content: center;
+    gap: 20px;
+    width: 300%;
+}
+
+#difBtn.btn:hover{
+        align-items: center;
+    transform: scale(1.2) perspective(1px);
+    transition: all 0.3s ease;
+    color: #000000;
+}
