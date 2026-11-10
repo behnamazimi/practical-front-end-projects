@@ -1,60 +1,69 @@
 const efeitoBackground = document.querySelector('.background-effect');
 
+// Função para criar partículas em formato de X e O
 function criarParticulas(x, y) {
-  
+
   for (let i = 0; i < 15; i++) {
-    const particula = document.createElement('div');
+
+    const particula = document.createElement('span');
+
     particula.classList.add('particula');
 
+    // Escolhe aleatoriamente entre X e O
+    particula.textContent = Math.random() < 0.5 ? 'X' : 'O';
+
+    // Posição inicial
     particula.style.left = x + '%';
     particula.style.top = y + '%';
 
-    const direcaoX = (Math.random() - 0.5) * 150; 
-    const direcaoY = (Math.random() - 0.5) * 150; 
-    
+    // Direção aleatória da explosão
+    const direcaoX = (Math.random() - 0.5) * 160;
+    const direcaoY = (Math.random() - 0.5) * 160;
+
     particula.style.setProperty('--x', direcaoX + 'px');
     particula.style.setProperty('--y', direcaoY + 'px');
 
+    // Tamanhos variados
+    particula.style.fontSize = (8 + Math.random() * 8) + 'px';
+
     efeitoBackground.appendChild(particula);
 
+    // Remove a partícula após a animação
     particula.addEventListener('animationend', () => {
-      particula.remove(); 
+      particula.remove();
     });
   }
 }
 
-function createQuadradinho() {
+// Função para criar os símbolos e realizar a explosão
+function criarSimbolo() {
 
- const quadradinho = document.createElement('div');
-  quadradinho.classList.add('quadradinhos');
+  const simbolo = document.createElement('span');
 
- const xis_bolinha = document.createElement('div');
- xis_bolinha.textContent = xis_bolinha[Math.floor(Math.random() * xis_bolinha.length)];
- xis_bolinha.classList.add('xis_bolinhas');
+  simbolo.classList.add('simbolo-explosao');
 
-const x = Math.random() * 100;
-const y = Math.random() * 100;
+  // Escolhe X ou O aleatoriamente
+  simbolo.textContent = Math.random() < 0.5 ? 'X' : 'O';
 
-quadradinho.style.left = x + '%'; 
-quadradinho.style.top = y + '%';
+  // Define uma posição aleatória na tela
+  const x = Math.random() * 95;
+  const y = Math.random() * 95;
 
-xis_bolinha.style.left = x + '%'; 
-xis_bolinha.style.top = y + '%';
+  simbolo.style.left = x + '%';
+  simbolo.style.top = y + '%';
 
-efeitoBackground.appendChild(quadradinho);
-efeitoBackground.appendChild(xis_bolinha);
+  efeitoBackground.appendChild(simbolo);
 
-quadradinho.addEventListener('animationend', () => {
-  criarParticulas(x, y);
+  // Quando o símbolo termina de aparecer, acontece a explosão
+  simbolo.addEventListener('animationend', () => {
 
-  quadradinho.remove();
-  xis_bolinha.style.display = 'block';
- });
+    criarParticulas(x, y);
 
- xis_bolinha.addEventListener('animationend', () => {
-  xis_bolinha.remove();
- });
+    simbolo.remove();
+
+  }, { once: true });
 
 }
 
-setInterval(createQuadradinho, 500);
+// Cria um novo símbolo a cada intervalo
+setInterval(criarSimbolo, 800);
