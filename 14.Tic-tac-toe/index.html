@@ -1,33 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-  
-  <title>Teste do CSS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>TIC-TAC-TOE</title>
+
+  <!-- Fonte pixelada -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style/style.css">
+
+  <!-- Arquivo CSS -->
+  <link rel="stylesheet" href="style.css">
+
 </head>
+
 <body>
 
+  <!-- Título do jogo -->
   <h1 class="pixel-title">TIC-TAC-TOE</h1>
 
+  <!-- Tabuleiro -->
   <div class="board">
-    <div class="cell x"></div>
-    <div class="cell o"></div>
+
     <div class="cell"></div>
     <div class="cell"></div>
-    <div class="cell x"></div>
     <div class="cell"></div>
-    <div class="cell o"></div>
+
     <div class="cell"></div>
     <div class="cell"></div>
+    <div class="cell"></div>
+
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+
   </div>
 
+  <!-- Informações da partida -->
+  <p id="status">Vez do jogador: X</p>
+
+  <!-- Botão para reiniciar -->
+  <button id="restart">REINICIAR</button>
+
+  <!-- Fundo animado -->
   <div class="background-effect"></div>
-  <script src="../14.Tic-tac-toe/scripts/animation.js"></script>
+
+  <!-- Arquivos JavaScript -->
+  <script src="animation.js"></script>
+  <script src="game.js"></script>
 
 </body>
+
 </html>
